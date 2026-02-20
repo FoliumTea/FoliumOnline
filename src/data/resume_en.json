@@ -2,57 +2,53 @@
     "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/master/schema.json",
     "basics": {
         "name": "John Doe",
-        "label": "Software Developer",
-        "image": "/images/avatar-placeholder.svg",
-        "email": "user@example.com",
-        "phone": "(000) 000-0000",
-        "url": "https://example.com",
-        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        "label": "Programmer",
+        "image": "",
+        "email": "john@gmail.com",
+        "phone": "(912) 555-4321",
+        "url": "https://johndoe.com",
+        "summary": "A summary of John Doe",
         "location": {
-            "address": "123 Main Street",
-            "postalCode": "00000",
-            "city": "City",
+            "address": "2712 Broadway St",
+            "postalCode": "CA 94115",
+            "city": "San Francisco",
             "countryCode": "US",
-            "region": "State"
+            "region": "California"
         },
         "profiles": [
             {
-                "network": "GitHub",
-                "username": "username",
-                "url": "https://github.com/username"
+                "network": "Twitter",
+                "username": "john",
+                "url": "https://twitter.com/john"
             }
         ]
     },
     "work": [
         {
-            "name": "Tech Company",
-            "position": "Developer",
-            "url": "https://example.com",
+            "name": "Company",
+            "position": "President",
+            "url": "https://company.com",
             "startDate": "2013-01-01",
             "endDate": "2014-01-01",
-            "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet.",
-            "highlights": [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            ]
+            "summary": "Description",
+            "highlights": ["Started the company"]
         }
     ],
     "volunteer": [
         {
             "organization": "Organization",
             "position": "Volunteer",
-            "url": "https://example.com/",
+            "url": "https://organization.com/",
             "startDate": "2012-01-01",
             "endDate": "2013-01-01",
-            "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.",
-            "highlights": [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            ]
+            "summary": "Description",
+            "highlights": ["Awarded 'Volunteer of the Month'"]
         }
     ],
     "education": [
         {
             "institution": "University",
-            "url": "https://example.com/",
+            "url": "https://institution.com/",
             "area": "Software Development",
             "studyType": "Bachelor",
             "startDate": "2011-01-01",
@@ -65,25 +61,25 @@
         {
             "title": "Award",
             "date": "2014-11-01",
-            "awarder": "Organization",
-            "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor."
+            "awarder": "Company",
+            "summary": "There is no spoon."
         }
     ],
     "certificates": [
         {
             "name": "Certificate",
             "date": "2021-11-07",
-            "issuer": "Issuer",
-            "url": "https://example.com"
+            "issuer": "Company",
+            "url": "https://certificate.com"
         }
     ],
     "publications": [
         {
             "name": "Publication",
-            "publisher": "Publisher",
+            "publisher": "Company",
             "releaseDate": "2014-10-01",
-            "url": "https://example.com",
-            "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt."
+            "url": "https://publication.com",
+            "summary": "Description"
         }
     ],
     "skills": [
@@ -101,26 +97,24 @@
     ],
     "interests": [
         {
-            "name": "Technology",
-            "keywords": ["Web", "Open Source"]
+            "name": "Wildlife",
+            "keywords": ["Ferrets", "Unicorns"]
         }
     ],
     "references": [
         {
             "name": "Jane Doe",
-            "reference": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Highly recommend."
+            "reference": "Reference"
         }
     ],
     "projects": [
         {
-            "name": "Sample Project",
+            "name": "Project",
             "startDate": "2019-01-01",
             "endDate": "2021-01-01",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            "highlights": [
-                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
-            ],
-            "url": "https://example.com/"
+            "description": "Description",
+            "highlights": ["Won award at AIHacks 2016"],
+            "url": "https://project.com/"
         }
     ]
 }

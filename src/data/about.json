@@ -1,63 +1,45 @@
 {
     "profileImage": "/images/avatar-placeholder.svg",
-    "name": "홍길동",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-    "descriptionSub": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "name": "정호진",
+    "description": "웹 풀스택 개발자로서 웹 대시보드와 API 서버 등을 개발하며 2년 일했으나, 현재는 게임 업계 취업을 위해 준비 중입니다.",
+    "descriptionSub": "웹 프론트엔드와 백엔드 개발을 함께 다룰 수 있으며, 현재는 게임 업계 취업을 위해 C++ 와 언리얼 엔진 5 학습을 진행 중입니다.",
     "contacts": {
-        "email": "user@example.com",
-        "github": "https://github.com/username",
-        "linkedin": "https://linkedin.com/in/username"
+        "email": "hojini1229@gmail.com",
+        "github": "https://github.com/gvm1229",
+        "linkedin": "https://linkedin.com/in/hojinjeong"
     },
     "sections": {
         "학업/프로젝트": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
+            "1. 이력서·포트폴리오 피드백 스터디 운영 및 참여율 증진을 위한 통합 배포 웹사이트 개발"
         ],
-        "동아리/대외활동": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
-        ],
-        "연구/개발": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
-        ],
-        "인턴/알바": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
-        ],
-        "공모전/대회": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
-        ],
+        "동아리/대외활동": [],
+        "연구/개발": [],
+        "인턴/알바": [],
+        "공모전/대회": [],
         "직무경험": [
-            "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-            "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.",
-            "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt."
+            "1. 디지털 트윈 프로젝트 수행 중 실시간 교통 영상과 DB 데이터 대조 분석을 통해 동기화 버그 해결",
+            "2. 3주라는 촉박한 일정의 통행배정 프로젝트, 불가능하단 말이 수시로 나왔지만, 집념과 노력을 통해 기한 내 완수",
+            "3. 팀원 교체 시기에 체계적인 인수인계 문서 작성 및 소통을 통해 팀 결속력 유지",
+            "4. 기획의 기술적인 한계가 보일 경우, 적극적인 의견 피력을 통해 프로젝트 성공률 증가"
         ],
-        "개인사업": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
-        ],
+        "개인사업": [],
         "기타": [
-            "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
+            "1. 동료들의 퇴사 및 신규 입사 과정에서 과도기적 팀 매니지먼트 및 온보딩 지원"
         ]
     },
     "competencySections": {
         "문제해결": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor."
+            "1. 수 시간의 영상 모니터링과 데이터 교차 검증을 통해 디지털 트윈 시스템의 고질적인 싱크 미스 버그를 추적 및 해결"
         ],
         "협업/소통": [
-            "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
+            "1. 팀 내 인력 변동 상황에서 상세한 인수인계 가이드를 제작하고 능동적인 대화로 조직의 업무 연속성 확보"
         ],
-        "도전/혁신": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
-        ],
-        "리더십/팔로우십": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
-        ],
+        "도전/혁신": [],
+        "리더십/팔로우십": [],
         "성공/몰입": [
-            "Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim."
+            "1. 실무진 사이에서 불가능이라 판단되었던 3주 단기 통행배정 프로젝트를 높은 몰입도로 완수하여 비즈니스 목표 달성"
         ],
-        "실패/성장": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
-        ],
-        "의사결정": [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet."
-        ]
+        "실패/성장": [],
+        "의사결정": []
     }
 }

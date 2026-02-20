@@ -1,117 +1,129 @@
 {
     "projects": [
         {
-            "slug": "project-a",
-            "thumbnail": "https://placehold.co/800x450/1e293b/94a3b8?text=Project+A",
-            "title": "Project A",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+            "slug": "keystone",
+            "thumbnail": "https://placehold.co/800x450/1e293b/94a3b8?text=Keystone",
+            "title": "Keystone",
+            "description": "포트폴리오 및 기술 블로그 웹사이트. Astro 5 + Tailwind 4 기반.",
             "startDate": "2025-02-01",
             "endDate": "2025-02-02",
-            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "role": "Developer",
+            "goal": "컴포넌트 교체가 자유로운 포트폴리오 사이트 기반 구축",
+            "role": "풀스택 개발",
             "teamSize": 1,
             "technological_hurdles": [],
             "accomplishments": [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "Sed do eiusmod tempor incididunt ut labore et dolore.",
-                "Ut enim ad minim veniam, quis nostrud exercitation."
+                "Astro 5 + Tailwind 4 기반 프로젝트 셋업",
+                "Keystatic CMS 블로그 연동",
+                "다크모드 토글 구현"
             ],
-            "keywords": ["Astro", "Tailwind CSS", "TypeScript"],
-            "github": "https://github.com/username/project-a",
+            "keywords": [
+                "Astro",
+                "Tailwind CSS",
+                "TypeScript",
+                "Keystatic",
+                "Supabase"
+            ],
+            "github": "https://github.com/gvm1229/keystone",
             "public": true
         },
         {
-            "slug": "project-b",
-            "thumbnail": "https://placehold.co/800x450/0f172a/cbd5e1?text=Project+B",
-            "title": "Project B",
-            "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
+            "slug": "timeout",
+            "thumbnail": "https://placehold.co/800x450/0f172a/cbd5e1?text=TIME+OUT",
+            "title": "TimeOut(보드게임개발)",
+            "description": "시간 제한 컨셉의 보드게임. 기획부터 아트 디렉션까지 참여.",
             "startDate": "2024-06-01",
             "endDate": "2024-12-01",
-            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit.",
-            "role": "Designer",
+            "goal": "한정된 시간 안에 목표를 달성하는 보드게임 경험 제공",
+            "role": "Art Director",
             "teamSize": 4,
             "technological_hurdles": [],
             "accomplishments": [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "Pellentesque habitant morbi tristique senectus et netus."
+                "컨셉 아트 및 UI 디자인",
+                "플레이테스트 피드백 반영"
             ],
-            "keywords": ["Design", "UI/UX"],
+            "keywords": ["BoardGame", "Art Director"],
             "github": "",
             "public": false
         },
         {
-            "slug": "project-c",
-            "thumbnail": "https://placehold.co/800x450/1e3a5f/93c5fd?text=Project+C",
-            "title": "Project C",
-            "description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget.",
+            "slug": "molcang-molcang",
+            "thumbnail": "https://placehold.co/800x450/1e3a5f/93c5fd?text=몰캉몰캉+대작전",
+            "title": "몰캉몰캉 대작전!",
+            "description": "캐주얼 액션 게임. Unity 3D, PC 플랫폼. STOVE 스토어 출시.",
             "startDate": "2024-03-01",
             "endDate": "2025-01-15",
-            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor.",
-            "role": "Developer",
+            "goal": "가벼운 조작과 재미있는 캐릭터로 대중성 확보",
+            "role": "Art Director",
             "teamSize": 6,
             "technological_hurdles": [],
             "accomplishments": [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                "STOVE 스토어 출시",
+                "캐릭터 및 배경 아트 디렉션"
             ],
-            "keywords": ["Unity", "3D", "PC"],
+            "keywords": ["Unity", "Art Director", "3D", "PC"],
             "github": "",
-            "badges": [{ "text": "Release" }],
+            "badges": [{ "text": "STOVE 스토어 출시" }],
             "public": false
         },
         {
-            "slug": "project-d",
-            "thumbnail": "https://placehold.co/800x450/451a03/fcd34d?text=Project+D",
-            "title": "Project D",
-            "description": "Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec.",
+            "slug": "sweeter",
+            "thumbnail": "https://placehold.co/800x450/451a03/fcd34d?text=SWEETER",
+            "title": "Sweeter",
+            "description": "몬스터 컬렉션 및 퍼즐 요소가 있는 3D 게임. 2025 BIC 루키 선정.",
             "startDate": "2024-09-01",
             "endDate": "2025-05-01",
-            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus.",
-            "role": "Designer",
+            "goal": "독특한 비주얼과 경쾌한 플레이감",
+            "role": "Art",
             "teamSize": 5,
             "technological_hurdles": [],
             "accomplishments": [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim."
+                "2025 BIC 루키 부분 선정",
+                "2025 빌드 051 참여"
             ],
-            "keywords": ["Unity", "3D", "PC"],
+            "keywords": ["Unity", "Art", "3D", "PC", "BIC"],
             "github": "",
-            "badges": [{ "text": "Award 2025" }, { "text": "Showcase" }],
+            "badges": [
+                { "text": "2025 BIC 루키 부분 선정" },
+                { "text": "2025 빌드 051 참여" }
+            ],
             "public": false
         },
         {
-            "slug": "project-e",
-            "thumbnail": "https://placehold.co/800x450/1c1917/e7e5e4?text=Project+E",
-            "title": "Project E",
-            "description": "Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel.",
+            "slug": "remains-of-gamblinger",
+            "thumbnail": "https://placehold.co/800x450/1c1917/e7e5e4?text=Remains+Of+Gamblinger",
+            "title": "Remains Of Gamblinger",
+            "description": "역사/판타지 배경의 3D 액션 게임. BIC 루키 선정 및 빌드 051 참여.",
             "startDate": "2024-09-01",
             "endDate": "2025-05-01",
-            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae sapien ut libero.",
-            "role": "Developer",
+            "goal": "분위기 있는 세계관과 전투 시스템",
+            "role": "Art",
             "teamSize": 5,
             "technological_hurdles": [],
             "accomplishments": [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "Curabitur ullamcorper ultricies nisi. Nam eget dui."
+                "2025 BIC 루키 부분 선정",
+                "2025 빌드 051 참여"
             ],
-            "keywords": ["Unity", "3D", "PC"],
+            "keywords": ["Unity", "Art", "3D", "PC", "BIC"],
             "github": "",
-            "badges": [{ "text": "Award 2025" }, { "text": "Showcase" }],
+            "badges": [
+                { "text": "2025 BIC 루키 부분 선정" },
+                { "text": "2025 빌드 051 참여" }
+            ],
             "public": false
         },
         {
-            "slug": "project-f",
+            "slug": "graduation-project",
             "thumbnail": "https://placehold.co/800x450/262626/737373?text=Coming+Soon",
-            "title": "Project F (Upcoming)",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis nostrud exercitation ullamco laboris.",
+            "title": "졸업작품 프로젝트(예정)",
+            "description": "졸업 작품으로 제작 예정인 3D 게임. Unity 6, PC 및 콘솔 타겟.",
             "startDate": "2025-09-01",
             "endDate": "2026-06-01",
-            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet.",
-            "role": "Designer",
+            "goal": "졸업 작품 심사를 통과하고 포트폴리오 핵심 작품으로 완성",
+            "role": "Art Director",
             "teamSize": 4,
             "technological_hurdles": [],
             "accomplishments": [],
-            "keywords": ["3D", "PC", "Console"],
+            "keywords": ["3D", "PC", "Art Director", "Unity6", "Console"],
             "github": "",
             "public": false
         }
