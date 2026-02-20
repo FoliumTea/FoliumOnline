@@ -63,10 +63,10 @@ pnpm dev
 
 ## 데이터 소스
 
-| 데이터     | 경로                      | 스키마                                                                               |
-| ---------- | ------------------------- | ------------------------------------------------------------------------------------ |
-| 포트폴리오 | `src/data/portfolio.json` | `PORTFOLIO_SCHEMA.md`                                                                |
-| 이력서     | `src/data/resume.json`    | [JSON Resume](https://docs.jsonresume.org/schema). 3가지 네이티브 HTML 레이아웃 제공 |
+| 데이터     | 경로                      | 스키마                                            |
+| ---------- | ------------------------- | ------------------------------------------------- |
+| 포트폴리오 | `src/data/portfolio.json` | `PORTFOLIO_SCHEMA.md`                             |
+| 이력서     | `src/data/resume.json`    | [JSON Resume](https://docs.jsonresume.org/schema) |
 
 ## 환경 변수
 
