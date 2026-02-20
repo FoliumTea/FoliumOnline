@@ -1,0 +1,61 @@
+---
+/**
+ * 기본 레이아웃
+ * - 다크모드 스크립트
+ * - 컬러 스킴 (PUBLIC_COLOR_SCHEME: blue | gray | beige)
+ * - 전역 스타일
+ */
+import "@/styles/global.css";
+import Header from "@/components/Header.astro";
+
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const { title = "FoliumOnline", description = "포트폴리오 & 기술 블로그" } =
+    Astro.props;
+
+// PUBLIC_COLOR_SCHEME env (blue | gray | beige | blackwhite), 기본 gray
+const colorScheme = (import.meta.env.PUBLIC_COLOR_SCHEME ?? "gray") as string;
+const validScheme = ["blue", "gray", "beige", "blackwhite"].includes(
+    colorScheme
+)
+    ? colorScheme
+    : "gray";
+---
+
+<!doctype html>
+<html lang="ko" data-color-scheme={validScheme}>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <title>{title}</title>
+        {/* 다크모드: 초기 로드 시 깜빡임 방지를 위한 인라인 스크립트 */}
+        <script is:inline define:vars={{}}>
+            (function () {
+                const theme = localStorage.getItem("theme") || "system";
+                const systemDark = window.matchMedia(
+                    "(prefers-color-scheme: dark)"
+                ).matches;
+                const isDark =
+                    theme === "dark" || (theme === "system" && systemDark);
+                if (isDark) {
+                    document.documentElement.classList.add("dark");
+                } else {
+                    document.documentElement.classList.remove("dark");
+                }
+            })();
+        </script>
+    </head>
+    <body
+        class="min-h-screen bg-(--color-surface) text-(--color-foreground) transition-colors"
+    >
+        <Header />
+        <main class="container mx-auto px-4 py-8">
+            <slot />
+        </main>
+    </body>
+</html>

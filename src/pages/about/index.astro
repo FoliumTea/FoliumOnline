@@ -1,0 +1,221 @@
+---
+/**
+ * About me 페이지 - src/data/about.json 기반
+ * 프로필, 소개, 연락처, 카테고리 테이블 (빈 항목은 미표시)
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const about = (await import("@/data/about.json")).default;
+
+const profileImage =
+    about.profileImage?.trim() || "/images/avatar-placeholder.svg";
+const name = about.name?.trim();
+const description = about.description?.trim();
+const descriptionSub = about.descriptionSub?.trim();
+const contacts = about.contacts ?? {};
+const sections = about.sections ?? {};
+const competencySections = about.competencySections ?? {};
+
+const contactEntries = [
+    {
+        label: "Email",
+        value: contacts.email?.trim(),
+        href: contacts.email ? `mailto:${contacts.email}` : undefined,
+    },
+    {
+        label: "GitHub",
+        value: contacts.github?.trim(),
+        href: contacts.github || undefined,
+    },
+    {
+        label: "LinkedIn",
+        value: contacts.linkedin?.trim(),
+        href: contacts.linkedin || undefined,
+    },
+].filter((e) => e.value);
+
+/** 경험 유형별: 빈 항목 제외한 [구분, 항목배열] */
+const sectionEntries = (Object.entries(sections) ?? []).filter(
+    (entry) => Array.isArray(entry[1]) && entry[1].length > 0
+);
+/** 역량 키워드별: 빈 항목 제외한 [구분, 항목배열] */
+const competencyEntries = (Object.entries(competencySections) ?? []).filter(
+    (entry) => Array.isArray(entry[1]) && entry[1].length > 0
+);
+---
+
+<BaseLayout title="About me - FoliumOnline" description="개발자 소개">
+    <article class="max-w-7xl mx-auto py-12">
+        <h1 class="text-3xl font-bold mb-8 text-(--color-foreground)">
+            About me
+        </h1>
+
+        <div class="flex flex-col items-start gap-8 tablet:flex-row">
+            <img
+                src={profileImage}
+                alt="프로필 사진"
+                width="160"
+                height="160"
+                class="w-40 h-40 rounded-full object-cover border-2 border-(--color-border) shrink-0"
+            />
+
+            <div class="flex-1 min-w-0">
+                {
+                    name ? (
+                        <h2 class="text-xl font-semibold text-(--color-foreground) mb-3">
+                            {name}
+                        </h2>
+                    ) : null
+                }
+                {
+                    description ? (
+                        <p class="text-(--color-foreground) leading-relaxed mb-4">
+                            {description}
+                        </p>
+                    ) : null
+                }
+                {
+                    descriptionSub ? (
+                        <p class="text-(--color-muted) text-sm leading-relaxed">
+                            {descriptionSub}
+                        </p>
+                    ) : null
+                }
+
+                {
+                    contactEntries.length > 0 ? (
+                        <dl class="mt-6 pt-6 border-t border-(--color-border) grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 text-sm">
+                            {contactEntries.map(({ label, value, href }) => (
+                                <>
+                                    <dt class="text-(--color-muted) font-medium">
+                                        {label}
+                                    </dt>
+                                    <dd>
+                                        {href ? (
+                                            <a
+                                                href={href}
+                                                class="text-(--color-link) hover:underline"
+                                                target={
+                                                    href.startsWith("http")
+                                                        ? "_blank"
+                                                        : undefined
+                                                }
+                                                rel={
+                                                    href.startsWith("http")
+                                                        ? "noopener noreferrer"
+                                                        : undefined
+                                                }
+                                            >
+                                                {value}
+                                            </a>
+                                        ) : (
+                                            value
+                                        )}
+                                    </dd>
+                                </>
+                            ))}
+                        </dl>
+                    ) : null
+                }
+            </div>
+        </div>
+
+        {
+            sectionEntries.length > 0 ? (
+                <div class="mt-12 pt-8 border-t border-(--color-border)">
+                    <h2 class="text-xl font-semibold text-(--color-foreground) mb-4">
+                        경험 유형별 리스트
+                    </h2>
+                    <div class="overflow-x-auto rounded-lg border border-(--color-border)">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-(--color-muted) font-medium border-b border-(--color-border) bg-(--color-surface-subtle)">
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        class="px-4 py-3 w-40 shrink-0"
+                                    >
+                                        구분
+                                    </th>
+                                    <th scope="col" class="px-4 py-3">
+                                        내용
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-(--color-foreground)">
+                                {sectionEntries.map((entry) => {
+                                    const category = entry[0];
+                                    const items = entry[1];
+                                    return (
+                                        <tr class="border-b border-(--color-border) last:border-b-0">
+                                            <td class="px-4 py-3 font-medium text-(--color-muted) align-top">
+                                                {category}
+                                            </td>
+                                            <td class="px-4 py-3">
+                                                <ul class="list-disc list-inside space-y-2">
+                                                    {items.map((item) => (
+                                                        <li class="whitespace-pre-line">
+                                                            {item}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            ) : null
+        }
+
+        {
+            competencyEntries.length > 0 ? (
+                <div class="mt-12 pt-8 border-t border-(--color-border)">
+                    <h2 class="text-xl font-semibold text-(--color-foreground) mb-4">
+                        역량 키워드별 리스트
+                    </h2>
+                    <div class="overflow-x-auto rounded-lg border border-(--color-border)">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-(--color-muted) font-medium border-b border-(--color-border) bg-(--color-surface-subtle)">
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        class="px-4 py-3 w-40 shrink-0"
+                                    >
+                                        구분
+                                    </th>
+                                    <th scope="col" class="px-4 py-3">
+                                        내용
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-(--color-foreground)">
+                                {competencyEntries.map((entry) => {
+                                    const category = entry[0];
+                                    const items = entry[1];
+                                    return (
+                                        <tr class="border-b border-(--color-border) last:border-b-0">
+                                            <td class="px-4 py-3 font-medium text-(--color-muted) align-top">
+                                                {category}
+                                            </td>
+                                            <td class="px-4 py-3">
+                                                <ul class="list-disc list-inside space-y-2">
+                                                    {items.map((item) => (
+                                                        <li class="whitespace-pre-line">
+                                                            {item}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            ) : null
+        }
+    </article>
+</BaseLayout>

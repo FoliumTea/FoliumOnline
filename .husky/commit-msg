@@ -1,0 +1,6 @@
+#!/bin/sh
+# Conventional commit 형식 검사 (feat:, fix:, docs: 등)
+if ! pnpm exec commitlint --edit "$1" 2>/dev/null; then
+    echo "커밋 메시지가 규칙에 맞지 않습니다. type(예: feat, fix, delete)과 제목을 사용해 주세요."
+    exit 1
+fi

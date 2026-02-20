@@ -1,0 +1,233 @@
+---
+/**
+ * 랜딩 페이지 - 메인
+ * About / Resume / Portfolio / Blog 미리보기 카드 + (dev) Admin, Write post
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const isDev = import.meta.env.DEV;
+
+let aboutPreview: { name: string; description: string } = {
+    name: "About",
+    description: "소개와 경험을 확인하세요.",
+};
+try {
+    const about = (await import("@/data/about.json")).default;
+    aboutPreview = {
+        name: about.name ?? "About",
+        description:
+            (about.description ?? "").slice(0, 60) +
+                (about.description && about.description.length > 60
+                    ? "…"
+                    : "") || "소개와 경험을 확인하세요.",
+    };
+} catch {
+    // keep defaults
+}
+
+const sections = [
+    {
+        href: "/about",
+        title: "About me",
+        description: aboutPreview.description,
+        cta: "소개 보기",
+        icon: "person",
+    },
+    {
+        href: "/resume",
+        title: "Resume",
+        description: "이력서 요약과 경력·역량을 한눈에.",
+        cta: "이력서 보기",
+        icon: "description",
+    },
+    {
+        href: "/portfolio",
+        title: "Portfolio",
+        description: "프로젝트와 결과물을 살펴보세요.",
+        cta: "포트폴리오 보기",
+        icon: "folder",
+    },
+    {
+        href: "/blog",
+        title: "Blog",
+        description: "기술 블로그와 최신 글.",
+        cta: "블로그 보기",
+        icon: "article",
+    },
+];
+---
+
+<BaseLayout title="FoliumOnline - 포트폴리오 & 기술 블로그">
+    <article class="max-w-4xl mx-auto">
+        <!-- Hero -->
+        <section class="text-center py-12 tablet:py-16">
+            <h1
+                class="text-4xl font-bold text-(--color-foreground) mb-3 tablet:text-5xl"
+            >
+                FoliumOnline
+            </h1>
+            <p class="text-lg text-(--color-muted)">
+                포트폴리오와 기술 블로그가 함께하는 공간입니다.
+            </p>
+        </section>
+
+        <!-- Section cards -->
+        <section class="grid grid-cols-1 gap-4 tablet:grid-cols-2 tablet:gap-6">
+            {
+                sections.map((item) => (
+                    <a
+                        href={item.href}
+                        class="group block p-6 rounded-xl border border-(--color-border) bg-(--color-surface-subtle) hover:border-(--color-accent) hover:bg-(--color-surface) transition-colors"
+                    >
+                        <span
+                            class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-(--color-accent)/10 text-(--color-accent) mb-4"
+                            aria-hidden
+                        >
+                            {item.icon === "person" && (
+                                <svg
+                                    class="w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                    />
+                                </svg>
+                            )}
+                            {item.icon === "description" && (
+                                <svg
+                                    class="w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                    />
+                                </svg>
+                            )}
+                            {item.icon === "folder" && (
+                                <svg
+                                    class="w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                                    />
+                                </svg>
+                            )}
+                            {item.icon === "article" && (
+                                <svg
+                                    class="w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6m4-4h-1m-1 4h-1m-1-4h-1m-1 4h-1"
+                                    />
+                                </svg>
+                            )}
+                        </span>
+                        <h2 class="text-xl font-semibold text-(--color-foreground) mb-2 group-hover:text-(--color-accent) transition-colors">
+                            {item.title}
+                        </h2>
+                        <p class="text-sm text-(--color-muted) mb-4 line-clamp-2">
+                            {item.description}
+                        </p>
+                        <span class="text-sm font-medium text-(--color-accent) inline-flex items-center gap-1">
+                            {item.cta}
+                            <svg
+                                class="w-4 h-4 transition-transform group-hover:translate-x-0.5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 5l7 7-7 7"
+                                />
+                            </svg>
+                        </span>
+                    </a>
+                ))
+            }
+        </section>
+
+        <!-- Dev tools (dev only) -->
+        {
+            isDev && (
+                <section class="mt-10 p-4 rounded-xl border border-(--color-border) bg-(--color-surface-subtle) border-dashed">
+                    <p class="text-xs font-medium text-(--color-muted) mb-3 uppercase tracking-wider">
+                        개발 도구
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a
+                            href="/admin"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm font-medium hover:opacity-90 transition-opacity"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                />
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                />
+                            </svg>
+                            Admin
+                        </a>
+                        <a
+                            href="/keystatic"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-sm font-medium hover:opacity-90 transition-opacity"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                />
+                            </svg>
+                            Write post
+                        </a>
+                    </div>
+                </section>
+            )
+        }
+    </article>
+</BaseLayout>

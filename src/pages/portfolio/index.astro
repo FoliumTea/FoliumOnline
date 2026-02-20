@@ -1,0 +1,28 @@
+---
+/**
+ * Portfolio 페이지 - 프로젝트 목록
+ * List / Block 뷰 토글, Block 뷰는 썸네일 그리드·상세 페이지 링크
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PortfolioView from "@/components/PortfolioView";
+import type { Portfolio } from "@/types/portfolio";
+
+const portfolio: Portfolio = await import("@/data/portfolio.json").then(
+    (m) => m.default
+);
+const publicProjects = portfolio.projects.filter((p) => p.public === true);
+---
+
+<BaseLayout title="Portfolio - FoliumOnline" description="프로젝트 포트폴리오">
+    <div class="max-w-4xl">
+        <h1 class="text-3xl font-bold mb-2 text-(--color-foreground)">
+            Portfolio
+        </h1>
+        <p class="text-(--color-muted) mb-8">
+            프로젝트 목록입니다. List는 상세 정보를 한 화면에, Block은 카드
+            그리드로 보기입니다.
+        </p>
+
+        <PortfolioView client:load projects={publicProjects} />
+    </div>
+</BaseLayout>

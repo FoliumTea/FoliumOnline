@@ -1,0 +1,68 @@
+---
+/**
+ * 블로그 포스트 상세 페이지
+ * - Keystatic/Content Collections 기반
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { formatPubDateKST } from "@/lib/blog";
+
+export async function getStaticPaths() {
+    try {
+        const posts = await getCollection("posts");
+        return posts.map((post) => ({
+            params: { slug: post.slug },
+            props: { post },
+        }));
+    } catch {
+        return [];
+    }
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const category = post.data.category?.trim() ?? "";
+const pageTitle = category
+    ? `${category} | ${post.data.title} - FoliumOnline`
+    : `${post.data.title} - FoliumOnline`;
+---
+
+<BaseLayout title={pageTitle} description={post.data.description ?? ""}>
+    <article class="max-w-3xl mx-auto">
+        <header class="mb-8">
+            <h1
+                class="text-4xl font-bold mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-1"
+            >
+                {
+                    category ? (
+                        <>
+                            <span class="text-4xl font-bold text-(--color-highlight)">
+                                {category}
+                            </span>
+                            <span class="text-(--color-muted)" aria-hidden>
+                                |
+                            </span>
+                        </>
+                    ) : null
+                }
+                <span>{post.data.title}</span>
+            </h1>
+            {
+                post.data.description && (
+                    <p class="text-lg text-(--color-muted)">
+                        {post.data.description}
+                    </p>
+                )
+            }
+            <time
+                class="text-sm text-(--color-muted) block mt-2"
+                datetime={post.data.pubDate.toISOString()}
+            >
+                {formatPubDateKST(post.data.pubDate)}
+            </time>
+        </header>
+        <div class="prose dark:prose-invert max-w-none">
+            <Content />
+        </div>
+    </article>
+</BaseLayout>

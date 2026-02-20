@@ -1,0 +1,73 @@
+---
+/**
+ * Admin 페이지 - About 데이터 편집 (개발 환경에서만 사용)
+ * 폼 저장 시 about.json 다운로드 → src/data/about.json 에 수동 반영
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AboutAdminForm from "@/components/AboutAdminForm";
+import type { AboutData } from "@/types/about";
+
+const isDev = import.meta.env.DEV;
+let initialData: AboutData = {
+    profileImage: "",
+    name: "",
+    description: "",
+    descriptionSub: "",
+    contacts: { email: "", github: "", linkedin: "" },
+    sections: {
+        "학업/프로젝트": [],
+        "동아리/대외활동": [],
+        "연구/개발": [],
+        "인턴/알바": [],
+        "공모전/대회": [],
+        직무경험: [],
+        개인사업: [],
+        기타: [],
+    },
+    competencySections: {
+        문제해결: [],
+        "협업/소통": [],
+        "도전/혁신": [],
+        "리더십/팔로우십": [],
+        "성공/몰입": [],
+        "실패/성장": [],
+        의사결정: [],
+    },
+};
+
+if (isDev) {
+    try {
+        initialData = await import("@/data/about.json").then((m) => m.default);
+    } catch {
+        // keep defaults
+    }
+}
+---
+
+<BaseLayout title="Admin - FoliumOnline" description="About 데이터 편집">
+    <article class="max-w-3xl mx-auto py-12">
+        <h1 class="text-4xl font-bold mb-2 text-(--color-foreground)">
+            About 관리
+        </h1>
+        <p class="text-lg text-(--color-muted) mb-8">
+            프로필, 소개, 연락처, 경력 요약을 편집한 뒤 JSON을 다운로드하여 <code
+                class="text-sm px-1 py-0.5 rounded bg-(--color-code-bg) text-(--color-code-fg)"
+                >src/data/about.json</code
+            > 에 반영하세요.
+        </p>
+
+        {
+            isDev ? (
+                <AboutAdminForm client:load initialData={initialData} />
+            ) : (
+                <div class="rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-6 text-(--color-muted)">
+                    이 페이지는 개발 환경(
+                    <code class="px-1 rounded bg-(--color-code-bg)">
+                        pnpm dev
+                    </code>
+                    )에서만 사용할 수 있습니다.
+                </div>
+            )
+        }
+    </article>
+</BaseLayout>

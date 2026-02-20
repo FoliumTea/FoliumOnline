@@ -1,0 +1,4 @@
+#!/bin/sh
+# Husky pre-commit: 스테이지된 파일에 Prettier 자동 적용
+# --allow-empty: 삭제만 스테이지된 경우(매칭되는 스테이지 파일 없음)에도 훅 통과
+pnpm exec lint-staged --allow-empty

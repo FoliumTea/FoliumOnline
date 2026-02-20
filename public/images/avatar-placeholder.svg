@@ -1,0 +1,14 @@
+<!-- 프로필 플레이스홀더 - /public/images/ 에 실제 사진 추가 후 src 교체 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e5e5e5"/>
+      <stop offset="100%" style="stop-color:#d4d4d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" fill="url(#bg)"/>
+  <g fill="#a3a3a3" opacity="0.7">
+    <circle cx="100" cy="75" r="35"/>
+    <ellipse cx="100" cy="185" rx="65" ry="45"/>
+  </g>
+</svg>

@@ -1,0 +1,145 @@
+---
+/**
+ * 포트폴리오 프로젝트 상세 페이지
+ * /portfolio/[slug] - 블록 뷰 카드 클릭 시 이동
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { Portfolio, PortfolioProject } from "@/types/portfolio";
+
+export async function getStaticPaths() {
+    const portfolio: Portfolio = await import("@/data/portfolio.json").then(
+        (m) => m.default
+    );
+    const publicProjects = portfolio.projects.filter((p) => p.public === true);
+    return publicProjects.map((project) => ({
+        params: { slug: project.slug },
+        props: { project },
+    }));
+}
+
+interface Props {
+    project: PortfolioProject;
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout
+    title={`${project.title} - Portfolio | FoliumOnline`}
+    description={project.description}
+>
+    <article class="max-w-3xl mx-auto">
+        <a
+            href="/portfolio"
+            class="inline-flex items-center gap-1 text-sm text-(--color-muted) hover:text-(--color-foreground) mb-6"
+        >
+            ← Portfolio 목록
+        </a>
+
+        {
+            project.thumbnail ? (
+                <div class="rounded-xl overflow-hidden border border-(--color-border) mb-6 aspect-video bg-(--color-surface-subtle)">
+                    <img
+                        src={project.thumbnail}
+                        alt=""
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+            ) : null
+        }
+
+        <header class="mb-6">
+            <h1 class="text-3xl font-bold text-(--color-foreground) mb-2">
+                {project.title}
+            </h1>
+            {
+                project.keywords.length > 0 ? (
+                    <div class="flex flex-wrap gap-2">
+                        {project.keywords.map((k) => (
+                            <span class="px-2 py-1 text-xs rounded-full bg-(--color-tag-bg) text-(--color-tag-fg)">
+                                {k}
+                            </span>
+                        ))}
+                    </div>
+                ) : null
+            }
+        </header>
+
+        <p class="text-(--color-foreground) leading-relaxed mb-8">
+            {project.description}
+        </p>
+
+        <dl
+            class="grid grid-cols-1 gap-4 text-sm mb-8 p-6 rounded-xl border border-(--color-border) bg-(--color-surface-subtle) tablet:grid-cols-2"
+        >
+            <div>
+                <dt class="text-(--color-muted) font-medium">기간</dt>
+                <dd class="text-(--color-foreground)">
+                    {project.startDate} ~ {project.endDate}
+                </dd>
+            </div>
+            <div>
+                <dt class="text-(--color-muted) font-medium">역할</dt>
+                <dd class="text-(--color-foreground)">{project.role}</dd>
+            </div>
+            <div>
+                <dt class="text-(--color-muted) font-medium">참여 인원</dt>
+                <dd class="text-(--color-foreground)">{project.teamSize}명</dd>
+            </div>
+            <div>
+                <dt class="text-(--color-muted) font-medium">목표</dt>
+                <dd class="text-(--color-foreground)">{project.goal}</dd>
+            </div>
+        </dl>
+
+        {
+            project.accomplishments.length > 0 ? (
+                <section class="mb-8">
+                    <h2 class="text-lg font-semibold text-(--color-foreground) mb-3">
+                        성과
+                    </h2>
+                    <ul class="list-disc list-inside space-y-2 text-(--color-foreground)">
+                        {project.accomplishments.map((a) => (
+                            <li>{a}</li>
+                        ))}
+                    </ul>
+                </section>
+            ) : null
+        }
+
+        {
+            project.badges?.length ? (
+                <section class="mb-8">
+                    <h2 class="text-lg font-semibold text-(--color-foreground) mb-3">
+                        수상·출시
+                    </h2>
+                    <ul class="space-y-2 text-(--color-foreground)">
+                        {project.badges.map((b) => (
+                            <li class="flex items-center gap-2">
+                                <span class="text-(--color-muted)" aria-hidden>
+                                    ◆
+                                </span>
+                                {b.text}
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            ) : null
+        }
+
+        {
+            project.github ? (
+                <p>
+                    <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-(--color-link) hover:underline font-medium"
+                    >
+                        GitHub 저장소 →
+                    </a>
+                </p>
+            ) : null
+        }
+    </article>
+</BaseLayout>

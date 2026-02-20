@@ -1,0 +1,119 @@
+---
+/**
+ * Blog 목록 페이지 - Keystatic posts 콜렉션
+ * 좌측: 카테고리/태그 필터 (모바일 햄버거), 우측: 포스트 카드 (텍스트 왼쪽, 썸네일 오른쪽)
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import {
+    getFirstImageFromContent,
+    getFirstThreeSentences,
+    formatPubDateKST,
+} from "@/lib/blog";
+import type { PostItem, FilterMeta } from "@/components/BlogPage";
+import BlogPage from "@/components/BlogPage";
+
+let posts: Awaited<ReturnType<typeof getCollection<"posts">>> = [];
+let tagsEntries: Awaited<ReturnType<typeof getCollection<"tags">>> = [];
+try {
+    posts = await getCollection("posts");
+} catch {
+    // 콜렉션이 없을 수 있음
+}
+try {
+    tagsEntries = await getCollection("tags");
+} catch {
+    // 태그 컬렉션 없을 수 있음
+}
+const slugToTagName = new Map(tagsEntries.map((t) => [t.id, t.data.name]));
+const slugToTagColor = new Map(
+    tagsEntries
+        .filter((t) => t.data.color?.trim())
+        .map((t) => [t.id, t.data.color!.trim().replace(/^['"]|['"]$/g, "")])
+);
+const sortedPosts = [...posts].sort(
+    (a, b) =>
+        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+const bodyBySlug = new Map(
+    sortedPosts.map((p) => [p.slug, (p as { body?: string }).body ?? ""])
+);
+
+const postItems: PostItem[] = sortedPosts.map((post) => {
+    const body = bodyBySlug.get(post.slug) ?? "";
+    const firstImage = getFirstImageFromContent(body);
+    const thumbRaw = post.data.thumbnail;
+    const thumbnailUrl =
+        thumbRaw != null && thumbRaw !== ""
+            ? thumbRaw.startsWith("/")
+                ? thumbRaw
+                : `/${thumbRaw}`
+            : firstImage;
+    const displayDescription =
+        post.data.description?.trim() ?? getFirstThreeSentences(body);
+    const pubDate = new Date(post.data.pubDate);
+    const tagSlugs = post.data.tags ?? [];
+    return {
+        slug: post.slug,
+        title: post.data.title,
+        displayDescription,
+        pubDateFormatted: formatPubDateKST(pubDate),
+        pubDateIso: pubDate.toISOString(),
+        category: post.data.category?.trim() ?? null,
+        tags: tagSlugs,
+        tagsDisplay: tagSlugs.map((s) => ({
+            name: slugToTagName.get(s) ?? s,
+            color: slugToTagColor.get(s),
+        })),
+        thumbnailUrl,
+    };
+});
+
+const categoryCount = new Map<string, number>();
+const tagCount = new Map<string, number>();
+for (const p of postItems) {
+    if (p.category) {
+        categoryCount.set(p.category, (categoryCount.get(p.category) ?? 0) + 1);
+    }
+    for (const t of p.tags) {
+        if (t) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
+    }
+}
+const categories: FilterMeta[] = [...categoryCount.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+const tags: FilterMeta[] = [...tagCount.entries()]
+    .map(([slug, count]) => ({
+        slug,
+        name: slugToTagName.get(slug) ?? slug,
+        count,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<BaseLayout title="Blog - FoliumOnline" description="기술 블로그">
+    <article class="max-w-5xl mx-auto">
+        {
+            sortedPosts.length === 0 ? (
+                <>
+                    <h1 class="text-3xl font-bold mb-6 text-(--color-foreground)">
+                        Blog
+                    </h1>
+                    <p class="text-(--color-muted)">
+                        아직 작성된 포스트가 없습니다. 개발 서버에서 /keystatic
+                        으로 접속해 포스트를 추가해 보세요.
+                    </p>
+                </>
+            ) : (
+                <BlogPage
+                    client:load
+                    posts={postItems}
+                    categories={categories}
+                    tags={tags}
+                    showWritePost={import.meta.env.DEV}
+                />
+            )
+        }
+    </article>
+</BaseLayout>

@@ -1,0 +1,285 @@
+/* Tailwind CSS 4 - 전역 스타일 */
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* 다크모드: html.dark 클래스 기반 (light/dark/system 토글 지원) */
+@custom-variant dark (&&:where(.dark, .dark *));
+
+/*
+ * Tailwind v4 권장 방식은 CSS-first이므로 theme/breakpoint는 이 파일에서 유지합니다.
+ * tailwind.config.js는 v4에서 선택 사항이며, 콘텐츠 스캔·플러그인 등이 필요할 때만 사용합니다.
+ */
+/* 커스텀 테마 색상 + 브레이크포인트 (mobile 기본, tablet, desktop) */
+@theme {
+    --color-folium-primary: #6366f1;
+    --color-folium-secondary: #8b5cf6;
+
+    /* 브레이크포인트: 기본(mobile)은 접두사 없음, tablet·desktop만 사용 */
+    --breakpoint-*: initial;
+    --breakpoint-tablet: 48rem; /* 768px */
+    --breakpoint-desktop: 64rem; /* 1024px */
+}
+
+/* 컬러 스킴: PUBLIC_COLOR_SCHEME env (blue | gray | beige | blackwhite) */
+/* light mode: 각 스킴에 맞는 100~200 톤의 은은한 틴트 적용 */
+
+/* blackwhite: 순수 흰/검정, 다른 색 없음 */
+[data-color-scheme="blackwhite"] {
+    --color-code-block-bg: #171717;
+    --color-code-block-fg: #e5e5e5;
+    --color-surface: #ffffff;
+    --color-surface-subtle: #f5f5f5;
+    --color-foreground: #000000;
+    --color-muted: #525252;
+    --color-border: #e5e5e5;
+    --color-accent: #000000;
+    --color-on-accent: #ffffff;
+    --color-highlight: #525252;
+    --color-tag-bg: #e5e5e5;
+    --color-tag-fg: #171717;
+    --color-code-bg: #f5f5f5;
+    --color-code-fg: #171717;
+    --color-link: #000000;
+}
+[data-color-scheme="blackwhite"].dark {
+    --color-code-block-bg: #171717;
+    --color-code-block-fg: #e5e5e5;
+    --color-surface: #000000;
+    --color-surface-subtle: #171717;
+    --color-foreground: #ffffff;
+    --color-muted: #a3a3a3;
+    --color-border: #262626;
+    --color-accent: #ffffff;
+    --color-on-accent: #000000;
+    --color-highlight: #a3a3a3;
+    --color-tag-bg: #262626;
+    --color-tag-fg: #fafafa;
+    --color-code-bg: #171717;
+    --color-code-fg: #e5e5e5;
+    --color-link: #ffffff;
+}
+
+/* gray: 중립 회색 (라이트 배경 완화로 코드블록 대비 개선) */
+[data-color-scheme="gray"] {
+    --color-code-block-bg: #262626;
+    --color-code-block-fg: #e5e5e5;
+    --color-surface: #fafafa;
+    --color-surface-subtle: #f5f5f5;
+    --color-foreground: #171717;
+    --color-muted: #525252;
+    --color-border: #e5e5e5;
+    --color-accent: #525252;
+    --color-on-accent: #ffffff;
+    --color-highlight: #404040;
+    --color-tag-bg: #e5e5e5;
+    --color-tag-fg: #404040;
+    --color-code-bg: #f0f0f0;
+    --color-code-fg: #171717;
+    --color-link: #404040;
+}
+[data-color-scheme="gray"].dark {
+    --color-code-block-bg: #262626;
+    --color-code-block-fg: #e5e5e5;
+    --color-surface: #171717;
+    --color-surface-subtle: #262626;
+    --color-foreground: #fafafa;
+    --color-muted: #a3a3a3;
+    --color-border: #404040;
+    --color-accent: #a3a3a3;
+    --color-on-accent: #171717;
+    --color-highlight: #d4d4d4;
+    --color-tag-bg: #404040;
+    --color-tag-fg: #e5e5e5;
+    --color-code-bg: #262626;
+    --color-code-fg: #e5e5e5;
+    --color-link: #d4d4d4;
+}
+
+/* blue: 파란 톤 (라이트: slate 100~200) */
+[data-color-scheme="blue"] {
+    --color-code-block-bg: #1e293b;
+    --color-code-block-fg: #e2e8f0;
+    --color-surface: #f1f5f9;
+    --color-surface-subtle: #e2e8f0;
+    --color-foreground: #1e293b;
+    --color-muted: #475569;
+    --color-border: #cbd5e1;
+    --color-accent: #3b82f6;
+    --color-on-accent: #ffffff;
+    --color-highlight: #2563eb;
+    --color-tag-bg: #dbeafe;
+    --color-tag-fg: #1d4ed8;
+    --color-code-bg: #e0e7ff;
+    --color-code-fg: #1e293b;
+    --color-link: #2563eb;
+}
+[data-color-scheme="blue"].dark {
+    --color-code-block-bg: #1e293b;
+    --color-code-block-fg: #e2e8f0;
+    --color-surface: #0f172a;
+    --color-surface-subtle: #1e293b;
+    --color-foreground: #f1f5f9;
+    --color-muted: #94a3b8;
+    --color-border: #334155;
+    --color-accent: #60a5fa;
+    --color-on-accent: #0f172a;
+    --color-highlight: #93c5fd;
+    --color-tag-bg: #1e3a5f;
+    --color-tag-fg: #93c5fd;
+    --color-code-bg: #1e293b;
+    --color-code-fg: #e2e8f0;
+    --color-link: #93c5fd;
+}
+
+/* beige: 따뜻한 베이지/스톤 톤 (라이트: stone 100~200) */
+[data-color-scheme="beige"] {
+    --color-code-block-bg: #292524;
+    --color-code-block-fg: #e7e5e4;
+    --color-surface: #fafaf9;
+    --color-surface-subtle: #f5f5f4;
+    --color-foreground: #292524;
+    --color-muted: #78716c;
+    --color-border: #e7e5e4;
+    --color-accent: #d97706;
+    --color-on-accent: #ffffff;
+    --color-highlight: #b45309;
+    --color-tag-bg: #fef3c7;
+    --color-tag-fg: #b45309;
+    --color-code-bg: #fefce8;
+    --color-code-fg: #292524;
+    --color-link: #b45309;
+}
+[data-color-scheme="beige"].dark {
+    --color-code-block-bg: #292524;
+    --color-code-block-fg: #e7e5e4;
+    --color-surface: #1c1917;
+    --color-surface-subtle: #292524;
+    --color-foreground: #fafaf9;
+    --color-muted: #a8a29e;
+    --color-border: #44403c;
+    --color-accent: #f59e0b;
+    --color-on-accent: #1c1917;
+    --color-highlight: #fcd34d;
+    --color-tag-bg: #451a03;
+    --color-tag-fg: #fcd34d;
+    --color-code-bg: #292524;
+    --color-code-fg: #e7e5e4;
+    --color-link: #fcd34d;
+}
+
+/* 스킴 미지정 시 gray 기본 */
+:root:not([data-color-scheme]) {
+    --color-code-block-bg: #262626;
+    --color-code-block-fg: #e5e5e5;
+    --color-surface: #fafafa;
+    --color-surface-subtle: #f5f5f5;
+    --color-foreground: #171717;
+    --color-muted: #525252;
+    --color-border: #e5e5e5;
+    --color-accent: #525252;
+    --color-on-accent: #ffffff;
+    --color-highlight: #404040;
+    --color-tag-bg: #e5e5e5;
+    --color-tag-fg: #404040;
+    --color-code-bg: #f0f0f0;
+    --color-code-fg: #171717;
+    --color-link: #404040;
+}
+:root:not([data-color-scheme]).dark {
+    --color-code-block-bg: #262626;
+    --color-code-block-fg: #e5e5e5;
+    --color-surface: #171717;
+    --color-surface-subtle: #262626;
+    --color-foreground: #fafafa;
+    --color-muted: #a3a3a3;
+    --color-border: #404040;
+    --color-accent: #a3a3a3;
+    --color-on-accent: #171717;
+    --color-highlight: #d4d4d4;
+    --color-tag-bg: #404040;
+    --color-tag-fg: #e5e5e5;
+    --color-code-bg: #262626;
+    --color-code-fg: #e5e5e5;
+    --color-link: #d4d4d4;
+}
+
+/* prose: 컬러 스킴 변수 적용 (코드블록, 인라인코드, 링크) */
+/* 
+   prose: 코드블록, 인라인코드, 링크의 컬러스킴 변수 적용
+   - 코드 블록 배경/텍스트 컬러
+   - 인라인 코드 배경/텍스트 컬러
+   - 링크 컬러 및 hover 효과
+*/
+/* 코드블록: 라이트/다크 모드 관계없이 해당 스킴의 다크모드 색상 사용 */
+.prose pre,
+.prose :where(pre):not(:where([class~="not-prose"] *)) {
+    background-color: var(--color-code-block-bg) !important;
+}
+.prose pre code,
+.prose :where(pre code):not(:where([class~="not-prose"] *)) {
+    color: var(--color-code-block-fg) !important;
+}
+.prose :where(:not(pre) > code):not(:where([class~="not-prose"] *)) {
+    /* 인라인 코드 배경/텍스트 컬러 */
+    background-color: var(--color-code-bg);
+    color: var(--color-code-fg);
+}
+.prose a,
+.prose :where(a):not(:where([class~="not-prose"] *)) {
+    /* 링크 컬러 */
+    color: var(--color-link);
+}
+.prose a:hover {
+    /* 링크 hover시 투명도 변화 */
+    opacity: 0.85;
+}
+
+/* Resume 페이지: 네이티브 HTML 이력서 */
+.resume-page-wrapper {
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.resume-viewer {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.resume-layout-selector {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.resume-layout-selector button {
+    padding: 0.5rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+    background: var(--color-surface);
+    color: var(--color-foreground);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.resume-layout-selector button:hover {
+    background: var(--color-code-bg);
+    border-color: var(--color-foreground);
+}
+
+.resume-layout-selector button.active {
+    background: var(--color-foreground);
+    color: var(--color-surface);
+    border-color: var(--color-foreground);
+}
+
+.resume-layouts-container {
+    position: relative;
+}
+
+.resume-layout.hidden {
+    display: none;
+}

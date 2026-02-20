@@ -1,0 +1,119 @@
+{
+    "projects": [
+        {
+            "slug": "project-a",
+            "thumbnail": "https://placehold.co/800x450/1e293b/94a3b8?text=Project+A",
+            "title": "Project A",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+            "startDate": "2025-02-01",
+            "endDate": "2025-02-02",
+            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "role": "Developer",
+            "teamSize": 1,
+            "technological_hurdles": [],
+            "accomplishments": [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Sed do eiusmod tempor incididunt ut labore et dolore.",
+                "Ut enim ad minim veniam, quis nostrud exercitation."
+            ],
+            "keywords": ["Astro", "Tailwind CSS", "TypeScript"],
+            "github": "https://github.com/username/project-a",
+            "public": true
+        },
+        {
+            "slug": "project-b",
+            "thumbnail": "https://placehold.co/800x450/0f172a/cbd5e1?text=Project+B",
+            "title": "Project B",
+            "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
+            "startDate": "2024-06-01",
+            "endDate": "2024-12-01",
+            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit.",
+            "role": "Designer",
+            "teamSize": 4,
+            "technological_hurdles": [],
+            "accomplishments": [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Pellentesque habitant morbi tristique senectus et netus."
+            ],
+            "keywords": ["Design", "UI/UX"],
+            "github": "",
+            "public": false
+        },
+        {
+            "slug": "project-c",
+            "thumbnail": "https://placehold.co/800x450/1e3a5f/93c5fd?text=Project+C",
+            "title": "Project C",
+            "description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget.",
+            "startDate": "2024-03-01",
+            "endDate": "2025-01-15",
+            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor.",
+            "role": "Developer",
+            "teamSize": 6,
+            "technological_hurdles": [],
+            "accomplishments": [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            ],
+            "keywords": ["Unity", "3D", "PC"],
+            "github": "",
+            "badges": [{ "text": "Release" }],
+            "public": false
+        },
+        {
+            "slug": "project-d",
+            "thumbnail": "https://placehold.co/800x450/451a03/fcd34d?text=Project+D",
+            "title": "Project D",
+            "description": "Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec.",
+            "startDate": "2024-09-01",
+            "endDate": "2025-05-01",
+            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus.",
+            "role": "Designer",
+            "teamSize": 5,
+            "technological_hurdles": [],
+            "accomplishments": [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim."
+            ],
+            "keywords": ["Unity", "3D", "PC"],
+            "github": "",
+            "badges": [{ "text": "Award 2025" }, { "text": "Showcase" }],
+            "public": false
+        },
+        {
+            "slug": "project-e",
+            "thumbnail": "https://placehold.co/800x450/1c1917/e7e5e4?text=Project+E",
+            "title": "Project E",
+            "description": "Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel.",
+            "startDate": "2024-09-01",
+            "endDate": "2025-05-01",
+            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae sapien ut libero.",
+            "role": "Developer",
+            "teamSize": 5,
+            "technological_hurdles": [],
+            "accomplishments": [
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Curabitur ullamcorper ultricies nisi. Nam eget dui."
+            ],
+            "keywords": ["Unity", "3D", "PC"],
+            "github": "",
+            "badges": [{ "text": "Award 2025" }, { "text": "Showcase" }],
+            "public": false
+        },
+        {
+            "slug": "project-f",
+            "thumbnail": "https://placehold.co/800x450/262626/737373?text=Coming+Soon",
+            "title": "Project F (Upcoming)",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis nostrud exercitation ullamco laboris.",
+            "startDate": "2025-09-01",
+            "endDate": "2026-06-01",
+            "goal": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet.",
+            "role": "Designer",
+            "teamSize": 4,
+            "technological_hurdles": [],
+            "accomplishments": [],
+            "keywords": ["3D", "PC", "Console"],
+            "github": "",
+            "public": false
+        }
+    ]
+}
