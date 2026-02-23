@@ -1,0 +1,69 @@
+---
+title: 몬스터 헌터 와일즈 SFX 모드 제작
+description: RE Engine 기반 몬스터 헌터 라이즈/와일즈의 SFX를 커스텀 사운드로 교체하는 모드. Nexus Mods 배포.
+startDate: "2025-03-01"
+endDate: "2025-04-01"
+goal: 원하는 SFX를 게임에 적용하는 모드 제작·배포
+role: 개인 제작
+teamSize: 1
+accomplishments:
+  - 6개 모드 Nexus Mods 배포
+  - 고유 다운로드 8천 명 이상
+  - 커미션 수주 및 피드백 반영
+keywords:
+  - RE Engine
+  - Wwise
+  - Nexus Mods
+  - RingingBloom
+  - REtool
+  - Audacity
+  - vgmstream
+  - Fusion Tools
+  - 모드 제작
+  - SFX
+  - CAPCOM
+github: ""
+public: true
+jobField: game
+thumbnail: "https://github.com/user-attachments/assets/2cb68729-685f-4496-a423-5b455f6e6992"
+---
+
+## 프로젝트 요약
+
+- 몬스터 헌터 라이즈의 밧줄벌레 액션 SFX를 스파이더맨 웹 슈터 SFX로 변경하는 모드: [몬헌 라이즈 스파이더맨 웹슈터 밧줄벌레 SFX 모드](https://www.nexusmods.com/monsterhunterrise/mods/227)  
+  {% youtube id="k1GhTDWcO7I" /%}
+- 몬스터 헌터 와일즈의 무기(건랜스) 재장전 SFX를 M1 Garand 소총으로 변경하는 모드: [몬헌 와일즈 건랜스 SFX 모드](https://www.nexusmods.com/monsterhunterwilds/mods/167)  
+  {% youtube id="bv5mTbI_X_4" /%}
+- 몬스터 헌터 와일즈의 퀘스트 클리어 BGM을 블루 아카이브 승리 BGM으로 변경하는 모드: [몬헌 와일즈 블아 퀘스트 클리어 SFX 모드](https://www.nexusmods.com/monsterhunterwilds/mods/1894)  
+  {% youtube id="PTWistPF_3U" /%}
+
+## 프로젝트 개요
+
+CAPCOM의 RE Engine으로 개발된 몬스터 헌터 와일즈 게임의 일부 SFX 파일을 바꿈으로써 원하는 SFX를 원하는 곳에 넣을 수 있도록 함. 해당 방법은 RE Engine으로 개발된 게임이라면 어느 게임이든 거의 차이 없이 적용 가능함. 현재는 몬스터 헌터 라이즈(2022), 몬스터 헌터 와일즈(2025)에 대한 모드만 제작함.
+
+## RE Engine이란?
+
+**CAPCOM이 자체 개발한 엔진. 몬스터 헌터 라이즈, 데빌 메이 크라이 5, 바이오하자드 빌리지 등에 대표적으로 사용됨.**
+
+## 프로젝트 배경
+
+이전에 재미삼아 만든 [스파이더맨 웹슈터 밧줄벌레 SFX 모드](https://www.nexusmods.com/monsterhunterrise/mods/227)가 처음으로 1천 다운로드를 달성했음. 그 모드를 보고 미국 유저로부터 "커미션을 맡기고 싶다"는 DM을 받아 수락해 만든 것이 [몬헌 라이즈 건랜스 M1 Garand 재장전 SFX 모드](https://www.nexusmods.com/monsterhunterrise/mods/911). 역대급으로 1천 다운로드를 빠르게 달성하고 댓글 반응도 긍정적이어서, 이후로도 요청을 받을 때나 느낌이 들 때 간간히 모드를 만들게 됐음.
+
+## 경험 및 성과
+
+* **8천 명 이상이 다운로드한 모드, 피드백을 즉각적으로 받는 즐거움**
+
+![Nexus Mods 다운로드 현황](https://github.com/user-attachments/assets/2cb68729-685f-4496-a423-5b455f6e6992)
+
+몬스터 헌터 와일즈를 위해 제작한 6개 모드의 고유 다운로드 횟수 총합은 약 8,900명. 몬스터 헌터 라이즈까지 합치면 약 17,500명. 게임은 커뮤니티가 형성되어 피드백을 바로 받을 수 있다는 점을 직접 겪어봤고, 댓글에는 호평·개선 방향·새 모드 아이디어 등이 올라왔음. 피드백을 반영해 모드를 발전시키거나 파생형을 만들 수 있었고, 개발 보람이 컸음.
+
+## 사용 툴
+
+- [Fusion Tools](https://www.nexusmods.com/residentevilvillage/mods/217) — bnk 파일 안의 wem 파일 확인
+- [RingingBloom](https://github.com/Silvris/RingingBloom) — bnk 안 wem 파일 교체
+- [vgmstream](https://vgmstream.org) — wem 파일 디코딩
+- [REtool](https://www.patreon.com/posts/36746173) — 40GB가 넘는 pak chunk에서 에셋 추출
+- [MHWs.list](https://github.com/dtlnor/MonsterHunterWildsModding) — pak chunk 파일 목록, REtool용
+- [Automated WAV > WEM conversion (FluffyQuack)](https://residentevilmodding.boards.net/thread/11099/automated-wav-wem-conversion) — Wwise에서 wav→wem 변환
+- [Wwise Audiokinetic](https://www.audiokinetic.com/en/wwise/overview) — wem 파일 생성
+- [Audacity](https://www.audacityteam.org) — wav 편집

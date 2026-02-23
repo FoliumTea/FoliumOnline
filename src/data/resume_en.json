@@ -1,139 +1,251 @@
 {
     "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/master/schema.json",
     "basics": {
-        "name": "John Doe",
-        "label": "Programmer",
-        "image": "",
-        "email": "john@gmail.com",
-        "phone": "(912) 555-4321",
-        "url": "https://johndoe.com",
-        "summary": "A summary of John Doe",
-        "location": {
-            "address": "2712 Broadway St",
-            "postalCode": "CA 94115",
-            "city": "San Francisco",
-            "countryCode": "US",
-            "region": "California"
-        },
+        "name": "Hojin Jeong",
+        "label": "Full-Stack Web Developer · Computer Science Major · Stony Brook University",
+        "image": "/images/profile.jpg",
+        "email": "hojini1229@gmail.com",
+        "phone": "(+82) 010-3229-7426",
+        "url": "",
+        "summary": "Full-stack and front-end development experience. Traffic/AI system development, deployment, and internal efficiency projects (Global Bridge). Client websites and in-house design solution components (Heyboss). Project lead, team communication, client coordination, and delivery of efficient planning, implementation, and production deployment.",
+        "location": {},
         "profiles": [
             {
-                "network": "Twitter",
-                "username": "john",
-                "url": "https://twitter.com/john"
+                "network": "GitHub",
+                "username": "gvm1229",
+                "url": "https://github.com/gvm1229"
+            },
+            {
+                "network": "LinkedIn",
+                "username": "hojinjeong",
+                "url": "https://linkedin.com/in/hojinjeong"
             }
         ]
     },
     "work": [
         {
-            "name": "Tech Company",
-            "position": "Software Developer",
-            "url": "https://example.com",
-            "startDate": "2023-01-01",
-            "endDate": "2024-12-01",
-            "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nibh vel velit auctor aliquet.",
+            "name": "Global Bridge",
+            "position": "Full-Stack Web Developer",
+            "url": "",
+            "startDate": "2023-05-01",
+            "endDate": "2025-05-01",
+            "summary": "Full-time. Incheon, South Korea. Full-stack developer for traffic/AI systems, deployment, and internal efficiency projects. Web design, development, debugging; API server development; server setup; server and DB maintenance; intern mentoring and onboarding.",
+            "jobField": "web",
             "highlights": [
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
-            ],
-            "jobField": "web"
-        }
-    ],
-    "volunteer": [
+                "Led the development of a FastAPI & DLR SUMO-based Digital Twin traffic simulation API server with 500mil+ daily data input.",
+                "Developed the frontend of a Google Drive-like web tool for managing files inside the company NAS, boosting productivity by 30-50%.",
+                "Solely developed an ROI labeling web tool for the company's AI model to use, cutting down labeling work time by 50-100%.",
+                "Developed a deployment pipeline to the company server that requires only a single click, cutting down testing time by 50-70%."
+            ]
+        },
         {
-            "organization": "Organization",
-            "position": "Volunteer",
-            "url": "https://organization.com/",
-            "startDate": "2012-01-01",
-            "endDate": "2013-01-01",
-            "summary": "Description",
-            "highlights": ["Awarded 'Volunteer of the Month'"]
-        }
-    ],
-    "education": [
+            "name": "Heyboss",
+            "position": "Front-End Web Developer",
+            "url": "",
+            "startDate": "2022-09-01",
+            "endDate": "2022-12-01",
+            "summary": "Full-time (Part-time). New Jersey, United States. Front-end developer for client websites and in-house design solution components. Web component design, development, debugging; AWS website deployment; intern mentoring.",
+            "jobField": "web",
+            "highlights": [
+                "Assisted the team in developing, testing, and deploying 6 websites as per the design requests from the clients, along with aftercare.",
+                "Ran and debugged web page deployment using AWS S3.",
+                "Worked in an agile, communicative, and collaborative environment with daily stand-ups to receive design requirements, and conduct tests for 50+ total components."
+            ]
+        },
         {
-            "institution": "University",
-            "url": "https://institution.com/",
-            "area": "Software Development",
-            "studyType": "Bachelor",
-            "startDate": "2011-01-01",
-            "endDate": "2013-01-01",
-            "score": "4.0",
-            "courses": ["DB1101 - Basic SQL"]
-        }
-    ],
-    "awards": [
-        {
-            "title": "Award",
-            "date": "2014-11-01",
-            "awarder": "Company",
-            "summary": "There is no spoon."
-        }
-    ],
-    "certificates": [
-        {
-            "name": "Certificate",
-            "date": "2021-11-07",
-            "issuer": "Company",
-            "url": "https://certificate.com"
-        }
-    ],
-    "publications": [
-        {
-            "name": "Publication",
-            "publisher": "Company",
-            "releaseDate": "2014-10-01",
-            "url": "https://publication.com",
-            "summary": "Description"
-        }
-    ],
-    "skills": [
-        {
-            "name": "Web Development",
-            "level": "Master",
-            "keywords": ["HTML", "CSS", "JavaScript"]
-        }
-    ],
-    "languages": [
-        {
-            "language": "English",
-            "fluency": "Native speaker"
-        }
-    ],
-    "interests": [
-        {
-            "name": "Wildlife",
-            "keywords": ["Ferrets", "Unicorns"]
-        }
-    ],
-    "references": [
-        {
-            "name": "Jane Doe",
-            "reference": "Reference"
+            "name": "Heyboss",
+            "position": "Front-End Web Developer Intern",
+            "url": "",
+            "startDate": "2022-06-01",
+            "endDate": "2022-08-01",
+            "summary": "Internship. Remote. Front-end development intern contributing to in-house design solution components.",
+            "jobField": "web",
+            "highlights": [
+                "Developed 10+ web components based on given instructions for the company component library."
+            ]
         }
     ],
     "projects": [
         {
-            "name": "Sample Web Project",
-            "startDate": "2024-06-01",
-            "endDate": "2024-12-01",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "name": "Traffic/Signal Assignment API Server",
+            "startDate": "2024-08-01",
+            "endDate": "2025-04-01",
+            "description": "Incheon ITS Digital Twin project. API server for processing vehicle data for simulation. Project lead 80%.",
+            "jobField": "web",
             "highlights": [
-                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore."
+                "DLR SUMO-based traffic assignment logic; reduced 5-hour batch from 10+ min/timeout to under 4 min",
+                "One-click build and deployment in air-gapped environment",
+                "Custom Mapper reduced road-ID mapping from 1–2 hours to 1–2 minutes when road data updated"
             ],
-            "url": "https://example.com/",
-            "jobField": "web"
+            "url": ""
         },
         {
-            "name": "Sample Game Project",
-            "startDate": "2024-01-01",
-            "endDate": "2024-05-01",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "name": "AI Model File Management System",
+            "startDate": "2024-04-01",
+            "endDate": "2024-07-01",
+            "description": "System and frontend to auto-classify and store AI model files on NAS by name and purpose. Frontend lead 70%.",
+            "jobField": "web",
             "highlights": [
-                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+                "Synology NAS API–based upload, classification, and duplicate-prevention web system",
+                "Storybook for component documentation and maintainability",
+                "One-click deployment via Docker and shell scripts"
             ],
-            "url": "https://example.com/game",
-            "jobField": "game"
+            "url": ""
+        },
+        {
+            "name": "Client Homepage Development & Deployment",
+            "startDate": "2022-10-01",
+            "endDate": "2022-12-01",
+            "description": "Heyboss. Custom features and design for 6 client websites; development, deployment, maintenance. Project support & frontend 40%.",
+            "jobField": "web",
+            "highlights": [
+                "Custom component development; Storybook-based test and review process",
+                "AWS S3 static deployment, GitHub integration for debugging",
+                "All 6 sites launched with positive feedback"
+            ],
+            "url": ""
+        },
+        {
+            "name": "In-House Design Solution Components",
+            "startDate": "2022-06-01",
+            "endDate": "2022-12-01",
+            "description": "Heyboss. Reusable components and design consistency. 50+ components. Project support & frontend 40%.",
+            "jobField": "web",
+            "highlights": [
+                "React and Tailwind components for reuse and extension",
+                "Storybook for option experimentation and design review; reduced QA burden",
+                "Intern mentoring; improved team velocity"
+            ],
+            "url": ""
+        },
+        {
+            "name": "Maple Economy",
+            "startDate": "2025-11-01",
+            "endDate": "2025-12-01",
+            "description": "Website for Maple Story users to view equipment auction prices and estimate set costs. Pair project.",
+            "jobField": [
+                "web",
+                "game"
+            ],
+            "highlights": [
+                "Auction price history graphs",
+                "Nexon API equipment list",
+                "Set cost calculation by preferred stats"
+            ],
+            "url": "https://github.com/Jae2928/maple-economy"
+        },
+        {
+            "name": "KartRushPlus Info",
+            "startDate": "2023-12-01",
+            "endDate": "2024-06-01",
+            "description": "Blog-style site for Kart Rider: Rush Plus: events, tips, recommended YouTube videos. Solo project.",
+            "jobField": [
+                "web",
+                "game"
+            ],
+            "highlights": [
+                "Tip posts",
+                "Recommended videos by creator or list",
+                "One-click in-game coupon redemption"
+            ],
+            "url": "https://github.com/gvm1229/krrpinfo"
+        },
+        {
+            "name": "Monster Hunter Wilds SFX Mods",
+            "startDate": "2025-03-01",
+            "endDate": "2025-04-01",
+            "description": "RE Engine mods replacing SFX in Monster Hunter Rise/Wilds. Nexus Mods; 8,000+ unique downloads.",
+            "jobField": "game",
+            "highlights": [
+                "6 mods: wirebug→Spider-Man web-shooter SFX, gunlance M1 Garand reload, quest clear BGM, etc.",
+                "Wwise, RingingBloom, REtool for audio/asset pipeline",
+                "Commission work and community feedback integration"
+            ],
+            "url": "https://www.nexusmods.com/monsterhunterwilds/mods/167"
+        }
+    ],
+    "education": [
+        {
+            "institution": "Stony Brook University",
+            "url": "",
+            "area": "Computer Science",
+            "studyType": "Bachelor of Science",
+            "startDate": "2018-02-01",
+            "endDate": "2022-07-01",
+            "courses": [
+                "Software Engineering",
+                "Data Structures",
+                "Object-Oriented Programming",
+                "Analysis of Algorithms",
+                "Principles of Database Systems",
+                "Human Computer Interaction",
+                "Computer Networks"
+            ]
+        }
+    ],
+    "skills": [
+        {
+            "name": "Programming Languages",
+            "keywords": [
+                "Python",
+                "JavaScript",
+                "TypeScript",
+                "Java"
+            ]
+        },
+        {
+            "name": "DevOps",
+            "keywords": [
+                "Docker"
+            ]
+        },
+        {
+            "name": "Front-end",
+            "keywords": [
+                "React",
+                "Next.js",
+                "Node.js",
+                "Vite",
+                "Radix UI",
+                "Tailwind CSS"
+            ]
+        },
+        {
+            "name": "Back-end",
+            "keywords": [
+                "FastAPI",
+                "NestJS",
+                "Java Spring",
+                "MongoDB",
+                "PostgreSQL",
+                "SQLite3",
+                "Tibero"
+            ]
+        },
+        {
+            "name": "UI Tools",
+            "keywords": [
+                "Storybook",
+                "Figma"
+            ]
+        }
+    ],
+    "languages": [
+        {
+            "language": "Korean",
+            "fluency": "Native"
+        },
+        {
+            "language": "English",
+            "fluency": "Bilingual"
+        },
+        {
+            "language": "Japanese",
+            "fluency": "Conversational"
+        },
+        {
+            "language": "Mandarin Chinese",
+            "fluency": "Elementary"
         }
     ]
 }
