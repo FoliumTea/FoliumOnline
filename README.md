@@ -77,3 +77,63 @@ pnpm dev
 | `PUBLIC_SUPABASE_URL`      | Supabase 프로젝트 URL                                                  |
 | `PUBLIC_SUPABASE_ANON_KEY` | Supabase 익명 키                                                       |
 | `PUBLIC_COLOR_SCHEME`      | 사이트 컬러 스킴: `blue`, `gray`, `beige`, `blackwhite`. 기본값 `gray` |
+| `PUBLIC_JOB_FIELD`         | 포트폴리오·이력서 노출 분야: `web` 또는 `game`. 기본값 `game`          |
+
+## upstream(FoliumOnline)과 동기화
+
+이 저장소는 [FoliumTea/FoliumOnline](https://github.com/FoliumTea/FoliumOnline)의 fork임.
+
+**평소에는 GitHub 저장소 페이지에서 "Sync fork" → "Update branch"를 누르면 됨.**
+충돌이 나거나 로컬에서 한 번에 처리하고 싶을 때만 아래처럼 터미널에서 진행하면 됨.
+
+### 1. upstream 원격 추가 (최초 1회)
+
+```bash
+git remote add upstream https://github.com/FoliumTea/FoliumOnline.git
+```
+
+이미 추가돼 있으면 생략. 확인: `git remote -v`
+
+### 2. upstream에서 가져오기 및 병합
+
+```bash
+git fetch upstream
+git merge upstream/main
+```
+
+- `upstream/main`을 현재 브랜치(보통 `main`)에 병합함.
+- 충돌이 없으면 자동으로 merge commit이 생성됨.
+
+### 3. 병합 충돌이 났을 때 (직접 해결)
+
+`git merge upstream/main` 실행 후 충돌이 나면:
+
+1. **충돌 파일 확인**
+
+    ```bash
+    git status
+    ```
+
+    - `Unmerged paths` / `both modified` 등으로 표시된 파일을 수정하면 됨.
+
+2. **파일별로 충돌 해결**
+    - 해당 파일을 열어 `<<<<<<< HEAD`, `=======`, `>>>>>>> upstream/main` 마커를 찾고, 남길 내용만 남기고 마커 전부 삭제함.
+    - **삭제 충돌**(`deleted by them` 등): upstream에서 삭제했고 로컬에서 수정한 경우, 삭제를 따를지 로컬 버전을 유지할지 결정한 뒤
+        - 삭제를 따르려면: `git rm <파일경로>`
+        - 로컬 버전을 유지하려면: `git add <파일경로>`
+
+3. **해결한 파일 스테이징 후 병합 완료**
+
+    ```bash
+    git add <해결한 파일들>
+    git commit
+    ```
+
+    - commit 메시지는 기본으로 merge 메시지가 채워져 있음.
+
+4. **병합을 취소하고 처음부터 다시 하려면**
+    ```bash
+    git merge --abort
+    ```
+
+    - 작업 트리가 merge 이전 상태로 돌아감.
