@@ -1,16 +1,54 @@
 ---
 /**
  * Portfolio 페이지 - 프로젝트 목록
- * List / Block 뷰 토글, Block 뷰는 썸네일 그리드·상세 페이지 링크
+ * List / Block 뷰 토글. PUBLIC_JOB_FIELD에 맞는 프로젝트만 노출.
+ * 데이터 소스: src/content/portfolio/*.mdoc (Markdoc)
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PortfolioView from "@/components/PortfolioView";
-import type { Portfolio } from "@/types/portfolio";
+import { getCollection } from "astro:content";
+import type { PortfolioProject } from "@/types/portfolio";
 
-const portfolio: Portfolio = await import("@/data/portfolio.json").then(
-    (m) => m.default
-);
-const publicProjects = portfolio.projects.filter((p) => p.public === true);
+const jobField = import.meta.env.PUBLIC_JOB_FIELD ?? "game";
+const rawEntries = await getCollection("portfolio");
+
+function matchesJobField(jf: string | string[] | undefined): boolean {
+    if (jf == null) return true;
+    if (Array.isArray(jf)) return jf.includes(jobField);
+    return jf === jobField;
+}
+
+function entryToProject(entry: {
+    id: string;
+    data: Record<string, unknown>;
+}): PortfolioProject {
+    const d = entry.data as Omit<PortfolioProject, "slug"> & {
+        jobField?: string | string[];
+    };
+    const slug = entry.id.replace(/\.mdoc$/, "") || entry.id;
+    return {
+        slug,
+        title: d.title,
+        description: d.description,
+        startDate: d.startDate,
+        endDate: d.endDate,
+        goal: d.goal,
+        role: d.role,
+        teamSize: d.teamSize,
+        accomplishments: d.accomplishments ?? [],
+        keywords: d.keywords ?? [],
+        github: d.github ?? "",
+        public: d.public,
+        jobField: d.jobField,
+        thumbnail: d.thumbnail,
+        badges: d.badges,
+    };
+}
+
+const publicProjects = rawEntries
+    .map(entryToProject)
+    .filter((p) => p.public === true && matchesJobField(p.jobField))
+    .sort((a, b) => (b.startDate ?? "").localeCompare(a.startDate ?? ""));
 ---
 
 <BaseLayout title="Portfolio - FoliumOnline" description="프로젝트 포트폴리오">
