@@ -1,13 +1,44 @@
 ---
 /**
  * Resume 페이지 - 네이티브 HTML 이력서 (3가지 레이아웃)
+ * PUBLIC_JOB_FIELD에 따라 경력(work)·프로젝트(projects)를 필터링해 노출
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ResumeView from "@/components/resume/ResumeView";
 import ResumeClassic from "@/components/resume/ResumeClassic.astro";
 import ResumeModern from "@/components/resume/ResumeModern.astro";
 import ResumeMinimal from "@/components/resume/ResumeMinimal.astro";
-import resumeData from "@/data/resume.json";
+import resumeDataRaw from "@/data/resume.json";
+import type { Resume } from "@/types/resume";
+
+const jobField = import.meta.env.PUBLIC_JOB_FIELD ?? "game";
+
+function filterByJobField<T extends { jobField?: string | string[] }>(
+    items: T[] = []
+): T[] {
+    return items.filter((item) => {
+        const jf = item.jobField;
+        if (jf == null) return true;
+        if (Array.isArray(jf)) return jf.includes(jobField);
+        return jf === jobField;
+    });
+}
+
+function sortByDateDesc<T extends { startDate?: string }>(items: T[]): T[] {
+    return [...items].sort((a, b) =>
+        (b.startDate ?? "").localeCompare(a.startDate ?? "")
+    );
+}
+
+const resumeData: Resume = {
+    ...resumeDataRaw,
+    work: sortByDateDesc(
+        filterByJobField(resumeDataRaw.work) ?? []
+    ) as Resume["work"],
+    projects: sortByDateDesc(
+        filterByJobField(resumeDataRaw.projects) ?? []
+    ) as Resume["projects"],
+};
 
 const title = resumeData.basics?.name
     ? `${resumeData.basics.name} - Resume | FoliumOnline`
