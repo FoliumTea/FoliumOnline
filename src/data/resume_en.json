@@ -30,7 +30,7 @@
             "startDate": "2023-05-01",
             "endDate": "2025-05-01",
             "summary": "Full-time. Incheon, South Korea. Full-stack developer for traffic/AI systems, deployment, and internal efficiency projects. Web design, development, debugging; API server development; server setup; server and DB maintenance; intern mentoring and onboarding.",
-            "jobField": "web",
+            "jobField": ["web", "game"],
             "highlights": [
                 "Led the development of a FastAPI & DLR SUMO-based Digital Twin traffic simulation API server with 500mil+ daily data input.",
                 "Developed the frontend of a Google Drive-like web tool for managing files inside the company NAS, boosting productivity by 30-50%.",
@@ -45,7 +45,7 @@
             "startDate": "2022-09-01",
             "endDate": "2022-12-01",
             "summary": "Full-time (Part-time). New Jersey, United States. Front-end developer for client websites and in-house design solution components. Web component design, development, debugging; AWS website deployment; intern mentoring.",
-            "jobField": "web",
+            "jobField": ["web", "game"],
             "highlights": [
                 "Assisted the team in developing, testing, and deploying 6 websites as per the design requests from the clients, along with aftercare.",
                 "Ran and debugged web page deployment using AWS S3.",
@@ -59,7 +59,7 @@
             "startDate": "2022-06-01",
             "endDate": "2022-08-01",
             "summary": "Internship. Remote. Front-end development intern contributing to in-house design solution components.",
-            "jobField": "web",
+            "jobField": ["web", "game"],
             "highlights": [
                 "Developed 10+ web components based on given instructions for the company component library."
             ]
@@ -123,10 +123,7 @@
             "startDate": "2025-11-01",
             "endDate": "2025-12-01",
             "description": "Website for Maple Story users to view equipment auction prices and estimate set costs. Pair project.",
-            "jobField": [
-                "web",
-                "game"
-            ],
+            "jobField": ["web", "game"],
             "highlights": [
                 "Auction price history graphs",
                 "Nexon API equipment list",
@@ -139,10 +136,7 @@
             "startDate": "2023-12-01",
             "endDate": "2024-06-01",
             "description": "Blog-style site for Kart Rider: Rush Plus: events, tips, recommended YouTube videos. Solo project.",
-            "jobField": [
-                "web",
-                "game"
-            ],
+            "jobField": ["web", "game"],
             "highlights": [
                 "Tip posts",
                 "Recommended videos by creator or list",
@@ -186,18 +180,11 @@
     "skills": [
         {
             "name": "Programming Languages",
-            "keywords": [
-                "Python",
-                "JavaScript",
-                "TypeScript",
-                "Java"
-            ]
+            "keywords": ["Python", "JavaScript", "TypeScript", "Java"]
         },
         {
             "name": "DevOps",
-            "keywords": [
-                "Docker"
-            ]
+            "keywords": ["Docker"]
         },
         {
             "name": "Front-end",
@@ -224,10 +211,7 @@
         },
         {
             "name": "UI Tools",
-            "keywords": [
-                "Storybook",
-                "Figma"
-            ]
+            "keywords": ["Storybook", "Figma"]
         }
     ],
     "languages": [

@@ -30,7 +30,7 @@
             "startDate": "2023-05-01",
             "endDate": "2025-05-01",
             "summary": "정규직. 인천광역시, 대한민국. 풀스택 개발자로 교통/AI 관련 시스템 개발·배포, 사내 업무 효율 개선 프로젝트 수행. 웹사이트 디자인·개발·디버깅, API 서버 개발·디버깅, 서버 구축, 서버·DB 유지보수, 인턴 멘토링·온보딩 담당.",
-            "jobField": "web",
+            "jobField": ["web", "game"],
             "highlights": [
                 "일 5억 건 이상 데이터가 유입되는 FastAPI 및 DLR SUMO 기반 디지털 트윈 교통 시뮬레이션 API 서버 개발을 주도.",
                 "사내 NAS 파일 관리를 위한 Google Drive형 웹 도구 프론트엔드 개발, 업무 효율 30–50% 향상.",
@@ -45,7 +45,7 @@
             "startDate": "2022-09-01",
             "endDate": "2022-12-01",
             "summary": "정규(파트타임). 뉴저지, 미국. 프론트엔드 개발자로 클라이언트 홈페이지 및 사내 디자인 솔루션 컴포넌트 개발. 웹 컴포넌트 디자인·개발·디버깅, 웹사이트 AWS 배포, 인턴 멘토링 담당.",
-            "jobField": "web",
+            "jobField": ["web", "game"],
             "highlights": [
                 "클라이언트 디자인 요청에 따라 6개 웹사이트 개발·테스트·배포 및 사후 관리를 지원.",
                 "AWS S3를 이용한 웹 페이지 배포 및 디버깅 수행.",
@@ -59,7 +59,7 @@
             "startDate": "2022-06-01",
             "endDate": "2022-08-01",
             "summary": "인턴. 원격. 프론트엔드 개발 인턴으로 사내 디자인 솔루션 컴포넌트 개발 참여.",
-            "jobField": "web",
+            "jobField": ["web", "game"],
             "highlights": [
                 "사내 컴포넌트 라이브러리를 위한 10개 이상 웹 컴포넌트를 주어진 지침에 따라 개발."
             ]
@@ -123,10 +123,7 @@
             "startDate": "2025-11-01",
             "endDate": "2025-12-01",
             "description": "게임 \"메이플스토리\" 유저가 장비 경매 시세를 한눈에 보고, 원하는 세트 장비 확보 비용을 계산할 수 있는 웹사이트. 2인 페어 프로젝트.",
-            "jobField": [
-                "web",
-                "game"
-            ],
+            "jobField": ["web", "game"],
             "highlights": [
                 "경매 가격 이력을 그래프로 조회",
                 "Nexon API로 내 장비 목록 조회",
@@ -139,10 +136,7 @@
             "startDate": "2023-12-01",
             "endDate": "2024-06-01",
             "description": "게임 \"카트라이더: 러시 플러스\" 유저를 위한 예정 이벤트·팁·추천 유튜브 영상 조회 블로그형 웹사이트. 1인 프로젝트.",
-            "jobField": [
-                "web",
-                "game"
-            ],
+            "jobField": ["web", "game"],
             "highlights": [
                 "팁 게시글 조회",
                 "제작자별 정렬 또는 단순 목록으로 추천 유튜브 영상 조회",
@@ -186,18 +180,11 @@
     "skills": [
         {
             "name": "프로그래밍 언어",
-            "keywords": [
-                "Python",
-                "JavaScript",
-                "TypeScript",
-                "Java"
-            ]
+            "keywords": ["Python", "JavaScript", "TypeScript", "Java"]
         },
         {
             "name": "DevOps",
-            "keywords": [
-                "Docker"
-            ]
+            "keywords": ["Docker"]
         },
         {
             "name": "프론트엔드",
@@ -224,10 +211,7 @@
         },
         {
             "name": "UI 도구",
-            "keywords": [
-                "Storybook",
-                "Figma"
-            ]
+            "keywords": ["Storybook", "Figma"]
         }
     ],
     "languages": [
