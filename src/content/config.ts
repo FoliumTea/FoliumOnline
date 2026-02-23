@@ -24,7 +24,31 @@ const tags = defineCollection({
     }),
 });
 
+// 포트폴리오 프로젝트 (Markdoc 기반, src/content/portfolio/*.mdoc)
+const portfolio = defineCollection({
+    type: "content",
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        startDate: z.string(),
+        endDate: z.string(),
+        goal: z.string(),
+        role: z.string(),
+        teamSize: z.number(),
+        accomplishments: z.array(z.string()),
+        keywords: z.array(z.string()),
+        github: z.string().default(""),
+        public: z.boolean(),
+        jobField: z
+            .union([z.enum(["web", "game"]), z.array(z.enum(["web", "game"]))])
+            .optional(),
+        thumbnail: z.string().optional(),
+        badges: z.array(z.object({ text: z.string() })).optional(),
+    }),
+});
+
 export const collections = {
     posts,
     tags,
+    portfolio,
 };
