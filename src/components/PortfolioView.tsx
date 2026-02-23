@@ -2,8 +2,9 @@
  * 포트폴리오 목록/블록 뷰 토글 및 렌더링
  * - List: 기존 리스트형 레이아웃
  * - Block: 썸네일 그리드 카드, 각 카드는 상세 페이지 링크
+ * - 보기 방식은 localStorage에 저장되어 새로고침·재방문 시 유지됨
  */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { PortfolioProject } from "@/types/portfolio";
 
 type ViewMode = "list" | "block";
@@ -26,8 +27,28 @@ function getTagClass(index: number) {
     return TAG_COLORS[index % TAG_COLORS.length];
 }
 
+const STORAGE_KEY = "portfolioViewMode";
+
+function getStoredViewMode(): ViewMode {
+    if (typeof window === "undefined") return "list";
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (stored === "list" || stored === "block") return stored;
+    return "list";
+}
+
 export default function PortfolioView({ projects }: Props) {
     const [viewMode, setViewMode] = useState<ViewMode>("list");
+
+    useEffect(() => {
+        setViewMode(getStoredViewMode());
+    }, []);
+
+    const handleSetViewMode = (mode: ViewMode) => {
+        setViewMode(mode);
+        if (typeof window !== "undefined") {
+            window.localStorage.setItem(STORAGE_KEY, mode);
+        }
+    };
 
     return (
         <div className="space-y-6">
@@ -45,7 +66,7 @@ export default function PortfolioView({ projects }: Props) {
                         type="button"
                         role="tab"
                         aria-selected={viewMode === "list"}
-                        onClick={() => setViewMode("list")}
+                        onClick={() => handleSetViewMode("list")}
                         className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
                             viewMode === "list"
                                 ? "bg-(--color-surface) text-(--color-foreground) shadow-sm"
@@ -58,7 +79,7 @@ export default function PortfolioView({ projects }: Props) {
                         type="button"
                         role="tab"
                         aria-selected={viewMode === "block"}
-                        onClick={() => setViewMode("block")}
+                        onClick={() => handleSetViewMode("block")}
                         className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
                             viewMode === "block"
                                 ? "bg-(--color-surface) text-(--color-foreground) shadow-sm"
@@ -78,7 +99,7 @@ export default function PortfolioView({ projects }: Props) {
                             className="p-6 rounded-xl border border-(--color-border) bg-(--color-surface-subtle)"
                         >
                             <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-                                <h2 className="text-2xl font-bold text-(--color-foreground)">
+                                <h2 className="text-xl font-bold text-(--color-foreground) tablet:text-2xl">
                                     {project.title}
                                 </h2>
                                 {project.github ? (
@@ -86,49 +107,55 @@ export default function PortfolioView({ projects }: Props) {
                                         href={project.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-(--color-link) hover:underline text-sm"
+                                        className="text-sm font-medium text-(--color-link) hover:underline"
                                     >
                                         GitHub →
                                     </a>
                                 ) : null}
                             </div>
-                            <p className="text-(--color-muted) mb-4">
+                            <p className="text-base font-normal text-(--color-foreground) mb-4 tablet:text-lg">
                                 {project.description}
                             </p>
                             <dl className="grid grid-cols-1 gap-2 text-sm mb-4 text-(--color-foreground) tablet:grid-cols-2">
                                 <div>
-                                    <dt className="text-(--color-muted) font-medium">
+                                    <dt className="text-xs font-bold uppercase tracking-wide text-(--color-muted)">
                                         기간
                                     </dt>
-                                    <dd>
+                                    <dd className="text-sm font-medium mt-0.5">
                                         {project.startDate} ~ {project.endDate}
                                     </dd>
                                 </div>
                                 <div>
-                                    <dt className="text-(--color-muted) font-medium">
+                                    <dt className="text-xs font-bold uppercase tracking-wide text-(--color-muted)">
                                         역할
                                     </dt>
-                                    <dd>{project.role}</dd>
+                                    <dd className="text-sm font-medium mt-0.5">
+                                        {project.role}
+                                    </dd>
                                 </div>
                                 <div>
-                                    <dt className="text-(--color-muted) font-medium">
+                                    <dt className="text-xs font-bold uppercase tracking-wide text-(--color-muted)">
                                         참여 인원
                                     </dt>
-                                    <dd>{project.teamSize}명</dd>
+                                    <dd className="text-sm font-medium mt-0.5">
+                                        {project.teamSize}명
+                                    </dd>
                                 </div>
                                 <div>
-                                    <dt className="text-(--color-muted) font-medium">
+                                    <dt className="text-xs font-bold uppercase tracking-wide text-(--color-muted)">
                                         목표
                                     </dt>
-                                    <dd>{project.goal}</dd>
+                                    <dd className="text-sm font-medium mt-0.5">
+                                        {project.goal}
+                                    </dd>
                                 </div>
                             </dl>
                             {project.accomplishments.length > 0 ? (
                                 <div className="mb-4">
-                                    <h3 className="text-sm font-semibold text-(--color-foreground) mb-2">
+                                    <h3 className="text-sm font-bold text-(--color-foreground) mb-2">
                                         성과
                                     </h3>
-                                    <ul className="list-disc list-inside space-y-1 text-sm text-(--color-foreground)">
+                                    <ul className="list-disc list-inside space-y-1 text-sm font-normal text-(--color-foreground)">
                                         {project.accomplishments.map((a, i) => (
                                             <li key={i}>{a}</li>
                                         ))}

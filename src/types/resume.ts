@@ -41,6 +41,8 @@ export interface ResumeWork {
     highlights?: string[];
     location?: string;
     description?: string;
+    /** 노출 분야: "web" | "game". 비면 모든 JOB_FIELD에서 노출. 배열이면 해당 분야들 모두에서 노출 */
+    jobField?: "web" | "game" | ("web" | "game")[];
 }
 
 export interface ResumeVolunteer {
@@ -118,6 +120,8 @@ export interface ResumeProject {
     roles?: string[];
     entity?: string;
     type?: string;
+    /** 노출 분야: "web" | "game". 비면 모든 JOB_FIELD에서 노출. 배열이면 해당 분야들 모두에서 노출 */
+    jobField?: "web" | "game" | ("web" | "game")[];
 }
 
 export interface Resume {

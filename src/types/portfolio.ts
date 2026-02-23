@@ -28,6 +28,8 @@ export interface PortfolioProject {
     github: string;
     /** 공개 여부 (false면 목록·상세 페이지에 노출 안 함) */
     public: boolean;
+    /** 노출 분야: "web" | "game" 또는 둘 다. 비면 PUBLIC_JOB_FIELD와 무관하게 노출 */
+    jobField?: "web" | "game" | ("web" | "game")[];
     /** 블록 뷰용 보조 문구 (예: "STOVE 스토어 출시", "BIC 루키 선정") */
     badges?: { text: string }[];
 }
