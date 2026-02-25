@@ -10,5 +10,16 @@ export default defineMarkdocConfig({
                 id: { type: String, required: true },
             },
         },
+        "folium-table": {
+            render: component("./src/components/FoliumTable.astro"),
+            attributes: {
+                columns: { type: String, required: true },
+                rows: { type: String, required: true },
+                columnHeadColors: { type: String },
+                columnHeadColorsDark: { type: String },
+                rowColors: { type: String },
+                rowColorsDark: { type: String },
+            },
+        },
     },
 });
