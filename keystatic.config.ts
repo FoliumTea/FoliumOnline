@@ -7,6 +7,7 @@
 // - 예: testimonials: collection({ label: 'Testimonials', path: '...', schema: { ... } }),
 //
 import { config, fields, collection } from "@keystatic/core";
+import { block } from "@keystatic/core/content-components";
 
 export default config({
     storage: {
@@ -66,6 +67,48 @@ export default config({
                             directory: "public/images/posts",
                             publicPath: "/images/posts/",
                         },
+                    },
+                    components: {
+                        "folium-table": block({
+                            label: "Folium Table",
+                            schema: {
+                                columns: fields.text({
+                                    label: "Columns",
+                                    description:
+                                        'JSON array of column headers, e.g. ["항목", "내용"]',
+                                }),
+                                rows: fields.text({
+                                    label: "Rows",
+                                    description:
+                                        'JSON array of rows, e.g. [["a", "b"], ["c", "d"]]',
+                                    multiline: true,
+                                }),
+                                columnHeadColors: fields.text({
+                                    label: "Column Head Colors (optional)",
+                                    description:
+                                        'Tailwind color names, e.g. ["green-400", "red-400"]',
+                                }),
+                                columnHeadColorsDark: fields.text({
+                                    label: "Column Head Colors Dark (optional)",
+                                }),
+                                rowColors: fields.text({
+                                    label: "Row Colors (optional)",
+                                }),
+                                rowColorsDark: fields.text({
+                                    label: "Row Colors Dark (optional)",
+                                }),
+                            },
+                        }),
+                        youtube: block({
+                            label: "YouTube",
+                            schema: {
+                                id: fields.text({
+                                    label: "Video ID",
+                                    description:
+                                        "YouTube video ID from URL (e.g. Qr6olpAJfvk from youtu.be/Qr6olpAJfvk)",
+                                }),
+                            },
+                        }),
                     },
                 }),
             },
