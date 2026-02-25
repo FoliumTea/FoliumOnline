@@ -46,9 +46,11 @@ const postItems: PostItem[] = sortedPosts.map((post) => {
     const thumbRaw = post.data.thumbnail;
     const thumbnailUrl =
         thumbRaw != null && thumbRaw !== ""
-            ? thumbRaw.startsWith("/")
+            ? thumbRaw.startsWith("http://") || thumbRaw.startsWith("https://")
                 ? thumbRaw
-                : `/${thumbRaw}`
+                : thumbRaw.startsWith("/")
+                  ? thumbRaw
+                  : `/${thumbRaw}`
             : firstImage;
     const displayDescription =
         post.data.description?.trim() ?? getFirstThreeSentences(body);
