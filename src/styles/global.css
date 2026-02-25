@@ -1,7 +1,6 @@
 /* @import는 파일 최상단에 배치 (CSS 규칙) */
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 @import "tailwindcss";
-@import "prismjs/themes/prism-tomorrow.css";
 
 @plugin "@tailwindcss/typography";
 
@@ -218,68 +217,36 @@ body {
 }
 
 /* prose: 컬러 스킴 변수 적용 (코드블록, 인라인코드, 링크) */
-/* 
-   prose: 코드블록, 인라인코드, 링크의 컬러스킴 변수 적용
-   - 코드 블록 배경/텍스트 컬러
-   - 인라인 코드 배경/텍스트 컬러
-   - 링크 컬러 및 hover 효과
-*/
-/* 코드블록: prism-tomorrow — Tailwind 문서 스타일 (text-shadow 없음, 다크 배경) */
-@import "prismjs/themes/prism-tomorrow.css";
-.prose pre[class*="language-"] {
+
+/* Shiki 구문 강조: defaultColor:false 모드 (라이트/다크 듀얼 테마) */
+/* pre 배경은 컬러 스킴 변수 사용, 토큰 색상은 --shiki-light/--shiki-dark 변수 사용 */
+.prose pre.shiki {
+    background-color: var(--color-code-block-bg) !important;
+    overflow-x: auto;
+}
+.prose pre.shiki code {
+    background-color: transparent !important;
+}
+/* 라이트 모드: --shiki-light 변수 적용 */
+.prose .shiki span {
+    color: var(--shiki-light);
+    font-style: var(--shiki-light-font-style, inherit);
+    font-weight: var(--shiki-light-font-weight, inherit);
+    text-decoration: var(--shiki-light-text-decoration, none);
+}
+/* 다크 모드: html.dark 클래스 기반 --shiki-dark 변수 적용 */
+html.dark .prose .shiki span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style, inherit);
+    font-weight: var(--shiki-dark-font-weight, inherit);
+    text-decoration: var(--shiki-dark-text-decoration, none);
+}
+/* Shiki 미적용 코드 블록 폴백 */
+.prose pre:not(.shiki) {
     background-color: var(--color-code-block-bg) !important;
 }
-/* Prism 미적용 블록(인라인 등): 스킴 색상 사용 */
-.prose pre:not([class*="language-"]),
-.prose
-    :where(pre):not([class*="language-"]):not(:where([class~="not-prose"] *)) {
-    background-color: var(--color-code-block-bg) !important;
-}
-.prose pre:not([class*="language-"]) code,
-.prose
-    :where(pre:not([class*="language-"]) code):not(
-        :where([class~="not-prose"] *)
-    ) {
+.prose pre:not(.shiki) code {
     color: var(--color-code-block-fg) !important;
-}
-/* 다크 모드: prism-tomorrow 스타일 토큰 색상 (가독성) */
-html.dark .prose pre[class*="language-"] {
-    color: #ccc;
-}
-html.dark .prose pre[class*="language-"] code,
-html.dark .prose pre[class*="language-"] .token.comment,
-html.dark .prose pre[class*="language-"] .token.block-comment,
-html.dark .prose pre[class*="language-"] .token.prolog,
-html.dark .prose pre[class*="language-"] .token.doctype,
-html.dark .prose pre[class*="language-"] .token.cdata {
-    color: #999 !important;
-}
-html.dark .prose pre[class*="language-"] .token.punctuation {
-    color: #ccc !important;
-}
-html.dark .prose pre[class*="language-"] .token.keyword {
-    color: #cc99cd !important;
-}
-html.dark .prose pre[class*="language-"] .token.operator {
-    color: #67cdcc !important;
-}
-html.dark .prose pre[class*="language-"] .token.string {
-    color: #7ec699 !important;
-}
-html.dark .prose pre[class*="language-"] .token.number {
-    color: #f08d49 !important;
-}
-html.dark .prose pre[class*="language-"] .token.function {
-    color: #f08d49 !important;
-}
-html.dark .prose pre[class*="language-"] .token.tag .token.punctuation {
-    color: #e2777a !important;
-}
-html.dark .prose pre[class*="language-"] .token.attr-name {
-    color: #e2777a !important;
-}
-html.dark .prose pre[class*="language-"] .token.attr-value {
-    color: #7ec699 !important;
 }
 .prose :where(:not(pre) > code):not(:where([class~="not-prose"] *)) {
     /* 인라인 코드 배경/텍스트 컬러 */

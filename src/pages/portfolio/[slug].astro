@@ -2,12 +2,12 @@
 /**
  * 포트폴리오 프로젝트 상세 페이지
  * 빌드 타임에 Supabase portfolio_items 테이블에서 fetch한다.
- * 마크다운 본문은 marked로 HTML 변환 후 set:html로 삽입한다. (G단계에서 Shiki로 교체 예정)
+ * 마크다운 본문은 unified + Shiki 파이프라인으로 HTML 변환한다.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { serverClient } from "@/lib/supabase";
 import type { PortfolioProject } from "@/types/portfolio";
-import { marked } from "marked";
+import { renderMarkdown } from "@/lib/markdown";
 
 export async function getStaticPaths() {
     if (!serverClient) return [];
@@ -49,8 +49,8 @@ const project: PortfolioProject = {
     badges: d.badges,
 };
 
-// 마크다운 → HTML 변환 (빌드 타임, G단계에서 Shiki 하이라이팅으로 교체 예정)
-const contentHtml = await marked.parse(item.content ?? "");
+// 마크다운 → HTML 변환 (unified + Shiki, 빌드 타임)
+const contentHtml = await renderMarkdown(item.content ?? "");
 ---
 
 <BaseLayout
