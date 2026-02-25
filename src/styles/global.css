@@ -286,6 +286,11 @@ html.dark .prose pre[class*="language-"] .token.attr-value {
     background-color: var(--color-code-bg);
     color: var(--color-code-fg);
 }
+/* Typography 플러그인 기본: 인라인 code에 ::before/::after로 백틱 추가 → 제거 */
+.prose :where(:not(pre) > code)::before,
+.prose :where(:not(pre) > code)::after {
+    content: none;
+}
 .prose a,
 .prose :where(a):not(:where([class~="not-prose"] *)) {
     /* 링크 컬러 */
