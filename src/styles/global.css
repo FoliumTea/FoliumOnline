@@ -1,12 +1,18 @@
-/* Tailwind CSS 4 - 전역 스타일 */
+/* @import는 파일 최상단에 배치 (CSS 규칙) */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
-
-/* Prism 문법 하이라이팅 — Tailwind 문서 스타일 (깔끔, text-shadow 없음) */
 @import "prismjs/themes/prism-tomorrow.css";
+
+@plugin "@tailwindcss/typography";
 
 /* 다크모드: html.dark 클래스 기반 (light/dark/system 토글 지원) */
 @custom-variant dark (&&:where(.dark, .dark *));
+
+/* 기본 폰트 — Pretendard 적용 */
+html,
+body {
+    font-family: var(--font-sans);
+}
 
 /*
  * Tailwind v4 권장 방식은 CSS-first이므로 theme/breakpoint는 이 파일에서 유지합니다.
@@ -14,6 +20,10 @@
  */
 /* 커스텀 테마 색상 + 브레이크포인트 (mobile 기본, tablet, desktop) */
 @theme {
+    --font-sans:
+        "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+        system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+        "Noto Sans KR", "Malgun Gothic", sans-serif;
     --color-folium-primary: #6366f1;
     --color-folium-secondary: #8b5cf6;
 
