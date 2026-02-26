@@ -14,6 +14,7 @@ import { useState } from "react";
 import { browserClient } from "@/lib/supabase";
 import PostsPanel from "@/components/admin/panels/PostsPanel";
 import PortfolioPanel from "@/components/admin/panels/PortfolioPanel";
+import TagsPanel from "@/components/admin/panels/TagsPanel";
 import AboutPanel from "@/components/admin/panels/AboutPanel";
 import SiteConfigPanel from "@/components/admin/panels/SiteConfigPanel";
 
@@ -21,6 +22,7 @@ import SiteConfigPanel from "@/components/admin/panels/SiteConfigPanel";
 const TABS = [
     { id: "posts", label: "포스트", icon: "📝" },
     { id: "portfolio", label: "포트폴리오", icon: "🗂️" },
+    { id: "tags", label: "태그", icon: "🏷️" },
     { id: "about", label: "About", icon: "👤" },
     { id: "config", label: "사이트 설정", icon: "⚙️" },
 ] as const;
@@ -85,6 +87,7 @@ export default function AdminDashboard() {
                 <main className="flex-1 overflow-y-auto p-6">
                     {activeTab === "posts" && <PostsPanel />}
                     {activeTab === "portfolio" && <PortfolioPanel />}
+                    {activeTab === "tags" && <TagsPanel />}
                     {activeTab === "about" && <AboutPanel />}
                     {activeTab === "config" && <SiteConfigPanel />}
                 </main>

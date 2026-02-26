@@ -173,7 +173,6 @@ git push origin main
 4. 브라우저에서 다음 주소로 접속함:
 
 - **사이트**: [http://localhost:4321](http://localhost:4321)
-    - **Keystatic(마크다운 에디터)**: [http://127.0.0.1:4321/keystatic](http://127.0.0.1:4321/keystatic)
     - **Admin 대시보드(Supabase 관리)**: [http://127.0.0.1:4321/admin](http://127.0.0.1:4321/admin)
 
 서버를 끄려면 터미널에서 `Ctrl + C` 누름.
@@ -319,15 +318,7 @@ JSON 형식이므로 **쉼표, 따옴표, 중괄호/대괄호**를 틀리지 않
 4. **published** 토글을 켜야 사이트에 노출됨.
 5. 저장 후 **게시** 버튼을 누르면 Vercel 재빌드가 트리거됨.
 
-### 10.2 Keystatic 에디터로 초안 작성 (선택)
-
-로컬 개발 환경에서 **Markdoc 에디터**를 쓰고 싶다면 Keystatic을 사용할 수 있음.
-
-1. `pnpm dev` 실행 후 **[http://127.0.0.1:4321/keystatic](http://127.0.0.1:4321/keystatic)** 접속.
-2. Posts 메뉴에서 새 글을 작성하면 `src/content/posts/` 폴더에 `.mdoc` 파일로 저장됨.
-3. 완성된 내용을 Supabase `posts` 테이블에 옮기거나, `pnpm migrate`로 마이그레이션할 수 있음.
-
-> **참고**: Keystatic은 로컬 파일에 저장하고, 실제 사이트는 Supabase에서 읽음. 두 시스템은 별개이므로, Keystatic에서 작성한 내용이 자동으로 Supabase에 올라가지는 않음.
+태그는 Admin의 **태그** 메뉴에서 미리 등록해 두면 포스트 작성 시 slug로 선택할 수 있음.
 
 ---
 
@@ -421,16 +412,16 @@ Admin 대시보드에 있는 **게시(Publish)** 버튼을 누르면 Vercel Depl
 
 ## 요약
 
-| 하고 싶은 일           | 어디서 / 어떤 파일                                                                                     |
-| ---------------------- | ------------------------------------------------------------------------------------------------------ |
-| 소개(About me) 채우기  | Admin 대시보드 → About 편집 → 즉시 반영                                                                |
-| 이력서 채우기          | `src/data/resume.json`, `src/data/resume_en.json` 편집 후 재빌드                                       |
-| 포트폴리오 추가·수정   | Admin 대시보드 → Portfolio 편집 → 게시(재빌드)                                                         |
-| 블로그 글 쓰기         | Admin 대시보드 → Posts 편집 → 게시(재빌드)                                                             |
-| 마크다운 에디터로 초안 | Keystatic ([http://127.0.0.1:4321/keystatic](http://127.0.0.1:4321/keystatic)) → `pnpm migrate`로 이관 |
-| 컬러 스킴 바꾸기       | Admin 대시보드 → Site Config → `color_scheme` 값 변경 → 즉시 반영                                      |
-| 재빌드 트리거          | Admin 대시보드 → 게시 버튼                                                                             |
-| 원본 변경 가져오기     | `git fetch upstream` → `git merge upstream/main` → `git push origin main`                              |
-| PR 보낼 때             | base를 **원본 저장소**로 두고, 원본을 base로 하는 PR은 만들지 않기                                     |
+| 하고 싶은 일          | 어디서 / 어떤 파일                                                        |
+| --------------------- | ------------------------------------------------------------------------- |
+| 소개(About me) 채우기 | Admin 대시보드 → About 편집 → 즉시 반영                                   |
+| 이력서 채우기         | `src/data/resume.json`, `src/data/resume_en.json` 편집 후 재빌드          |
+| 포트폴리오 추가·수정  | Admin 대시보드 → Portfolio 편집 → 게시(재빌드)                            |
+| 블로그 글 쓰기        | Admin 대시보드 → Posts 편집 → 게시(재빌드)                                |
+| 태그 관리             | Admin 대시보드 → Tags 편집                                                |
+| 컬러 스킴 바꾸기      | Admin 대시보드 → Site Config → `color_scheme` 값 변경 → 즉시 반영         |
+| 재빌드 트리거         | Admin 대시보드 → 게시 버튼                                                |
+| 원본 변경 가져오기    | `git fetch upstream` → `git merge upstream/main` → `git push origin main` |
+| PR 보낼 때            | base를 **원본 저장소**로 두고, 원본을 base로 하는 PR은 만들지 않기        |
 
 추가로 궁금한 점이 있으면 프로젝트의 README.md, CHANGES.md, docs/ 폴더 안 문서를 참고하면 됨.

@@ -1,7 +1,7 @@
 /**
  * 다크모드 토글 컴포넌트
  * - hover 시 드롭다운 메뉴 표시
- * - Light / Dark / System 옵션 클릭 선택 (Keystatic 스타일)
+ * - Light / Dark / System 옵션 클릭 선택
  */
 import { useState, useEffect } from "react";
 

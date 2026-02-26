@@ -29,8 +29,5 @@ Thumbs.db
 npm-debug.log*
 pnpm-debug.log*
 
-# Keystatic
-.keystatic
-
 # Vercel
 .vercel

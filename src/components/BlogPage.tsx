@@ -5,7 +5,7 @@
  */
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 
-/** Keystatic 태그 색상으로 사용해도 안전한 CSS 값인지 검사 (hex 3/6/8자리, rgb, rgba만 허용) */
+/** 태그 색상으로 사용해도 안전한 CSS 값인지 검사 (hex 3/6/8자리, rgb, rgba만 허용) */
 function isSafeCssColor(value: string): boolean {
     const t = value.trim();
     if (/^#[0-9A-Fa-f]{3,8}$/.test(t)) return true;
@@ -76,7 +76,7 @@ export interface PostItem {
     category: string | null;
     /** 태그 slug 배열 (필터링용) */
     tags: string[];
-    /** 태그 표시용 (이름 + Keystatic에서 설정한 색상) */
+    /** 태그 표시용 (이름 + Admin에서 설정한 색상) */
     tagsDisplay: { name: string; color?: string }[];
     thumbnailUrl: string | null;
 }
@@ -92,7 +92,7 @@ interface Props {
     posts: PostItem[];
     categories: FilterMeta[];
     tags: FilterMeta[];
-    /** dev 모드에서만 true, Keystatic 포스트 작성 버튼 표시 */
+    /** dev 모드에서만 true, Admin 포스트 작성 버튼 표시 */
     showWritePost?: boolean;
 }
 
@@ -318,7 +318,7 @@ export default function BlogPage({
                     </h1>
                     {showWritePost && (
                         <a
-                            href="/keystatic"
+                            href="/admin"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="shrink-0 px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) font-medium hover:opacity-90 transition-opacity text-sm"

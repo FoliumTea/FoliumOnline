@@ -7,7 +7,6 @@
 - **Frontend**: Astro 5+ (output: static)
 - **UI 라이브러리**: React 19 (클라이언트 Islands)
 - **데이터 스토어**: Supabase (PostgreSQL + RLS)
-- **로컬 CMS**: Keystatic (Markdoc 에디터, 개발 환경 전용)
 - **Styling**: Tailwind CSS 4+, @tailwindcss/typography
 - **마크다운 렌더링**: @markdoc/markdoc + @shikijs/rehype (Shiki 구문 강조)
 - **Language**: TypeScript
@@ -76,7 +75,6 @@ pnpm dev
 ```
 
 - 사이트: http://localhost:4321
-- Keystatic Admin (개발용): http://127.0.0.1:4321/keystatic
 - Admin 대시보드 (Supabase 관리): http://127.0.0.1:4321/admin
 
 ## 환경 변수
@@ -116,7 +114,6 @@ pnpm dev
 | `rehype-slug`              | 헤딩에 ID 자동 부여                                      |
 | `rehype-autolink-headings` | 헤딩 앵커 링크 자동 생성                                 |
 | `@supabase/supabase-js`    | Supabase 클라이언트 (서버/브라우저 분리)                 |
-| `@keystatic/core`          | 로컬 Markdoc 에디터 (개발 환경 콘텐츠 작성용)            |
 
 ## Supabase 테이블 구조
 
@@ -126,6 +123,9 @@ pnpm dev
 | `about_data`      | JSON 구조                                                           | About me 프로필 (런타임 fetch)    |
 | `posts`           | `slug`, `title`, `content`, `published`, `tags`, `pub_date`         | 블로그 포스트                     |
 | `portfolio_items` | `slug`, `title`, `content`, `published`, `tags`, `data`, `featured` | 포트폴리오 프로젝트               |
+| `tags`            | `slug`, `name`, `color`                                             | 블로그 태그 표시명·색상           |
+
+태그 테이블 생성: `supabase/migrations/002_tags_table.sql`을 Supabase SQL Editor에서 실행.
 
 ## upstream(FoliumOnline)과 동기화
 

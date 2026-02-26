@@ -1,12 +1,10 @@
 ---
 /**
  * 블로그 포스트 상세 페이지
- * 빌드 타임에 Supabase posts 테이블에서 fetch한다.
- * 태그 표시명·색상은 로컬 src/content/tags/* (getCollection)에서 조회한다.
+ * 빌드 타임에 Supabase posts, tags 테이블에서 fetch한다.
  * 마크다운 본문은 Markdoc + Shiki 파이프라인으로 HTML 변환한다.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
 import { serverClient } from "@/lib/supabase";
 import { formatPubDateKST } from "@/lib/blog";
 import { renderMarkdown } from "@/lib/markdown";
@@ -32,22 +30,21 @@ const { data: post } = await serverClient
 
 if (!post) return Astro.redirect("/blog");
 
-// 태그 slug → 표시명, 색상 매핑 (로컬 tags 컬렉션)
+// 태그 slug → 표시명, 색상 매핑 (Supabase tags 테이블)
 let slugToTagName = new Map<string, string>();
 let slugToTagColor = new Map<string, string>();
-try {
-    const tagsEntries = await getCollection("tags");
-    slugToTagName = new Map(tagsEntries.map((t) => [t.id, t.data.name]));
-    slugToTagColor = new Map(
-        tagsEntries
-            .filter((t) => t.data.color?.trim())
-            .map((t) => [
-                t.id,
-                t.data.color!.trim().replace(/^['"]|['"]$/g, ""),
-            ])
-    );
-} catch {
-    // tags 컬렉션 없으면 slug를 그대로 표시
+if (serverClient) {
+    const { data: tagsData } = await serverClient
+        .from("tags")
+        .select("slug, name, color");
+    if (tagsData) {
+        slugToTagName = new Map(tagsData.map((t) => [t.slug, t.name]));
+        slugToTagColor = new Map(
+            tagsData
+                .filter((t) => t.color?.trim())
+                .map((t) => [t.slug, t.color!.trim()])
+        );
+    }
 }
 
 // 마크다운 → HTML 변환 (Markdoc + Shiki, 빌드 타임)

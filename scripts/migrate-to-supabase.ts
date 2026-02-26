@@ -5,8 +5,12 @@
  *   - src/data/about.json     → about_data 테이블
  *   - src/data/resume.json    → resume_data 테이블 (lang: 'ko')
  *   - src/data/resume_en.json → resume_data 테이블 (lang: 'en')
- *   - src/content/posts/*.mdoc    → posts 테이블
- *   - src/content/portfolio/*.mdoc → portfolio_items 테이블
+ *   - src/content/posts/*.mdoc    → posts 테이블 (파일 없으면 건너뜀)
+ *   - src/content/portfolio/*.mdoc → portfolio_items 테이블 (파일 없으면 건너뜀)
+ *   - src/content/tags/*.yaml     → tags 테이블 (파일 없으면 건너뜀)
+ *
+ * ※ posts/portfolio는 Admin UI에서 Supabase를 직접 편집하는 구조로 전환됨.
+ *    mdoc 백업이 있을 때만 마이그레이션에 사용된다.
  *
  * 실행 방법:
  *   1. .env.local 에 SUPABASE_SERVICE_ROLE_KEY 포함 모든 env 설정
@@ -16,7 +20,7 @@
  */
 
 import { createClient } from "@supabase/supabase-js";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -105,9 +109,9 @@ function parseMdoc(raw: string): {
     return { frontmatter: fm, content };
 }
 
-// ── 헬퍼: slug 추출 (파일명에서 .mdoc 제거) ────────────────
-function toSlug(filename: string): string {
-    return basename(filename, ".mdoc");
+// ── 헬퍼: slug 추출 ───────────────────────────────────────
+function toSlug(filename: string, ext: string): string {
+    return basename(filename, ext);
 }
 
 // ── 1. about.json 마이그레이션 ──────────────────────────────
@@ -165,10 +169,18 @@ async function migrateResume(): Promise<void> {
 async function migratePosts(): Promise<void> {
     console.log("\n📝 블로그 포스트 마이그레이션 중...");
     const dir = join(process.cwd(), "src/content/posts");
+    if (!existsSync(dir)) {
+        console.log("  ⚠️  src/content/posts 없음, 건너뜀");
+        return;
+    }
     const files = readdirSync(dir).filter((f) => f.endsWith(".mdoc"));
+    if (files.length === 0) {
+        console.log("  ⚠️  mdoc 파일 없음, 건너뜀");
+        return;
+    }
 
     for (const file of files) {
-        const slug = toSlug(file);
+        const slug = toSlug(file, ".mdoc");
         const raw = readFileSync(join(dir, file), "utf-8");
         const { frontmatter: fm, content } = parseMdoc(raw);
 
@@ -196,14 +208,73 @@ async function migratePosts(): Promise<void> {
     }
 }
 
-// ── 4. portfolio/*.mdoc 마이그레이션 ────────────────────────
+// ── 4. tags/*.yaml 마이그레이션 ─────────────────────────────
+function parseTagYaml(raw: string): { name: string; color?: string } {
+    const result: Record<string, string> = {};
+    for (const line of raw.split("\n")) {
+        const colonIdx = line.indexOf(":");
+        if (colonIdx === -1) continue;
+        const key = line.slice(0, colonIdx).trim();
+        const val = line
+            .slice(colonIdx + 1)
+            .trim()
+            .replace(/^['"]|['"]$/g, "");
+        result[key] = val;
+    }
+    return { name: result.name ?? "", color: result.color || undefined };
+}
+
+async function migrateTags(): Promise<void> {
+    console.log("\n🏷️  태그 마이그레이션 중...");
+    const dir = join(process.cwd(), "src/content/tags");
+    if (!existsSync(dir)) {
+        console.log("  ⚠️  src/content/tags 없음, 건너뜀");
+        return;
+    }
+    const files = readdirSync(dir).filter((f) => f.endsWith(".yaml"));
+    if (files.length === 0) {
+        console.log("  ⚠️  yaml 파일 없음, 건너뜀");
+        return;
+    }
+
+    for (const file of files) {
+        const slug = toSlug(file, ".yaml");
+        const raw = readFileSync(join(dir, file), "utf-8");
+        const { name, color } = parseTagYaml(raw);
+        if (!name.trim()) {
+            console.log(`  ⚠️  ${slug}: name 없음, 건너뜀`);
+            continue;
+        }
+        const { error } = await supabase
+            .from("tags")
+            .upsert(
+                { slug, name: name.trim(), color: color?.trim() || null },
+                { onConflict: "slug" }
+            );
+        if (error) {
+            console.error(`  ❌ ${slug} 저장 실패: ${error.message}`);
+        } else {
+            console.log(`  ✅ ${slug}`);
+        }
+    }
+}
+
+// ── 5. portfolio/*.mdoc 마이그레이션 ────────────────────────
 async function migratePortfolio(): Promise<void> {
     console.log("\n🗂️  포트폴리오 마이그레이션 중...");
     const dir = join(process.cwd(), "src/content/portfolio");
+    if (!existsSync(dir)) {
+        console.log("  ⚠️  src/content/portfolio 없음, 건너뜀");
+        return;
+    }
     const files = readdirSync(dir).filter((f) => f.endsWith(".mdoc"));
+    if (files.length === 0) {
+        console.log("  ⚠️  mdoc 파일 없음, 건너뜀");
+        return;
+    }
 
     for (const [idx, file] of files.entries()) {
-        const slug = toSlug(file);
+        const slug = toSlug(file, ".mdoc");
         const raw = readFileSync(join(dir, file), "utf-8");
         const { frontmatter: fm, content } = parseMdoc(raw);
 
@@ -249,6 +320,7 @@ async function main(): Promise<void> {
     await migrateAbout();
     await migrateResume();
     await migratePosts();
+    await migrateTags();
     await migratePortfolio();
 
     console.log("\n🎉 마이그레이션 완료!");

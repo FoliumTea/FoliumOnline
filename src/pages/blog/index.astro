@@ -1,11 +1,10 @@
 ---
 /**
  * Blog 목록 페이지
- * 빌드 타임에 Supabase posts 테이블에서 published 포스트를 fetch한다.
+ * 빌드 타임에 Supabase posts, tags 테이블에서 fetch한다.
  * serverClient 없으면 빈 목록으로 처리.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
 import { serverClient } from "@/lib/supabase";
 import {
     getFirstImageFromContent,
@@ -15,22 +14,21 @@ import {
 import type { PostItem, FilterMeta } from "@/components/BlogPage";
 import BlogPage from "@/components/BlogPage";
 
-// 태그 slug → 표시명, 색상 매핑 (로컬 tags 컬렉션)
+// 태그 slug → 표시명, 색상 매핑 (Supabase tags 테이블)
 let slugToTagName = new Map<string, string>();
 let slugToTagColor = new Map<string, string>();
-try {
-    const tagsEntries = await getCollection("tags");
-    slugToTagName = new Map(tagsEntries.map((t) => [t.id, t.data.name]));
-    slugToTagColor = new Map(
-        tagsEntries
-            .filter((t) => t.data.color?.trim())
-            .map((t) => [
-                t.id,
-                t.data.color!.trim().replace(/^['"]|['"]$/g, ""),
-            ])
-    );
-} catch {
-    // tags 컬렉션 없으면 slug를 그대로 표시
+if (serverClient) {
+    const { data: tagsData } = await serverClient
+        .from("tags")
+        .select("slug, name, color");
+    if (tagsData) {
+        slugToTagName = new Map(tagsData.map((t) => [t.slug, t.name]));
+        slugToTagColor = new Map(
+            tagsData
+                .filter((t) => t.color?.trim())
+                .map((t) => [t.slug, t.color!.trim()])
+        );
+    }
 }
 
 let postItems: PostItem[] = [];
