@@ -322,9 +322,18 @@ JSON 형식이므로 **쉼표, 따옴표, 중괄호/대괄호**를 틀리지 않
 
 ---
 
-## 11. 커스텀 콘텐츠 블록 (folium-table, youtube)
+## 11. 커스텀 콘텐츠 블록 (folium-table, youtube, 이미지)
 
 포트폴리오/블로그 본문 안에서 **특별한 블록**을 삽입할 수 있음. 이 태그는 **Markdoc 문법**을 따름.
+
+### 11.0 이미지 업로드·삽입
+
+Admin에서 본문 편집 시 **이미지** 버튼을 누르면:
+
+- **파일 업로드**: 로컬 이미지를 끌어다 놓거나 선택. WebP로 변환 후 Supabase Storage에 저장되어 마크다운 `![](url)` 형식으로 삽입됨.
+- **URL 입력**: 이미지 URL을 붙여넣기. "URL 그대로"로 바로 삽입하거나, "Supabase에 저장"을 선택하면 fetch 후 WebP 변환·업로드(CORS 허용 시).
+
+이미지 업로드를 사용하려면 `supabase/migrations/003_storage_images_bucket.sql`을 Supabase SQL Editor에서 먼저 실행해야 함.
 
 ### 11.1 folium-table — 스타일 있는 표
 

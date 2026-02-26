@@ -1,12 +1,13 @@
 /**
  * MarkdownBlockInserter
  *
- * folium-table, youtube 등 Markdoc 커스텀 블록을 UI 폼으로 삽입.
+ * folium-table, youtube 등 Markdoc 커스텀 블록 + 이미지 삽입.
  * Keystatic 스타일의 블록 삽입 인터페이스.
  */
 import { useState, useCallback } from "react";
+import ImageUploader from "@/components/admin/ImageUploader";
 
-export type InsertMode = "folium-table" | "youtube" | null;
+export type InsertMode = "folium-table" | "youtube" | "image" | null;
 
 interface MarkdownBlockInserterProps {
     content: string;
@@ -171,7 +172,23 @@ export default function MarkdownBlockInserter({
                 >
                     ▶ YouTube
                 </button>
+                <button
+                    type="button"
+                    onClick={() => setModal("image")}
+                    disabled={disabled}
+                    className="px-2.5 py-1 rounded-md border border-(--color-border) text-xs font-medium text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
+                >
+                    🖼 이미지
+                </button>
             </div>
+
+            {/* 이미지 업로드 모달 */}
+            {modal === "image" && (
+                <ImageUploader
+                    onInsert={insertAtCursor}
+                    onClose={() => setModal(null)}
+                />
+            )}
 
             {/* Folium Table 모달 */}
             {modal === "folium-table" && (

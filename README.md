@@ -126,6 +126,7 @@ pnpm dev
 | `tags`            | `slug`, `name`, `color`                                             | 블로그 태그 표시명·색상           |
 
 태그 테이블 생성: `supabase/migrations/002_tags_table.sql`을 Supabase SQL Editor에서 실행.
+이미지 업로드용 Storage 버킷: `supabase/migrations/003_storage_images_bucket.sql`을 실행.
 
 ## upstream(FoliumOnline)과 동기화
 
