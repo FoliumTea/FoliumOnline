@@ -5,6 +5,7 @@
  * serverClient 없으면 빈 목록으로 처리.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 import { serverClient } from "@/lib/supabase";
 import {
     getFirstImageFromContent,
@@ -13,6 +14,24 @@ import {
 } from "@/lib/blog";
 import type { PostItem, FilterMeta } from "@/components/BlogPage";
 import BlogPage from "@/components/BlogPage";
+
+// 태그 slug → 표시명, 색상 매핑 (로컬 tags 컬렉션)
+let slugToTagName = new Map<string, string>();
+let slugToTagColor = new Map<string, string>();
+try {
+    const tagsEntries = await getCollection("tags");
+    slugToTagName = new Map(tagsEntries.map((t) => [t.id, t.data.name]));
+    slugToTagColor = new Map(
+        tagsEntries
+            .filter((t) => t.data.color?.trim())
+            .map((t) => [
+                t.id,
+                t.data.color!.trim().replace(/^['"]|['"]$/g, ""),
+            ])
+    );
+} catch {
+    // tags 컬렉션 없으면 slug를 그대로 표시
+}
 
 let postItems: PostItem[] = [];
 let categories: FilterMeta[] = [];
@@ -44,9 +63,11 @@ if (serverClient) {
                 pubDateFormatted: formatPubDateKST(pubDate),
                 pubDateIso: pubDate.toISOString(),
                 category: post.category?.trim() ?? null,
-                // 태그는 Supabase TEXT[]에서 이름 그대로 사용
                 tags: tagList,
-                tagsDisplay: tagList.map((t) => ({ name: t })),
+                tagsDisplay: tagList.map((t) => ({
+                    name: slugToTagName.get(t) ?? t,
+                    color: slugToTagColor.get(t),
+                })),
                 thumbnailUrl,
             };
         });
@@ -60,13 +81,18 @@ if (serverClient) {
                     p.category,
                     (categoryCount.get(p.category) ?? 0) + 1
                 );
-            for (const t of p.tags) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
+            for (const t of p.tags)
+                if (t) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
         }
         categories = [...categoryCount.entries()]
             .map(([name, count]) => ({ name, count }))
             .sort((a, b) => a.name.localeCompare(b.name));
         tags = [...tagCount.entries()]
-            .map(([name, count]) => ({ slug: name, name, count }))
+            .map(([slug, count]) => ({
+                slug,
+                name: slugToTagName.get(slug) ?? slug,
+                count,
+            }))
             .sort((a, b) => a.name.localeCompare(b.name));
     }
 }

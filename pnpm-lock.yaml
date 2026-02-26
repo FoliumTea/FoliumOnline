@@ -17,6 +17,9 @@ dependencies:
   '@keystatic/core':
     specifier: ^0.5.48
     version: 0.5.48(react-dom@19.2.4)(react@19.2.4)
+  '@markdoc/markdoc':
+    specifier: ^0.4.0
+    version: 0.4.0(@types/react@19.2.14)(react@19.2.4)
   '@shikijs/rehype':
     specifier: ^3.7.0
     version: 3.23.0
@@ -35,24 +38,15 @@ dependencies:
   rehype-autolink-headings:
     specifier: ^7.1.0
     version: 7.1.0
-  rehype-raw:
-    specifier: ^7.0.0
-    version: 7.0.0
+  rehype-parse:
+    specifier: ^9.0.1
+    version: 9.0.1
   rehype-slug:
     specifier: ^6.0.0
     version: 6.0.0
   rehype-stringify:
     specifier: ^10.0.1
     version: 10.0.1
-  remark-gfm:
-    specifier: ^4.0.1
-    version: 4.0.1
-  remark-parse:
-    specifier: ^11.0.0
-    version: 11.0.0
-  remark-rehype:
-    specifier: ^11.1.2
-    version: 11.1.2
   unified:
     specifier: ^11.0.5
     version: 11.0.5
