@@ -158,16 +158,16 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
                     return (
                         <section class="resume-section">
                             <h2 class="resume-section-title">경력</h2>
-                            <div class="ds-timeline">
+                            <div class="resume-timeline">
                                 {sectionValue.map((workItem) => (
-                                    <div class="ds-timeline-item">
+                                    <div class="resume-timeline-item">
                                         {/* accent 색 도트 */}
-                                        <div class="ds-timeline-dot" />
-                                        <div class="ds-timeline-body">
+                                        <div class="resume-timeline-dot" />
+                                        <div class="resume-timeline-body">
                                             {/* 날짜: 상단 소문자 강조 */}
                                             {(workItem.startDate ||
                                                 workItem.endDate) && (
-                                                <p class="ds-timeline-date">
+                                                <p class="resume-timeline-date">
                                                     {formatDateRange(
                                                         workItem.startDate,
                                                         workItem.endDate
@@ -176,7 +176,7 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
                                             )}
                                             {/* 회사명 */}
                                             {workItem.name ? (
-                                                <h3 class="ds-timeline-org">
+                                                <h3 class="resume-timeline-org">
                                                     {workItem.url ? (
                                                         <a
                                                             href={workItem.url}
@@ -192,25 +192,25 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
                                             ) : null}
                                             {/* 직책 */}
                                             {workItem.position ? (
-                                                <p class="ds-timeline-position">
+                                                <p class="resume-timeline-position">
                                                     {workItem.position}
                                                 </p>
                                             ) : null}
                                             {/* 요약 */}
                                             {workItem.summary ? (
-                                                <p class="ds-timeline-summary">
+                                                <p class="resume-timeline-summary">
                                                     {workItem.summary}
                                                 </p>
                                             ) : null}
                                             {/* 하이라이트 불릿 */}
                                             {workItem.highlights &&
                                             workItem.highlights.length > 0 ? (
-                                                <ul class="ds-timeline-highlights">
+                                                <ul class="resume-timeline-highlights">
                                                     {workItem.highlights.map(
                                                         (highlight: string) => (
                                                             <li>
                                                                 <span
-                                                                    class="ds-bullet"
+                                                                    class="resume-bullet"
                                                                     aria-hidden
                                                                 >
                                                                     ◆
@@ -627,23 +627,23 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
     }
 
     /* ── 레퍼런스 스타일 타임라인 (work 섹션) ─────────────── */
-    .ds-timeline {
+    .resume-timeline {
         position: relative;
         padding-left: 2rem;
         border-left: 4px solid var(--color-border);
     }
 
-    .ds-timeline-item {
+    .resume-timeline-item {
         position: relative;
         padding-bottom: 2.5rem;
     }
 
-    .ds-timeline-item:last-child {
+    .resume-timeline-item:last-child {
         padding-bottom: 0;
     }
 
     /* accent 색 원형 도트 */
-    .ds-timeline-dot {
+    .resume-timeline-dot {
         position: absolute;
         left: calc(-2rem - 10px); /* border-left(4px) + 중앙 보정 */
         top: 0.25rem;
@@ -656,12 +656,12 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
         flex-shrink: 0;
     }
 
-    .ds-timeline-body {
+    .resume-timeline-body {
         padding-left: 0.5rem;
     }
 
     /* 날짜: 대문자 + 자간 넓게 */
-    .ds-timeline-date {
+    .resume-timeline-date {
         font-size: 0.8rem;
         font-weight: 700;
         color: var(--color-muted);
@@ -671,7 +671,7 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
     }
 
     /* 회사명: 크고 굵게 */
-    .ds-timeline-org {
+    .resume-timeline-org {
         font-size: 1.5rem;
         font-weight: 900;
         color: var(--color-foreground);
@@ -679,24 +679,24 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
         line-height: 1.2;
     }
 
-    .ds-timeline-org a {
+    .resume-timeline-org a {
         color: inherit;
         text-decoration: none;
     }
 
-    .ds-timeline-org a:hover {
+    .resume-timeline-org a:hover {
         text-decoration: underline;
     }
 
     /* 직책: accent 색 */
-    .ds-timeline-position {
+    .resume-timeline-position {
         font-size: 1.05rem;
         font-weight: 700;
         color: var(--color-accent);
         margin: 0 0 0.5rem 0;
     }
 
-    .ds-timeline-summary {
+    .resume-timeline-summary {
         font-size: 0.95rem;
         line-height: 1.65;
         color: var(--color-foreground);
@@ -704,7 +704,7 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
     }
 
     /* 불릿 리스트 */
-    .ds-timeline-highlights {
+    .resume-timeline-highlights {
         list-style: none;
         margin: 0;
         padding: 0;
@@ -713,7 +713,7 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
         gap: 0.5rem;
     }
 
-    .ds-timeline-highlights li {
+    .resume-timeline-highlights li {
         display: flex;
         align-items: baseline;
         gap: 0.5rem;
@@ -724,7 +724,7 @@ const formatDateRange = (startDate?: string, endDate?: string): string => {
     }
 
     /* accent 색 소형 불릿 */
-    .ds-bullet {
+    .resume-bullet {
         color: var(--color-accent);
         font-size: 0.65rem;
         flex-shrink: 0;
