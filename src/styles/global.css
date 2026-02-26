@@ -262,6 +262,29 @@ body {
     opacity: 0.85;
 }
 
+/* TOC 앵커 스크롤: 스티키 헤더 높이만큼 여백 (클릭 시 제목이 헤더에 가려지지 않도록) */
+.prose h1[id],
+.prose h2[id],
+.prose h3[id],
+.prose h4[id] {
+    scroll-margin-top: 6rem;
+}
+
+/* 헤딩 내 앵커 링크: 밑줄 제거 (rehype-autolink-headings) */
+.prose h1 a,
+.prose h2 a,
+.prose h3 a,
+.prose h4 a {
+    text-decoration: none;
+}
+.prose h1 a:hover,
+.prose h2 a:hover,
+.prose h3 a:hover,
+.prose h4 a:hover {
+    text-decoration: none;
+    opacity: 0.85;
+}
+
 /* ── FoliumTable ──────────────────────────────────────────────────── */
 /* renderMarkdown()이 생성한 HTML에 적용 (FoliumTable.astro scoped 스타일 대체) */
 .folium-table-wrapper {

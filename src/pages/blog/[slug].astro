@@ -8,6 +8,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { serverClient } from "@/lib/supabase";
 import { formatPubDateKST } from "@/lib/blog";
 import { renderMarkdown } from "@/lib/markdown";
+import { extractTocFromHtml } from "@/lib/toc";
+import TableOfContents from "@/components/TableOfContents";
 
 export async function getStaticPaths() {
     if (!serverClient) return [];
@@ -49,6 +51,7 @@ if (serverClient) {
 
 // 마크다운 → HTML 변환 (Markdoc + Shiki, 빌드 타임)
 const contentHtml = await renderMarkdown(post.content ?? "");
+const tocEntries = extractTocFromHtml(contentHtml);
 
 const category: string = post.category?.trim() ?? "";
 const tagSlugs: string[] = post.tags ?? [];
@@ -64,66 +67,73 @@ const pageTitle = category
 ---
 
 <BaseLayout title={pageTitle} description={post.description ?? ""}>
-    <article class="max-w-3xl mx-auto">
-        <header class="mb-6">
-            <h1
-                class="text-4xl font-bold mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-1"
-            >
+    <div class="flex gap-12 max-w-5xl mx-auto">
+        <article class="flex-1 min-w-0 max-w-3xl">
+            <header class="mb-6">
+                <h1
+                    class="text-4xl font-bold mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-1"
+                >
+                    {
+                        category ? (
+                            <>
+                                <span class="text-4xl font-bold text-(--color-highlight)">
+                                    {category}
+                                </span>
+                                <span class="text-(--color-muted)" aria-hidden>
+                                    |
+                                </span>
+                            </>
+                        ) : null
+                    }
+                    <span>{post.title}</span>
+                </h1>
                 {
-                    category ? (
-                        <>
-                            <span class="text-4xl font-bold text-(--color-highlight)">
-                                {category}
-                            </span>
-                            <span class="text-(--color-muted)" aria-hidden>
-                                |
-                            </span>
-                        </>
-                    ) : null
+                    post.description && (
+                        <p class="text-lg text-(--color-muted)">
+                            {post.description}
+                        </p>
+                    )
                 }
-                <span>{post.title}</span>
-            </h1>
-            {
-                post.description && (
-                    <p class="text-lg text-(--color-muted)">
-                        {post.description}
-                    </p>
-                )
-            }
-            <time
-                class="text-sm text-(--color-muted) block mt-2"
-                datetime={pubDate.toISOString()}
-            >
-                {formatPubDateKST(pubDate)}
-            </time>
-            {
-                tagDisplay.length > 0 && (
-                    <div class="flex flex-wrap gap-2 mt-4" aria-label="태그">
-                        {tagDisplay.map((t) => (
-                            <a
-                                href={`/blog?tag=${encodeURIComponent(t.slug)}`}
-                                class="px-2 py-1 text-xs rounded-full bg-(--color-tag-bg) text-(--color-tag-fg) hover:opacity-85 transition-opacity"
-                                style={
-                                    t.color
-                                        ? {
-                                              backgroundColor: t.color,
-                                              color: "#fff",
-                                          }
-                                        : undefined
-                                }
-                            >
-                                {t.name}
-                            </a>
-                        ))}
-                    </div>
-                )
-            }
-        </header>
-        <div
-            class="post-content prose dark:prose-invert max-w-none"
-            set:html={contentHtml}
-        />
-    </article>
+                <time
+                    class="text-sm text-(--color-muted) block mt-2"
+                    datetime={pubDate.toISOString()}
+                >
+                    {formatPubDateKST(pubDate)}
+                </time>
+                {
+                    tagDisplay.length > 0 && (
+                        <div
+                            class="flex flex-wrap gap-2 mt-4"
+                            aria-label="태그"
+                        >
+                            {tagDisplay.map((t) => (
+                                <a
+                                    href={`/blog?tag=${encodeURIComponent(t.slug)}`}
+                                    class="px-2 py-1 text-xs rounded-full bg-(--color-tag-bg) text-(--color-tag-fg) hover:opacity-85 transition-opacity"
+                                    style={
+                                        t.color
+                                            ? {
+                                                  backgroundColor: t.color,
+                                                  color: "#fff",
+                                              }
+                                            : undefined
+                                    }
+                                >
+                                    {t.name}
+                                </a>
+                            ))}
+                        </div>
+                    )
+                }
+            </header>
+            <div
+                class="post-content prose dark:prose-invert max-w-none"
+                data-content="true"
+                set:html={contentHtml}
+            />
+        </article>
+        <TableOfContents client:visible entries={tocEntries} />
+    </div>
 </BaseLayout>
 
 <script>
