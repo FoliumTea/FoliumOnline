@@ -1,54 +1,72 @@
 ---
 /**
  * 블로그 포스트 상세 페이지
- * - Keystatic/Content Collections 기반
+ * 빌드 타임에 Supabase posts 테이블에서 fetch한다.
+ * 태그 표시명·색상은 로컬 src/content/tags/* (getCollection)에서 조회한다.
+ * 마크다운 본문은 Markdoc + Shiki 파이프라인으로 HTML 변환한다.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import { serverClient } from "@/lib/supabase";
 import { formatPubDateKST } from "@/lib/blog";
+import { renderMarkdown } from "@/lib/markdown";
 
 export async function getStaticPaths() {
-    try {
-        const [posts, tagsEntries] = await Promise.all([
-            getCollection("posts"),
-            getCollection("tags").catch(() => []),
-        ]);
-        const slugToTagName = new Map(
-            tagsEntries.map((t) => [t.id, t.data.name])
-        );
-        const slugToTagColor = new Map(
-            tagsEntries
-                .filter((t) => t.data.color?.trim())
-                .map((t) => [
-                    t.id,
-                    t.data.color!.trim().replace(/^['"]|['"]$/g, ""),
-                ])
-        );
-        return posts.map((post) => ({
-            params: { slug: post.slug },
-            props: {
-                post,
-                tagDisplay: (post.data.tags ?? []).filter(Boolean).map((s) => ({
-                    slug: s,
-                    name: slugToTagName.get(s) ?? s,
-                    color: slugToTagColor.get(s),
-                })),
-            },
-        }));
-    } catch {
-        return [];
-    }
+    if (!serverClient) return [];
+    const { data: posts } = await serverClient
+        .from("posts")
+        .select("slug")
+        .eq("published", true);
+    if (!posts) return [];
+    return posts.map((p) => ({ params: { slug: p.slug } }));
 }
 
-const { post, tagDisplay } = Astro.props;
-const { Content } = await post.render();
-const category = post.data.category?.trim() ?? "";
+const { slug } = Astro.params;
+if (!slug || !serverClient) return Astro.redirect("/blog");
+
+const { data: post } = await serverClient
+    .from("posts")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+if (!post) return Astro.redirect("/blog");
+
+// 태그 slug → 표시명, 색상 매핑 (로컬 tags 컬렉션)
+let slugToTagName = new Map<string, string>();
+let slugToTagColor = new Map<string, string>();
+try {
+    const tagsEntries = await getCollection("tags");
+    slugToTagName = new Map(tagsEntries.map((t) => [t.id, t.data.name]));
+    slugToTagColor = new Map(
+        tagsEntries
+            .filter((t) => t.data.color?.trim())
+            .map((t) => [
+                t.id,
+                t.data.color!.trim().replace(/^['"]|['"]$/g, ""),
+            ])
+    );
+} catch {
+    // tags 컬렉션 없으면 slug를 그대로 표시
+}
+
+// 마크다운 → HTML 변환 (Markdoc + Shiki, 빌드 타임)
+const contentHtml = await renderMarkdown(post.content ?? "");
+
+const category: string = post.category?.trim() ?? "";
+const tagSlugs: string[] = post.tags ?? [];
+const tagDisplay = tagSlugs.filter(Boolean).map((s) => ({
+    slug: s,
+    name: slugToTagName.get(s) ?? s,
+    color: slugToTagColor.get(s),
+}));
+const pubDate = new Date(post.pub_date);
 const pageTitle = category
-    ? `${category} | ${post.data.title} - FoliumOnline`
-    : `${post.data.title} - FoliumOnline`;
+    ? `${category} | ${post.title} - FoliumOnline`
+    : `${post.title} - FoliumOnline`;
 ---
 
-<BaseLayout title={pageTitle} description={post.data.description ?? ""}>
+<BaseLayout title={pageTitle} description={post.description ?? ""}>
     <article class="max-w-3xl mx-auto">
         <header class="mb-6">
             <h1
@@ -66,20 +84,20 @@ const pageTitle = category
                         </>
                     ) : null
                 }
-                <span>{post.data.title}</span>
+                <span>{post.title}</span>
             </h1>
             {
-                post.data.description && (
+                post.description && (
                     <p class="text-lg text-(--color-muted)">
-                        {post.data.description}
+                        {post.description}
                     </p>
                 )
             }
             <time
                 class="text-sm text-(--color-muted) block mt-2"
-                datetime={post.data.pubDate.toISOString()}
+                datetime={pubDate.toISOString()}
             >
-                {formatPubDateKST(post.data.pubDate)}
+                {formatPubDateKST(pubDate)}
             </time>
             {
                 tagDisplay.length > 0 && (
@@ -104,97 +122,26 @@ const pageTitle = category
                 )
             }
         </header>
-        <div class="post-content prose dark:prose-invert max-w-none">
-            <Content />
-        </div>
+        <div
+            class="post-content prose dark:prose-invert max-w-none"
+            set:html={contentHtml}
+        />
     </article>
 </BaseLayout>
 
 <script>
-    import { getMermaidConfig } from "@/lib/mermaid-themes";
-    /**
-     * Markdoc 본문 내 ```mermaid 코드 블록을 클라이언트에서 Mermaid로 렌더링.
-     * Markdoc 출력: pre[data-language="mermaid"] (내부에 code 없음) 또는 pre > code.language-mermaid
-     */
-    async function renderMermaidBlocks() {
-        const container = document.querySelector(".post-content");
-        if (!container) return;
-        const mermaidPreBlocks = container.querySelectorAll(
-            'pre[data-language="mermaid"]'
-        );
-        const legacyBlocks = container.querySelectorAll(
-            "pre > code.language-mermaid"
-        );
-        const blocks =
-            mermaidPreBlocks.length > 0
-                ? Array.from(mermaidPreBlocks)
-                : Array.from(legacyBlocks)
-                      .map((code) => code.closest("pre"))
-                      .filter(Boolean);
-        if (blocks.length === 0) return;
-        const mermaid = (
-            await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs")
-        ).default;
-        const root = document.documentElement;
-        const isDark = root.classList.contains("dark");
-        const scheme = root.getAttribute("data-color-scheme");
-        const { theme, themeVariables } = getMermaidConfig(scheme, isDark);
-        mermaid.initialize({
-            startOnLoad: false,
-            theme,
-            themeVariables,
-        } as { startOnLoad?: boolean; theme?: string });
-        for (const pre of blocks) {
-            const chartDefinition = pre?.textContent?.trim();
-            if (!chartDefinition) continue;
-            const id = "mermaid-" + Math.random().toString(36).slice(2, 9);
-            const wrap = document.createElement("div");
-            wrap.className = "mermaid-rendered my-6 flex justify-center";
-            wrap.setAttribute("data-mermaid-id", id);
-            wrap.setAttribute("data-mermaid-definition", chartDefinition);
-            try {
-                const { svg } = await mermaid.render(id, chartDefinition);
-                wrap.innerHTML = svg;
-            } catch (err) {
-                console.warn("[blog post] Mermaid render failed:", err);
-                wrap.innerHTML = `<pre class="text-sm text-(--color-muted) overflow-auto p-4 rounded border border-(--color-border)">${chartDefinition}</pre>`;
-            }
-            pre?.replaceWith(wrap);
-        }
-    }
-    async function rerenderMermaidOnThemeChange() {
-        const rendered = document.querySelectorAll(
-            ".mermaid-rendered[data-mermaid-definition]"
-        );
-        if (rendered.length === 0) return;
-        const mermaid = (
-            await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs")
-        ).default;
-        const root = document.documentElement;
-        const isDark = root.classList.contains("dark");
-        const scheme = root.getAttribute("data-color-scheme");
-        const { theme, themeVariables } = getMermaidConfig(scheme, isDark);
-        mermaid.initialize({
-            startOnLoad: false,
-            theme,
-            themeVariables,
-        } as { startOnLoad?: boolean; theme?: string });
-        for (const wrap of rendered) {
-            const def = wrap.getAttribute("data-mermaid-definition");
-            if (!def) continue;
-            const id = "mermaid-" + Math.random().toString(36).slice(2, 9);
-            try {
-                const { svg } = await mermaid.render(id, def);
-                wrap.innerHTML = svg;
-            } catch (err) {
-                console.warn("[blog post] Mermaid re-render failed:", err);
-            }
-        }
-    }
+    import {
+        renderMermaidBlocks,
+        rerenderMermaidOnThemeChange,
+    } from "@/lib/mermaid-render";
+
+    const run = () => renderMermaidBlocks(".post-content", "blog post");
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", renderMermaidBlocks);
+        document.addEventListener("DOMContentLoaded", run);
     } else {
-        renderMermaidBlocks();
+        run();
     }
-    window.addEventListener("themechange", rerenderMermaidOnThemeChange);
+    window.addEventListener("themechange", () =>
+        rerenderMermaidOnThemeChange("blog post")
+    );
 </script>

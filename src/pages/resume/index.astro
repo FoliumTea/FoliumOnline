@@ -10,8 +10,25 @@ import ResumeModern from "@/components/resume/ResumeModern.astro";
 import ResumeMinimal from "@/components/resume/ResumeMinimal.astro";
 import resumeDataRaw from "@/data/resume.json";
 import type { Resume } from "@/types/resume";
+import { serverClient } from "@/lib/supabase";
 
-const jobField = import.meta.env.PUBLIC_JOB_FIELD ?? "game";
+// site_config에서 job_field 읽기 (없으면 env → 기본값 "game")
+let jobField = import.meta.env.PUBLIC_JOB_FIELD ?? "game";
+if (serverClient) {
+    const { data: cfg } = await serverClient
+        .from("site_config")
+        .select("value")
+        .eq("key", "job_field")
+        .single();
+    if (cfg?.value) {
+        const raw = cfg.value;
+        const parsed =
+            typeof raw === "string" && raw.startsWith('"')
+                ? JSON.parse(raw)
+                : raw;
+        if (parsed) jobField = parsed;
+    }
+}
 
 function filterByJobField<T extends { jobField?: string | string[] }>(
     items: T[] = []

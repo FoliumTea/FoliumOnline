@@ -1,16 +1,30 @@
 ---
 /**
  * Portfolio 페이지 - 프로젝트 목록
- * List / Block 뷰 토글. PUBLIC_JOB_FIELD에 맞는 프로젝트만 노출.
- * 데이터 소스: src/content/portfolio/*.mdoc (Markdoc)
+ * 빌드 타임에 Supabase portfolio_items 테이블에서 fetch한다.
+ * job_field 필터는 site_config 테이블에서 읽고, env 폴백을 사용한다.
  */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PortfolioView from "@/components/PortfolioView";
-import { getCollection } from "astro:content";
+import { serverClient } from "@/lib/supabase";
 import type { PortfolioProject } from "@/types/portfolio";
 
-const jobField = import.meta.env.PUBLIC_JOB_FIELD ?? "game";
-const rawEntries = await getCollection("portfolio");
+// site_config에서 job_field 읽기 (없으면 env → 기본값 "game")
+let jobField = import.meta.env.PUBLIC_JOB_FIELD ?? "game";
+if (serverClient) {
+    const { data: cfg } = await serverClient
+        .from("site_config")
+        .select("value")
+        .eq("key", "job_field")
+        .single();
+    if (cfg?.value) {
+        const raw = cfg.value;
+        jobField =
+            typeof raw === "string" && raw.startsWith('"')
+                ? JSON.parse(raw)
+                : raw;
+    }
+}
 
 function matchesJobField(jf: string | string[] | undefined): boolean {
     if (jf == null) return true;
@@ -18,37 +32,43 @@ function matchesJobField(jf: string | string[] | undefined): boolean {
     return jf === jobField;
 }
 
-function entryToProject(entry: {
-    id: string;
-    data: Record<string, unknown>;
-}): PortfolioProject {
-    const d = entry.data as Omit<PortfolioProject, "slug"> & {
-        jobField?: string | string[];
-    };
-    const slug = entry.id.replace(/\.mdoc$/, "") || entry.id;
-    return {
-        slug,
-        title: d.title,
-        description: d.description,
-        startDate: d.startDate,
-        endDate: d.endDate,
-        goal: d.goal,
-        role: d.role,
-        teamSize: d.teamSize,
-        accomplishments: d.accomplishments ?? [],
-        keywords: d.keywords ?? [],
-        github: d.github ?? "",
-        public: d.public,
-        jobField: d.jobField,
-        thumbnail: d.thumbnail,
-        badges: d.badges,
-    };
-}
+let publicProjects: PortfolioProject[] = [];
 
-const publicProjects = rawEntries
-    .map(entryToProject)
-    .filter((p) => p.public === true && matchesJobField(p.jobField))
-    .sort((a, b) => (b.startDate ?? "").localeCompare(a.startDate ?? ""));
+if (serverClient) {
+    const { data: items } = await serverClient
+        .from("portfolio_items")
+        .select("slug, title, description, tags, thumbnail, data, published")
+        .eq("published", true)
+        .order("order_idx", { ascending: true });
+
+    if (items) {
+        publicProjects = items
+            .map((item): PortfolioProject => {
+                const d = item.data ?? {};
+                return {
+                    slug: item.slug,
+                    title: item.title,
+                    description: item.description ?? "",
+                    startDate: d.startDate,
+                    endDate: d.endDate,
+                    goal: d.goal,
+                    role: d.role,
+                    teamSize: d.teamSize,
+                    accomplishments: d.accomplishments ?? [],
+                    keywords: item.tags ?? [],
+                    github: d.github ?? "",
+                    public: true,
+                    jobField: d.jobField,
+                    thumbnail: item.thumbnail,
+                    badges: d.badges,
+                };
+            })
+            .filter((p) => matchesJobField(p.jobField))
+            .sort((a, b) =>
+                (b.startDate ?? "").localeCompare(a.startDate ?? "")
+            );
+    }
+}
 ---
 
 <BaseLayout title="Portfolio - FoliumOnline" description="프로젝트 포트폴리오">

@@ -7,6 +7,7 @@
  */
 import "@/styles/global.css";
 import Header from "@/components/Header.astro";
+import ThemeLoader from "@/components/ThemeLoader";
 
 interface Props {
     title?: string;
@@ -53,9 +54,50 @@ const validScheme = ["blue", "gray", "beige", "blackwhite"].includes(
     <body
         class="min-h-screen bg-(--color-surface) text-(--color-foreground) transition-colors"
     >
+        {
+            /* 런타임 컬러 스킴 반영: Supabase site_config에서 color_scheme을 읽어 data-color-scheme 갱신 */
+        }
+        <ThemeLoader client:load />
         <Header />
+
         <main class="container mx-auto px-4 py-8">
             <slot />
         </main>
     </body>
 </html>
+
+<script>
+    /**
+     * FoliumTable 다크모드 처리 (전역 스크립트)
+     * renderMarkdown()으로 생성된 folium-table HTML의 data-pt-bg-dark /
+     * data-pt-text-dark 속성을 읽어 dark 모드 시 CSS 변수를 덮어씀.
+     * CSS attr()이 background/color에 작동하지 않아 JS로 처리.
+     */
+    function updateFoliumTableColors() {
+        const isDark = document.documentElement.classList.contains("dark");
+        const selector =
+            ".pt-head-col[data-pt-bg-dark], .pt-body-col[data-pt-bg-dark]";
+        document.querySelectorAll(selector).forEach((el) => {
+            const htmlEl = el as HTMLElement;
+            if (isDark) {
+                const bg = el.getAttribute("data-pt-bg-dark");
+                const text = el.getAttribute("data-pt-text-dark");
+                htmlEl.style.setProperty("background", bg ?? "", "important");
+                htmlEl.style.setProperty("color", text ?? "", "important");
+            } else {
+                htmlEl.style.removeProperty("background");
+                htmlEl.style.removeProperty("color");
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        updateFoliumTableColors();
+        const observer = new MutationObserver(updateFoliumTableColors);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["class"],
+        });
+        window.addEventListener("themechange", updateFoliumTableColors);
+    });
+</script>

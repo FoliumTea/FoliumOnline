@@ -8,9 +8,6 @@ Try to answer everything in Korean if possible.
 - **Explanation:** Always explain at least briefly about the solution you're proposing.
 - **Comments:** If a function is no longer in use, then don't just mark it as "deprecated". Just erase it from the code and the docs and everywhere else.
 
-## Naming
-- As this project's name is "DuckSouls", name the GamePlayTags and filenames to resemble it (e.g. prefixed to "DS", or "DuckSouls").
-
 ## Documentation Requirements
 - Add brief docstrings in Korean for newly created functions.
 - Concisely document what changes you have done in the CHANGES.md file. This is to keep track of changes at a glance.
