@@ -139,7 +139,7 @@ git push origin main
 ### 4.1 반드시 확인할 것
 
 - **base 브랜치(base repository)**
-  PR을 만들 때 GitHub이 "어디에 합칠까?"라고 보여주는 **대상 저장소 + 브랜치**가 있음.
+  PR를 만들 때 GitHub이 "어디에 합칠까?"라고 보여주는 **대상 저장소 + 브랜치**가 있음.
 - **내 포크 → 원본**으로 PR을 보낼 때만 base를 **원본 저장소의 브랜치**(예: `owner/FoliumOnline`, `develop`)로 두어야 함.
 - **원본 저장소 쪽에서 base를 "내 포크"로 두면 안 됨.**
   즉, 원본 저장소에 "원본을 내 포크에 합치기" 같은 PR을 만들면 잘못된 것. 실수로 만들었다면 해당 PR은 닫음.
@@ -157,18 +157,24 @@ git push origin main
 
 1. **Node.js**가 설치되어 있어야 함. (LTS 버전 권장.)
 2. 프로젝트 폴더에서 터미널을 열고 다음을 **처음 한 번만** 실행함:
-    ```bash
-    pnpm install
-    ```
+
+```bash
+  pnpm install
+```
+
     (없으면 `npm install -g pnpm` 으로 pnpm 설치 후 다시 실행.)
+
 3. 개발 서버 실행:
-    ```bash
-    pnpm dev
-    ```
+
+```bash
+  pnpm dev
+```
+
 4. 브라우저에서 다음 주소로 접속함:
-    - **사이트**: http://localhost:4321
-    - **Keystatic(마크다운 에디터)**: http://127.0.0.1:4321/keystatic
-    - **Admin 대시보드(Supabase 관리)**: http://127.0.0.1:4321/admin
+
+- **사이트**: [http://localhost:4321](http://localhost:4321)
+    - **Keystatic(마크다운 에디터)**: [http://127.0.0.1:4321/keystatic](http://127.0.0.1:4321/keystatic)
+    - **Admin 대시보드(Supabase 관리)**: [http://127.0.0.1:4321/admin](http://127.0.0.1:4321/admin)
 
 서버를 끄려면 터미널에서 `Ctrl + C` 누름.
 
@@ -199,8 +205,37 @@ About me 페이지에 나오는 **프로필 사진, 이름, 소개 문구, 연�
 
 ### 7.1 Admin 대시보드 열기
 
-1. `pnpm dev`로 개발 서버를 켠 상태에서 브라우저로 **http://127.0.0.1:4321/admin** 접속.
-2. Supabase에 로그인된 계정(어드민 권한 필요)으로 인증하면 대시보드가 열림.
+1. `pnpm dev`로 개발 서버를 켠 상태에서 브라우저로 **[http://127.0.0.1:4321/admin](http://127.0.0.1:4321/admin)** 접속.
+2. 로그인 폼에 **이메일**과 **패스워드**를 입력하고 로그인 버튼 클릭.
+3. 인증에 성공하면 Admin 대시보드가 열림.
+
+> **계정 정보**: Admin 계정은 사이트 코드가 아니라 **Supabase 프로젝트 → Authentication**에서 직접 관리함. 처음 포크할 때 미리 생성된 계정이 없으므로, 아래 7.2를 참고해 직접 만들어야 함.
+
+### 7.2 최초 Admin 계정 만들기
+
+Supabase Dashboard에서 직접 사용자를 추가함.
+
+1. **[https://supabase.com/dashboard](https://supabase.com/dashboard)** 에 접속해 본인의 Supabase 프로젝트를 선택.
+2. 왼쪽 메뉴에서 **Authentication** 클릭.
+3. **Users** 탭 → 오른쪽 상단 **Add user** → **Create new user** 클릭.
+4. **Email**과 **Password**를 입력하고 **Create user** 클릭.
+    - 이메일: 본인이 쓸 이메일 주소 (예: `admin@example.com`)
+    - 패스워드: 충분히 긴 패스워드 권장 (8자 이상)
+5. 생성된 계정으로 `/admin/login`에 접속해 로그인하면 됨.
+
+> **참고**: 이 계정은 사이트 방문자와는 완전히 별개. Supabase RLS 정책상 이 계정이 있어야만 Admin 대시보드의 쓰기 기능(포스트 저장, About me 저장 등)이 동작함.
+
+### 7.3 패스워드 변경하기
+
+Supabase Dashboard에서 언제든 변경할 수 있음.
+
+1. **[https://supabase.com/dashboard](https://supabase.com/dashboard)** → 본인 프로젝트 선택.
+2. **Authentication** → **Users** 탭.
+3. 목록에서 해당 사용자를 찾아 **우측 ⋯ 메뉴(더 보기)** 클릭 → **Send password recovery** 또는 **Reset password** 선택.
+    - **Send password recovery**: 해당 이메일로 패스워드 재설정 링크 발송.
+    - 또는 직접 수정하려면 사용자를 클릭 → 상세 페이지에서 **Reset password** 입력 후 저장.
+
+> **참고**: 로그인한 상태에서 패스워드를 바꾸는 기능은 현재 Admin 대시보드에 없으므로, 반드시 Supabase Dashboard를 통해서 변경해야 함.
 
 ### 7.2 About me 편집하기
 
@@ -243,7 +278,7 @@ JSON 형식이므로 **쉼표, 따옴표, 중괄호/대괄호**를 틀리지 않
 
 ### 9.1 Admin 대시보드에서 추가·편집
 
-1. **http://127.0.0.1:4321/admin** 접속 후 **Portfolio** 메뉴 선택.
+1. **[http://127.0.0.1:4321/admin](http://127.0.0.1:4321/admin)** 접속 후 **Portfolio** 메뉴 선택.
 2. **새 항목 추가** 또는 기존 항목을 클릭해 편집.
 3. 제목, 설명, 기간, 역할, 팀 규모, 키워드, GitHub URL, 본문 등을 입력함.
 4. **published** 토글을 켜야 사이트에 노출됨.
@@ -278,7 +313,7 @@ JSON 형식이므로 **쉼표, 따옴표, 중괄호/대괄호**를 틀리지 않
 
 ### 10.1 Admin 대시보드에서 작성
 
-1. **http://127.0.0.1:4321/admin** 접속 후 **Posts** 또는 **블로그** 메뉴 선택.
+1. **[http://127.0.0.1:4321/admin](http://127.0.0.1:4321/admin)** 접속 후 **Posts** 또는 **블로그** 메뉴 선택.
 2. **새 글 작성** 또는 기존 글을 클릭해 편집.
 3. 제목, 요약, 발행일, 카테고리, 태그, 본문을 입력함.
 4. **published** 토글을 켜야 사이트에 노출됨.
@@ -288,7 +323,7 @@ JSON 형식이므로 **쉼표, 따옴표, 중괄호/대괄호**를 틀리지 않
 
 로컬 개발 환경에서 **Markdoc 에디터**를 쓰고 싶다면 Keystatic을 사용할 수 있음.
 
-1. `pnpm dev` 실행 후 **http://127.0.0.1:4321/keystatic** 접속.
+1. `pnpm dev` 실행 후 **[http://127.0.0.1:4321/keystatic](http://127.0.0.1:4321/keystatic)** 접속.
 2. Posts 메뉴에서 새 글을 작성하면 `src/content/posts/` 폴더에 `.mdoc` 파일로 저장됨.
 3. 완성된 내용을 Supabase `posts` 테이블에 옮기거나, `pnpm migrate`로 마이그레이션할 수 있음.
 
@@ -351,10 +386,12 @@ JSON 형식이므로 **쉼표, 따옴표, 중괄호/대괄호**를 틀리지 않
 
 1. Admin 대시보드 → **Site Config** 또는 **설정** 메뉴.
 2. `color_scheme` 항목을 다음 중 하나로 변경:
-    - `blue` — 파란 톤 (슬레이트 계열)
+
+- `blue` — 파란 톤 (슬레이트 계열)
     - `gray` — 중립 회색 (기본값)
     - `beige` — 따뜻한 베이지/스톤 톤
     - `blackwhite` — 순수 흑백
+
 3. 저장하면 방문자가 다음 번 페이지를 열 때 새 색상이 적용됨.
 
 > **참고**: 다크모드/라이트모드 토글은 각 방문자가 사이트 헤더의 버튼으로 조절하는 **클라이언트 설정**이며, 컬러 스킴과는 별개임.
@@ -384,16 +421,16 @@ Admin 대시보드에 있는 **게시(Publish)** 버튼을 누르면 Vercel Depl
 
 ## 요약
 
-| 하고 싶은 일           | 어디서 / 어떤 파일                                                        |
-| ---------------------- | ------------------------------------------------------------------------- |
-| 소개(About me) 채우기  | Admin 대시보드 → About 편집 → 즉시 반영                                   |
-| 이력서 채우기          | `src/data/resume.json`, `src/data/resume_en.json` 편집 후 재빌드          |
-| 포트폴리오 추가·수정   | Admin 대시보드 → Portfolio 편집 → 게시(재빌드)                            |
-| 블로그 글 쓰기         | Admin 대시보드 → Posts 편집 → 게시(재빌드)                                |
-| 마크다운 에디터로 초안 | Keystatic (http://127.0.0.1:4321/keystatic) → `pnpm migrate`로 이관       |
-| 컬러 스킴 바꾸기       | Admin 대시보드 → Site Config → `color_scheme` 값 변경 → 즉시 반영         |
-| 재빌드 트리거          | Admin 대시보드 → 게시 버튼                                                |
-| 원본 변경 가져오기     | `git fetch upstream` → `git merge upstream/main` → `git push origin main` |
-| PR 보낼 때             | base를 **원본 저장소**로 두고, 원본을 base로 하는 PR은 만들지 않기        |
+| 하고 싶은 일           | 어디서 / 어떤 파일                                                                                     |
+| ---------------------- | ------------------------------------------------------------------------------------------------------ |
+| 소개(About me) 채우기  | Admin 대시보드 → About 편집 → 즉시 반영                                                                |
+| 이력서 채우기          | `src/data/resume.json`, `src/data/resume_en.json` 편집 후 재빌드                                       |
+| 포트폴리오 추가·수정   | Admin 대시보드 → Portfolio 편집 → 게시(재빌드)                                                         |
+| 블로그 글 쓰기         | Admin 대시보드 → Posts 편집 → 게시(재빌드)                                                             |
+| 마크다운 에디터로 초안 | Keystatic ([http://127.0.0.1:4321/keystatic](http://127.0.0.1:4321/keystatic)) → `pnpm migrate`로 이관 |
+| 컬러 스킴 바꾸기       | Admin 대시보드 → Site Config → `color_scheme` 값 변경 → 즉시 반영                                      |
+| 재빌드 트리거          | Admin 대시보드 → 게시 버튼                                                                             |
+| 원본 변경 가져오기     | `git fetch upstream` → `git merge upstream/main` → `git push origin main`                              |
+| PR 보낼 때             | base를 **원본 저장소**로 두고, 원본을 base로 하는 PR은 만들지 않기                                     |
 
 추가로 궁금한 점이 있으면 프로젝트의 README.md, CHANGES.md, docs/ 폴더 안 문서를 참고하면 됨.
