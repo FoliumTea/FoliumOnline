@@ -12,6 +12,7 @@
  */
 import { useState } from "react";
 import { browserClient } from "@/lib/supabase";
+import ThemeToggle from "@/components/ThemeToggle";
 import PostsPanel from "@/components/admin/panels/PostsPanel";
 import PortfolioPanel from "@/components/admin/panels/PortfolioPanel";
 import TagsPanel from "@/components/admin/panels/TagsPanel";
@@ -46,21 +47,24 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-3">
                     <a
                         href="/"
-                        className="text-sm font-medium text-(--color-muted) hover:text-(--color-foreground) transition-colors"
+                        className="text-base font-medium text-(--color-muted) hover:text-(--color-foreground) transition-colors"
                     >
                         ← 사이트
                     </a>
                     <span className="text-(--color-border)">|</span>
-                    <span className="text-sm font-bold text-(--color-foreground)">
+                    <span className="text-base font-bold text-(--color-foreground)">
                         Admin Dashboard
                     </span>
                 </div>
-                <button
-                    onClick={handleLogout}
-                    className="text-sm text-(--color-muted) hover:text-red-500 transition-colors px-3 py-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-950/30"
-                >
-                    로그아웃
-                </button>
+                <div className="flex items-center gap-2">
+                    <ThemeToggle />
+                    <button
+                        onClick={handleLogout}
+                        className="text-base text-(--color-muted) hover:text-red-500 transition-colors px-3 py-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-950/30"
+                    >
+                        로그아웃
+                    </button>
+                </div>
             </header>
 
             <div className="flex flex-1 overflow-hidden">
@@ -71,7 +75,7 @@ export default function AdminDashboard() {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={[
-                                "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors",
+                                "flex items-center gap-2.5 px-3 py-2 rounded-lg text-base font-medium text-left transition-colors",
                                 activeTab === tab.id
                                     ? "bg-(--color-accent) text-(--color-on-accent)"
                                     : "text-(--color-muted) hover:bg-(--color-border) hover:text-(--color-foreground)",
