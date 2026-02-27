@@ -81,9 +81,14 @@ export default function TableOfContents({
                             href={`#${entry.slug}`}
                             className={`block py-1 text-base text-(--color-muted) hover:text-(--color-foreground) transition-all duration-200 ${
                                 activeSection === `#${entry.slug}`
-                                    ? "font-bold text-lg text-[var(--color-accent)]"
+                                    ? "font-bold text-lg"
                                     : ""
                             }`}
+                            style={
+                                activeSection === `#${entry.slug}`
+                                    ? { color: "var(--color-accent)" }
+                                    : undefined
+                            }
                             aria-current={
                                 activeSection === `#${entry.slug}`
                                     ? "location"
@@ -101,9 +106,17 @@ export default function TableOfContents({
                                             className={`block py-0.5 pl-2 -ml-px border-l-2 border-transparent text-base text-(--color-muted) hover:text-(--color-foreground) hover:border-(--color-accent) transition-all duration-200 ${
                                                 activeSection ===
                                                 `#${child.slug}`
-                                                    ? "font-bold text-lg text-[var(--color-accent)] border-(--color-accent)"
+                                                    ? "font-bold text-lg border-(--color-accent)"
                                                     : ""
                                             }`}
+                                            style={
+                                                activeSection ===
+                                                `#${child.slug}`
+                                                    ? {
+                                                          color: "var(--color-accent)",
+                                                      }
+                                                    : undefined
+                                            }
                                             aria-current={
                                                 activeSection ===
                                                 `#${child.slug}`

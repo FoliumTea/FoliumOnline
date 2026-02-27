@@ -8,7 +8,15 @@
 import { useEffect } from "react";
 import { browserClient } from "@/lib/supabase";
 
-const VALID_SCHEMES = ["blue", "gray", "beige", "blackwhite"];
+const VALID_SCHEMES = [
+    "blue",
+    "gray",
+    "beige",
+    "blackwhite",
+    "forest",
+    "sunset",
+    "lavender",
+];
 
 export default function ThemeLoader() {
     useEffect(() => {

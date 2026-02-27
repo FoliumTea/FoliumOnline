@@ -32,9 +32,117 @@ body {
     --breakpoint-desktop: 64rem; /* 1024px */
 }
 
-/* 컬러 스킴: PUBLIC_COLOR_SCHEME env (blue | gray | beige | blackwhite) */
+/* 컬러 스킴: PUBLIC_COLOR_SCHEME env (blue | gray | beige | blackwhite | forest | sunset | lavender) */
 /* light mode: 각 스킴에 맞는 100~200 톤의 은은한 틴트 적용 */
 /* Mermaid 다이어그램 테마와 동기화: src/lib/mermaid-themes.ts */
+
+/* forest: 깊은 숲의 그린 (라이트: emerald 100~200) */
+[data-color-scheme="forest"] {
+    --color-code-block-bg: #064e3b;
+    --color-code-block-fg: #d1fae5;
+    --color-surface: #ecfdf5;
+    --color-surface-subtle: #d1fae5;
+    --color-foreground: #064e3b;
+    --color-muted: #52525b; /* zinc-600 */
+    --color-border: #a7f3d0;
+    --color-accent: #10b981;
+    --color-on-accent: #ffffff;
+    --color-highlight: #059669;
+    --color-tag-bg: #d1fae5;
+    --color-tag-fg: #047857;
+    --color-code-bg: #6ee7b7;
+    --color-code-fg: #064e3b;
+    --color-link: #059669;
+}
+[data-color-scheme="forest"].dark {
+    --color-code-block-bg: #064e3b;
+    --color-code-block-fg: #d1fae5;
+    --color-surface: #022c22;
+    --color-surface-subtle: #064e3b;
+    --color-foreground: #ecfdf5;
+    --color-muted: #a1a1aa; /* zinc-400 */
+    --color-border: #065f46;
+    --color-accent: #34d399;
+    --color-on-accent: #022c22;
+    --color-highlight: #6ee7b7;
+    --color-tag-bg: #064e3b;
+    --color-tag-fg: #6ee7b7;
+    --color-code-bg: #064e3b;
+    --color-code-fg: #d1fae5;
+    --color-link: #6ee7b7;
+}
+
+/* sunset: 따뜻한 석양의 주황/금색 (라이트: orange/amber 100~200) */
+[data-color-scheme="sunset"] {
+    --color-code-block-bg: #431407;
+    --color-code-block-fg: #ffedd5;
+    --color-surface: #fff8f1;
+    --color-surface-subtle: #ffedd5;
+    --color-foreground: #431407;
+    --color-muted: #78716c; /* stone-500 */
+    --color-border: #fed7aa;
+    --color-accent: #f97316;
+    --color-on-accent: #ffffff;
+    --color-highlight: #ea580c;
+    --color-tag-bg: #ffedd5;
+    --color-tag-fg: #c2410c;
+    --color-code-bg: #fdba74;
+    --color-code-fg: #431407;
+    --color-link: #ea580c;
+}
+[data-color-scheme="sunset"].dark {
+    --color-code-block-bg: #431407;
+    --color-code-block-fg: #ffedd5;
+    --color-surface: #1a0802;
+    --color-surface-subtle: #431407;
+    --color-foreground: #fff8f1;
+    --color-muted: #a8a29e; /* stone-400 */
+    --color-border: #7c2d12;
+    --color-accent: #fb923c;
+    --color-on-accent: #1a0802;
+    --color-highlight: #fdba74;
+    --color-tag-bg: #431407;
+    --color-tag-fg: #fdba74;
+    --color-code-bg: #431407;
+    --color-code-fg: #ffedd5;
+    --color-link: #fdba74;
+}
+
+/* lavender: 차분한 보라 (라이트: violet 100~200) */
+[data-color-scheme="lavender"] {
+    --color-code-block-bg: #2e1065;
+    --color-code-block-fg: #ede9fe;
+    --color-surface: #f5f3ff;
+    --color-surface-subtle: #ede9fe;
+    --color-foreground: #2e1065;
+    --color-muted: #52525b; /* zinc-600 */
+    --color-border: #ddd6fe;
+    --color-accent: #8b5cf6;
+    --color-on-accent: #ffffff;
+    --color-highlight: #7c3aed;
+    --color-tag-bg: #ede9fe;
+    --color-tag-fg: #6d28d9;
+    --color-code-bg: #c4b5fd;
+    --color-code-fg: #2e1065;
+    --color-link: #7c3aed;
+}
+[data-color-scheme="lavender"].dark {
+    --color-code-block-bg: #2e1065;
+    --color-code-block-fg: #ede9fe;
+    --color-surface: #1e1b4b;
+    --color-surface-subtle: #2e1065;
+    --color-foreground: #f5f3ff;
+    --color-muted: #a1a1aa; /* zinc-400 */
+    --color-border: #4c1d95;
+    --color-accent: #a78bfa;
+    --color-on-accent: #1e1b4b;
+    --color-highlight: #c4b5fd;
+    --color-tag-bg: #2e1065;
+    --color-tag-fg: #c4b5fd;
+    --color-code-bg: #2e1065;
+    --color-code-fg: #ede9fe;
+    --color-link: #c4b5fd;
+}
 
 /* blackwhite: 순수 흰/검정, 다른 색 없음 */
 [data-color-scheme="blackwhite"] {

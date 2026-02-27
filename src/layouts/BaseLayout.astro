@@ -18,11 +18,17 @@ interface Props {
 
 const { title, description, image } = Astro.props;
 
-// PUBLIC_COLOR_SCHEME env (blue | gray | beige | blackwhite), 기본 gray
+// PUBLIC_COLOR_SCHEME env (blue | gray | beige | blackwhite | forest | sunset | lavender), 기본 gray
 const colorScheme = (import.meta.env.PUBLIC_COLOR_SCHEME ?? "gray") as string;
-const validScheme = ["blue", "gray", "beige", "blackwhite"].includes(
-    colorScheme
-)
+const validScheme = [
+    "blue",
+    "gray",
+    "beige",
+    "blackwhite",
+    "forest",
+    "sunset",
+    "lavender",
+].includes(colorScheme)
     ? colorScheme
     : "gray";
 ---
