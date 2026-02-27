@@ -71,11 +71,11 @@ const pageImage = post.og_image || post.thumbnail || "";
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} image={pageImage}>
-    <div class="flex gap-12 max-w-5xl mx-auto">
-        <article class="flex-1 min-w-0 max-w-3xl">
+    <div class="mx-auto flex max-w-5xl gap-12">
+        <article class="max-w-3xl min-w-0 flex-1">
             <header class="mb-6">
                 <h1
-                    class="text-4xl font-bold mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-1"
+                    class="mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-4xl font-bold"
                 >
                     {
                         category ? (
@@ -99,7 +99,7 @@ const pageImage = post.og_image || post.thumbnail || "";
                     )
                 }
                 <time
-                    class="text-sm text-(--color-muted) block mt-2"
+                    class="mt-2 block text-sm text-(--color-muted)"
                     datetime={pubDate.toISOString()}
                 >
                     {formatPubDateKST(pubDate)}
@@ -107,13 +107,13 @@ const pageImage = post.og_image || post.thumbnail || "";
                 {
                     tagDisplay.length > 0 && (
                         <div
-                            class="flex flex-wrap gap-2 mt-4"
+                            class="mt-4 flex flex-wrap gap-2"
                             aria-label="태그"
                         >
                             {tagDisplay.map((t) => (
                                 <a
                                     href={`/blog?tag=${encodeURIComponent(t.slug)}`}
-                                    class="px-2 py-1 text-xs rounded-full bg-(--color-tag-bg) text-(--color-tag-fg) hover:opacity-85 transition-opacity"
+                                    class="rounded-full bg-(--color-tag-bg) px-2 py-1 text-xs text-(--color-tag-fg) transition-opacity hover:opacity-85"
                                     style={
                                         t.color
                                             ? {

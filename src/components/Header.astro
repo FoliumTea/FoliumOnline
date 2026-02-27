@@ -14,11 +14,11 @@ const isDev = import.meta.env.DEV;
     id="site-header"
 >
     <nav
-        class="container mx-auto px-4 py-4 flex items-center justify-between gap-4"
+        class="container mx-auto flex items-center justify-between gap-4 px-4 py-4"
     >
         <a
             href="/"
-            class="text-xl font-bold text-(--color-foreground) hover:opacity-80 transition-opacity"
+            class="text-xl font-bold text-(--color-foreground) transition-opacity hover:opacity-80"
         >
             FoliumOnline
         </a>
@@ -26,14 +26,14 @@ const isDev = import.meta.env.DEV;
         {/* 햄버거: 모바일만 */}
         <button
             type="button"
-            class="p-2 rounded-md text-(--color-foreground) hover:bg-(--color-surface-subtle) tablet:hidden"
+            class="tablet:hidden rounded-md p-2 text-(--color-foreground) hover:bg-(--color-surface-subtle)"
             aria-label="메뉴 열기"
             aria-expanded="false"
             aria-controls="header-nav"
             id="header-menu-btn"
         >
             <svg
-                class="w-6 h-6 menu-icon-open"
+                class="menu-icon-open h-6 w-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -46,7 +46,7 @@ const isDev = import.meta.env.DEV;
                     d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
             <svg
-                class="w-6 h-6 menu-icon-close hidden"
+                class="menu-icon-close hidden h-6 w-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -63,30 +63,30 @@ const isDev = import.meta.env.DEV;
         {/* 네비: 모바일에서는 드로어로, 태블릿+에서는 항상 표시 */}
         <div
             id="header-nav"
-            class="header-nav-drawer hidden flex-col gap-1 py-4 border-t border-(--color-border) tablet:flex tablet:flex-row tablet:items-center tablet:gap-4 tablet:border-0 tablet:py-0"
+            class="header-nav-drawer tablet:flex tablet:flex-row tablet:items-center tablet:gap-4 tablet:border-0 tablet:py-0 hidden flex-col gap-1 border-t border-(--color-border) py-4"
             role="navigation"
         >
             <a
                 href="/about"
-                class="px-3 py-2 text-sm font-medium text-(--color-muted) hover:text-(--color-foreground) rounded-md hover:opacity-80 transition-colors"
+                class="rounded-md px-3 py-2 text-sm font-medium text-(--color-muted) transition-colors hover:text-(--color-foreground) hover:opacity-80"
             >
                 About me
             </a>
             <a
                 href="/resume"
-                class="px-3 py-2 text-sm font-medium text-(--color-muted) hover:text-(--color-foreground) rounded-md hover:opacity-80 transition-colors"
+                class="rounded-md px-3 py-2 text-sm font-medium text-(--color-muted) transition-colors hover:text-(--color-foreground) hover:opacity-80"
             >
                 Resume
             </a>
             <a
                 href="/portfolio"
-                class="px-3 py-2 text-sm font-medium text-(--color-muted) hover:text-(--color-foreground) rounded-md hover:opacity-80 transition-colors"
+                class="rounded-md px-3 py-2 text-sm font-medium text-(--color-muted) transition-colors hover:text-(--color-foreground) hover:opacity-80"
             >
                 Portfolio
             </a>
             <a
                 href="/blog"
-                class="px-3 py-2 text-sm font-medium text-(--color-muted) hover:text-(--color-foreground) rounded-md hover:opacity-80 transition-colors"
+                class="rounded-md px-3 py-2 text-sm font-medium text-(--color-muted) transition-colors hover:text-(--color-foreground) hover:opacity-80"
             >
                 Blog
             </a>
@@ -94,7 +94,7 @@ const isDev = import.meta.env.DEV;
                 isDev && (
                     <a
                         href="/admin"
-                        class="px-3 py-2 text-sm font-medium text-(--color-muted) hover:text-(--color-foreground) rounded-md hover:opacity-80 transition-colors"
+                        class="rounded-md px-3 py-2 text-sm font-medium text-(--color-muted) transition-colors hover:text-(--color-foreground) hover:opacity-80"
                     >
                         Admin
                     </a>
@@ -104,11 +104,11 @@ const isDev = import.meta.env.DEV;
                 href="https://github.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="p-2 text-(--color-muted) hover:text-(--color-foreground) rounded-md hover:opacity-80 transition-colors"
+                class="rounded-md p-2 text-(--color-muted) transition-colors hover:text-(--color-foreground) hover:opacity-80"
                 aria-label="GitHub"
             >
                 <svg
-                    class="w-5 h-5"
+                    class="h-5 w-5"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"

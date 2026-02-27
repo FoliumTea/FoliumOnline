@@ -178,7 +178,7 @@ export default function SiteConfigPanel() {
                                 );
                             }}
                             className={[
-                                "flex flex-col items-start gap-0.5 px-4 py-3 rounded-lg border text-left transition-colors",
+                                "flex flex-col items-start gap-0.5 rounded-lg border px-4 py-3 text-left transition-colors",
                                 colorScheme === opt.value
                                     ? "border-(--color-accent) bg-(--color-accent)/5"
                                     : "border-(--color-border) hover:border-(--color-accent)/50",
@@ -209,7 +209,7 @@ export default function SiteConfigPanel() {
                             key={f}
                             onClick={() => setJobField(f)}
                             className={[
-                                "px-5 py-2.5 rounded-lg border text-base font-medium transition-colors",
+                                "rounded-lg border px-5 py-2.5 text-base font-medium transition-colors",
                                 jobField === f
                                     ? "border-(--color-accent) bg-(--color-accent)/5 text-(--color-accent)"
                                     : "border-(--color-border) text-(--color-muted) hover:border-(--color-accent)/50",
@@ -232,7 +232,7 @@ export default function SiteConfigPanel() {
                 </p>
                 <div className="space-y-3">
                     <div>
-                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-sm font-medium text-(--color-muted)">
                             기본 사이트 제목 (Title)
                         </label>
                         <input
@@ -244,11 +244,11 @@ export default function SiteConfigPanel() {
                                     defaultTitle: e.target.value,
                                 })
                             }
-                            className="w-full px-3 py-2 bg-transparent border border-(--color-border) rounded-lg focus:outline-none focus:border-(--color-accent) text-(--color-foreground) transition-colors"
+                            className="w-full rounded-lg border border-(--color-border) bg-transparent px-3 py-2 text-(--color-foreground) transition-colors focus:border-(--color-accent) focus:outline-none"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-sm font-medium text-(--color-muted)">
                             기본 사이트 설명 (Description)
                         </label>
                         <textarea
@@ -260,11 +260,11 @@ export default function SiteConfigPanel() {
                                 })
                             }
                             rows={3}
-                            className="w-full px-3 py-2 bg-transparent border border-(--color-border) rounded-lg focus:outline-none focus:border-(--color-accent) text-(--color-foreground) transition-colors"
+                            className="w-full rounded-lg border border-(--color-border) bg-transparent px-3 py-2 text-(--color-foreground) transition-colors focus:border-(--color-accent) focus:outline-none"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-sm font-medium text-(--color-muted)">
                             기본 OG 이미지 URL
                         </label>
                         <input
@@ -277,7 +277,7 @@ export default function SiteConfigPanel() {
                                 })
                             }
                             placeholder="https://..."
-                            className="w-full px-3 py-2 bg-transparent border border-(--color-border) rounded-lg focus:outline-none focus:border-(--color-accent) text-(--color-foreground) transition-colors"
+                            className="w-full rounded-lg border border-(--color-border) bg-transparent px-3 py-2 text-(--color-foreground) transition-colors focus:border-(--color-accent) focus:outline-none"
                         />
                     </div>
                 </div>
@@ -286,7 +286,7 @@ export default function SiteConfigPanel() {
             {/* 피드백 */}
             {status && (
                 <p
-                    className={`text-base px-3 py-2 rounded-lg ${status.type === "error" ? "text-red-500 bg-red-50 dark:bg-red-950/30" : "text-green-600 bg-green-50 dark:bg-green-950/30"}`}
+                    className={`rounded-lg px-3 py-2 text-base ${status.type === "error" ? "bg-red-50 text-red-500 dark:bg-red-950/30" : "bg-green-50 text-green-600 dark:bg-green-950/30"}`}
                 >
                     {status.msg}
                 </p>
@@ -297,7 +297,7 @@ export default function SiteConfigPanel() {
                 <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="px-5 py-2.5 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
+                    className="rounded-lg bg-(--color-accent) px-5 py-2.5 text-base font-semibold text-(--color-on-accent) transition-opacity hover:opacity-90 disabled:opacity-50"
                 >
                     {saving ? "저장 중..." : "설정 저장"}
                 </button>
@@ -305,13 +305,13 @@ export default function SiteConfigPanel() {
                 <button
                     onClick={handleDeploy}
                     disabled={deploying}
-                    className="px-5 py-2.5 rounded-lg border border-(--color-border) text-base font-semibold text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
+                    className="rounded-lg border border-(--color-border) px-5 py-2.5 text-base font-semibold text-(--color-foreground) transition-colors hover:bg-(--color-surface-subtle) disabled:opacity-50"
                 >
                     {deploying ? "빌드 트리거 중..." : "🚀 게시 (빌드 트리거)"}
                 </button>
             </div>
 
-            <div className="rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-4 text-sm text-(--color-muted) space-y-1">
+            <div className="space-y-1 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-4 text-sm text-(--color-muted)">
                 <p className="font-semibold text-(--color-foreground)">
                     빌드 트리거 동작 방식
                 </p>

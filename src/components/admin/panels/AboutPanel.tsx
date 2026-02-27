@@ -156,7 +156,7 @@ export default function AboutPanel() {
                     프로필
                 </h3>
                 <div>
-                    <label className="block text-base font-medium text-(--color-muted) mb-1">
+                    <label className="mb-1 block text-base font-medium text-(--color-muted)">
                         프로필 이미지 URL
                     </label>
                     <input
@@ -168,7 +168,7 @@ export default function AboutPanel() {
                     />
                 </div>
                 <div>
-                    <label className="block text-base font-medium text-(--color-muted) mb-1">
+                    <label className="mb-1 block text-base font-medium text-(--color-muted)">
                         이름
                     </label>
                     <input
@@ -187,7 +187,7 @@ export default function AboutPanel() {
                     소개
                 </h3>
                 <div>
-                    <label className="block text-base font-medium text-(--color-muted) mb-1">
+                    <label className="mb-1 block text-base font-medium text-(--color-muted)">
                         메인 소개
                     </label>
                     <textarea
@@ -197,7 +197,7 @@ export default function AboutPanel() {
                     />
                 </div>
                 <div>
-                    <label className="block text-base font-medium text-(--color-muted) mb-1">
+                    <label className="mb-1 block text-base font-medium text-(--color-muted)">
                         보조 소개
                     </label>
                     <textarea
@@ -214,7 +214,7 @@ export default function AboutPanel() {
                     연락처
                 </h3>
                 <div>
-                    <label className="block text-base font-medium text-(--color-muted) mb-1">
+                    <label className="mb-1 block text-base font-medium text-(--color-muted)">
                         Email
                     </label>
                     <input
@@ -225,7 +225,7 @@ export default function AboutPanel() {
                     />
                 </div>
                 <div>
-                    <label className="block text-base font-medium text-(--color-muted) mb-1">
+                    <label className="mb-1 block text-base font-medium text-(--color-muted)">
                         GitHub URL
                     </label>
                     <input
@@ -236,7 +236,7 @@ export default function AboutPanel() {
                     />
                 </div>
                 <div>
-                    <label className="block text-base font-medium text-(--color-muted) mb-1">
+                    <label className="mb-1 block text-base font-medium text-(--color-muted)">
                         LinkedIn URL
                     </label>
                     <input
@@ -258,7 +258,7 @@ export default function AboutPanel() {
                 </p>
                 {ABOUT_SECTION_KEYS.map((key) => (
                     <div key={key}>
-                        <label className="block text-base font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-base font-medium text-(--color-muted)">
                             {key}
                         </label>
                         <textarea
@@ -267,7 +267,7 @@ export default function AboutPanel() {
                             }}
                             rows={4}
                             placeholder={SECTION_PLACEHOLDERS[key]}
-                            className={`${inputCls} resize-y min-h-[80px]`}
+                            className={`${inputCls} min-h-[80px] resize-y`}
                         />
                     </div>
                 ))}
@@ -280,7 +280,7 @@ export default function AboutPanel() {
                 </h3>
                 {COMPETENCY_SECTION_KEYS.map((key) => (
                     <div key={key}>
-                        <label className="block text-base font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-base font-medium text-(--color-muted)">
                             {key}
                         </label>
                         <textarea
@@ -289,7 +289,7 @@ export default function AboutPanel() {
                             }}
                             rows={4}
                             placeholder={COMPETENCY_PLACEHOLDERS[key]}
-                            className={`${inputCls} resize-y min-h-[80px]`}
+                            className={`${inputCls} min-h-[80px] resize-y`}
                         />
                     </div>
                 ))}
@@ -298,7 +298,7 @@ export default function AboutPanel() {
             {/* 피드백 + 저장 */}
             {status && (
                 <p
-                    className={`text-base px-3 py-2 rounded-lg ${status.type === "error" ? "text-red-500 bg-red-50 dark:bg-red-950/30" : "text-green-600 bg-green-50 dark:bg-green-950/30"}`}
+                    className={`rounded-lg px-3 py-2 text-base ${status.type === "error" ? "bg-red-50 text-red-500 dark:bg-red-950/30" : "bg-green-50 text-green-600 dark:bg-green-950/30"}`}
                 >
                     {status.msg}
                 </p>
@@ -306,7 +306,7 @@ export default function AboutPanel() {
             <button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-6 py-2.5 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
+                className="rounded-lg bg-(--color-accent) px-6 py-2.5 text-base font-semibold text-(--color-on-accent) transition-opacity hover:opacity-90 disabled:opacity-50"
             >
                 {saving ? "저장 중..." : "Supabase에 저장"}
             </button>

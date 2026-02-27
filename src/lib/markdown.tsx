@@ -65,7 +65,7 @@ function FoliumTable({
     return (
         <div className="folium-table-wrapper">
             <table
-                className={`folium-table${hasColors ? " has-col-colors" : ""}`}
+                className={`folium-table${hasColors ? "has-col-colors" : ""}`}
             >
                 <thead>
                     <tr>

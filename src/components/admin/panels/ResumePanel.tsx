@@ -141,7 +141,7 @@ export default function ResumePanel() {
     };
 
     return (
-        <div className="max-w-4xl space-y-8 flex flex-col h-full">
+        <div className="flex h-full max-w-4xl flex-col space-y-8">
             <h2 className="text-2xl font-bold text-(--color-foreground)">
                 이력서 편집
             </h2>
@@ -156,7 +156,7 @@ export default function ResumePanel() {
                         <img
                             src={resumeData.basics.image}
                             alt="Profile"
-                            className="w-16 h-16 object-cover rounded-full border border-(--color-border)"
+                            className="h-16 w-16 rounded-full border border-(--color-border) object-cover"
                         />
                     )}
                     <div>
@@ -165,14 +165,9 @@ export default function ResumePanel() {
                             accept="image/*"
                             onChange={handleImageUpload}
                             disabled={uploadingImage}
-                            className="block w-full text-base text-(--color-foreground) cursor-pointer
-                            file:mr-4 file:py-2 file:px-4
-                            file:rounded-lg file:border-0
-                            file:text-base file:font-semibold
-                            file:bg-(--color-accent) file:text-(--color-on-accent)
-                            hover:file:bg-(--color-accent)/90 disabled:opacity-50"
+                            className="block w-full cursor-pointer text-base text-(--color-foreground) file:mr-4 file:rounded-lg file:border-0 file:bg-(--color-accent) file:px-4 file:py-2 file:text-base file:font-semibold file:text-(--color-on-accent) hover:file:bg-(--color-accent)/90 disabled:opacity-50"
                         />
-                        <p className="text-sm text-(--color-muted) mt-1">
+                        <p className="mt-1 text-sm text-(--color-muted)">
                             이미지를 선택하면 WebP로 자동 변환되어 저장되며 배열
                             안의 basics.image 경로가 업데이트됩니다.
                         </p>
@@ -181,7 +176,7 @@ export default function ResumePanel() {
             </section>
 
             {/* Resume JSON Editor */}
-            <section className="space-y-3 flex-1 flex flex-col h-full">
+            <section className="flex h-full flex-1 flex-col space-y-3">
                 <h3 className="text-lg font-semibold text-(--color-foreground)">
                     이력서 데이터 (JSON)
                 </h3>
@@ -191,7 +186,7 @@ export default function ResumePanel() {
                 <textarea
                     value={jsonInput}
                     onChange={(e) => setJsonInput(e.target.value)}
-                    className="w-full h-96 p-4 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) font-mono text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 resize-y"
+                    className="h-96 w-full resize-y rounded-lg border border-(--color-border) bg-(--color-surface) p-4 font-mono text-sm leading-relaxed text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none"
                     spellCheck={false}
                 />
             </section>
@@ -199,10 +194,10 @@ export default function ResumePanel() {
             {/* 피드백 + 저장 */}
             {status && (
                 <p
-                    className={`text-base px-3 py-2 rounded-lg ${
+                    className={`rounded-lg px-3 py-2 text-base ${
                         status.type === "error"
-                            ? "text-red-500 bg-red-50 dark:bg-red-950/30"
-                            : "text-green-600 bg-green-50 dark:bg-green-950/30"
+                            ? "bg-red-50 text-red-500 dark:bg-red-950/30"
+                            : "bg-green-50 text-green-600 dark:bg-green-950/30"
                     }`}
                 >
                     {status.msg}
@@ -212,7 +207,7 @@ export default function ResumePanel() {
                 <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="px-6 py-2.5 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
+                    className="rounded-lg bg-(--color-accent) px-6 py-2.5 text-base font-semibold text-(--color-on-accent) transition-opacity hover:opacity-90 disabled:opacity-50"
                 >
                     {saving ? "저장 중..." : "Supabase에 저장"}
                 </button>

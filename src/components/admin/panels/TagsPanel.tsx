@@ -142,7 +142,7 @@ export default function TagsPanel() {
                     <button
                         type="button"
                         onClick={openNew}
-                        className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) font-medium hover:opacity-90 transition-opacity"
+                        className="rounded-lg bg-(--color-accent) px-4 py-2 font-medium text-(--color-on-accent) transition-opacity hover:opacity-90"
                     >
                         새 태그
                     </button>
@@ -150,23 +150,23 @@ export default function TagsPanel() {
             </div>
 
             {error && (
-                <div className="p-3 rounded-lg bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-300 text-base">
+                <div className="rounded-lg bg-red-100 p-3 text-base text-red-700 dark:bg-red-950/50 dark:text-red-300">
                     {error}
                 </div>
             )}
             {success && (
-                <div className="p-3 rounded-lg bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-300 text-base">
+                <div className="rounded-lg bg-green-100 p-3 text-base text-green-700 dark:bg-green-950/50 dark:text-green-300">
                     {success}
                 </div>
             )}
 
             {editSlug !== null ? (
-                <div className="p-6 rounded-xl border border-(--color-border) bg-(--color-surface-subtle) space-y-4 max-w-md">
+                <div className="max-w-md space-y-4 rounded-xl border border-(--color-border) bg-(--color-surface-subtle) p-6">
                     <h3 className="font-semibold text-(--color-foreground)">
                         {editSlug === "new" ? "태그 추가" : "태그 수정"}
                     </h3>
                     <div>
-                        <label className="block text-base font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-base font-medium text-(--color-muted)">
                             slug (URL/식별자)
                         </label>
                         <input
@@ -176,11 +176,11 @@ export default function TagsPanel() {
                                 setForm((f) => ({ ...f, slug: e.target.value }))
                             }
                             placeholder={toSlug(form.name) || "자동 생성"}
-                            className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground)"
+                            className="w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-(--color-foreground)"
                         />
                     </div>
                     <div>
-                        <label className="block text-base font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-base font-medium text-(--color-muted)">
                             표시 이름 *
                         </label>
                         <input
@@ -194,11 +194,11 @@ export default function TagsPanel() {
                                 }))
                             }
                             placeholder="예: Unreal Engine 5"
-                            className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground)"
+                            className="w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-(--color-foreground)"
                         />
                     </div>
                     <div>
-                        <label className="block text-base font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-base font-medium text-(--color-muted)">
                             색상 (hex, rgb 등)
                         </label>
                         <input
@@ -211,7 +211,7 @@ export default function TagsPanel() {
                                 }))
                             }
                             placeholder="#3b82f6"
-                            className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground)"
+                            className="w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-(--color-foreground)"
                         />
                     </div>
                     <div className="flex gap-2">
@@ -219,14 +219,14 @@ export default function TagsPanel() {
                             type="button"
                             onClick={handleSave}
                             disabled={saving || !form.name.trim()}
-                            className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) font-medium hover:opacity-90 disabled:opacity-50"
+                            className="rounded-lg bg-(--color-accent) px-4 py-2 font-medium text-(--color-on-accent) hover:opacity-90 disabled:opacity-50"
                         >
                             {saving ? "저장 중..." : "저장"}
                         </button>
                         <button
                             type="button"
                             onClick={cancel}
-                            className="px-4 py-2 rounded-lg border border-(--color-border) text-(--color-muted) hover:bg-(--color-surface-subtle)"
+                            className="rounded-lg border border-(--color-border) px-4 py-2 text-(--color-muted) hover:bg-(--color-surface-subtle)"
                         >
                             취소
                         </button>
@@ -245,11 +245,11 @@ export default function TagsPanel() {
                     {tags.map((tag) => (
                         <li
                             key={tag.slug}
-                            className="flex items-center justify-between p-3 rounded-lg border border-(--color-border) bg-(--color-surface-subtle)"
+                            className="flex items-center justify-between rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-3"
                         >
                             <div className="flex items-center gap-3">
                                 <span
-                                    className="px-2 py-1 text-sm rounded-full"
+                                    className="rounded-full px-2 py-1 text-sm"
                                     style={
                                         tag.color
                                             ? {
@@ -269,7 +269,7 @@ export default function TagsPanel() {
                                 <button
                                     type="button"
                                     onClick={() => openEdit(tag)}
-                                    className="text-base text-white bg-blue-500 px-3 py-2 rounded-lg border border-(--color-border) hover:text-(--color-foreground) hover:bg-blue-400 hover:border-(--color-accent) transition-colors"
+                                    className="rounded-lg border border-(--color-border) bg-blue-500 px-3 py-2 text-base text-white transition-colors hover:border-(--color-accent) hover:bg-blue-400 hover:text-(--color-foreground)"
                                 >
                                     수정
                                 </button>
@@ -277,7 +277,7 @@ export default function TagsPanel() {
                                     type="button"
                                     onClick={() => handleDelete(tag.slug)}
                                     disabled={saving}
-                                    className="text-base text-white bg-red-500 px-3 py-2 rounded-lg border border-(--color-border) hover:text-(--color-foreground) hover:bg-red-400 hover:border-(--color-accent) transition-colors"
+                                    className="rounded-lg border border-(--color-border) bg-red-500 px-3 py-2 text-base text-white transition-colors hover:border-(--color-accent) hover:bg-red-400 hover:text-(--color-foreground)"
                                 >
                                     삭제
                                 </button>

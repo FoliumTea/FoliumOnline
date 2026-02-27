@@ -68,10 +68,10 @@ export default function TableOfContents({
 
     return (
         <nav
-            className={`sticky top-24 self-start hidden desktop:block shrink-0 max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain ${className} tablet:w-52 desktop:w-64`}
+            className={`desktop:block sticky top-24 hidden max-h-[calc(100vh-8rem)] shrink-0 self-start overflow-y-auto overscroll-contain ${className} tablet:w-52 desktop:w-64`}
             aria-label="목차"
         >
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-(--color-muted) mb-3">
+            <h2 className="mb-3 text-xs font-semibold tracking-wider text-(--color-muted) uppercase">
                 On this page
             </h2>
             <ul className="space-y-1 text-sm">
@@ -79,9 +79,9 @@ export default function TableOfContents({
                     <li key={i}>
                         <a
                             href={`#${entry.slug}`}
-                            className={`block py-1 text-base text-(--color-muted) hover:text-(--color-foreground) transition-all duration-200 ${
+                            className={`block py-1 text-base text-(--color-muted) transition-all duration-200 hover:text-(--color-foreground) ${
                                 activeSection === `#${entry.slug}`
-                                    ? "font-bold text-lg"
+                                    ? "text-lg font-bold"
                                     : ""
                             }`}
                             style={
@@ -98,15 +98,15 @@ export default function TableOfContents({
                             {entry.text}
                         </a>
                         {entry.children.length > 0 && (
-                            <ul className="ml-3 mt-0.5 space-y-0.5 border-l border-(--color-border)">
+                            <ul className="mt-0.5 ml-3 space-y-0.5 border-l border-(--color-border)">
                                 {entry.children.map((child, j) => (
                                     <li key={j}>
                                         <a
                                             href={`#${child.slug}`}
-                                            className={`block py-0.5 pl-2 -ml-px border-l-2 border-transparent text-base text-(--color-muted) hover:text-(--color-foreground) hover:border-(--color-accent) transition-all duration-200 ${
+                                            className={`-ml-px block border-l-2 border-transparent py-0.5 pl-2 text-base text-(--color-muted) transition-all duration-200 hover:border-(--color-accent) hover:text-(--color-foreground) ${
                                                 activeSection ===
                                                 `#${child.slug}`
-                                                    ? "font-bold text-lg border-(--color-accent)"
+                                                    ? "border-(--color-accent) text-lg font-bold"
                                                     : ""
                                             }`}
                                             style={

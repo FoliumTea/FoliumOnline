@@ -54,7 +54,7 @@ export default function PortfolioView({ projects }: Props) {
         <div className="space-y-6">
             {/* List / Block 토글 */}
             <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-(--color-muted) mr-2">
+                <span className="mr-2 text-sm font-medium text-(--color-muted)">
                     보기:
                 </span>
                 <div
@@ -96,10 +96,10 @@ export default function PortfolioView({ projects }: Props) {
                     {projects.map((project) => (
                         <article
                             key={project.slug}
-                            className="p-6 rounded-xl border border-(--color-border) bg-(--color-surface-subtle)"
+                            className="rounded-xl border border-(--color-border) bg-(--color-surface-subtle) p-6"
                         >
-                            <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-                                <h2 className="text-xl font-bold text-(--color-foreground) tablet:text-2xl">
+                            <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+                                <h2 className="tablet:text-2xl text-xl font-bold text-(--color-foreground)">
                                     {project.title}
                                 </h2>
                                 {project.github ? (
@@ -113,49 +113,49 @@ export default function PortfolioView({ projects }: Props) {
                                     </a>
                                 ) : null}
                             </div>
-                            <p className="text-base font-normal text-(--color-foreground) mb-4 tablet:text-lg">
+                            <p className="tablet:text-lg mb-4 text-base font-normal text-(--color-foreground)">
                                 {project.description}
                             </p>
-                            <dl className="grid grid-cols-1 gap-2 text-sm mb-4 text-(--color-foreground) tablet:grid-cols-2">
+                            <dl className="tablet:grid-cols-2 mb-4 grid grid-cols-1 gap-2 text-sm text-(--color-foreground)">
                                 <div>
-                                    <dt className="text-xs font-bold uppercase tracking-wide text-(--color-muted)">
+                                    <dt className="text-xs font-bold tracking-wide text-(--color-muted) uppercase">
                                         기간
                                     </dt>
-                                    <dd className="text-sm font-medium mt-0.5">
+                                    <dd className="mt-0.5 text-sm font-medium">
                                         {project.startDate} ~ {project.endDate}
                                     </dd>
                                 </div>
                                 <div>
-                                    <dt className="text-xs font-bold uppercase tracking-wide text-(--color-muted)">
+                                    <dt className="text-xs font-bold tracking-wide text-(--color-muted) uppercase">
                                         역할
                                     </dt>
-                                    <dd className="text-sm font-medium mt-0.5">
+                                    <dd className="mt-0.5 text-sm font-medium">
                                         {project.role}
                                     </dd>
                                 </div>
                                 <div>
-                                    <dt className="text-xs font-bold uppercase tracking-wide text-(--color-muted)">
+                                    <dt className="text-xs font-bold tracking-wide text-(--color-muted) uppercase">
                                         참여 인원
                                     </dt>
-                                    <dd className="text-sm font-medium mt-0.5">
+                                    <dd className="mt-0.5 text-sm font-medium">
                                         {project.teamSize}명
                                     </dd>
                                 </div>
                                 <div>
-                                    <dt className="text-xs font-bold uppercase tracking-wide text-(--color-muted)">
+                                    <dt className="text-xs font-bold tracking-wide text-(--color-muted) uppercase">
                                         목표
                                     </dt>
-                                    <dd className="text-sm font-medium mt-0.5">
+                                    <dd className="mt-0.5 text-sm font-medium">
                                         {project.goal}
                                     </dd>
                                 </div>
                             </dl>
                             {project.accomplishments.length > 0 ? (
                                 <div className="mb-4">
-                                    <h3 className="text-sm font-bold text-(--color-foreground) mb-2">
+                                    <h3 className="mb-2 text-sm font-bold text-(--color-foreground)">
                                         성과
                                     </h3>
-                                    <ul className="list-disc list-inside space-y-1 text-sm font-normal text-(--color-foreground)">
+                                    <ul className="list-inside list-disc space-y-1 text-sm font-normal text-(--color-foreground)">
                                         {project.accomplishments.map((a, i) => (
                                             <li key={i}>{a}</li>
                                         ))}
@@ -167,7 +167,7 @@ export default function PortfolioView({ projects }: Props) {
                                     {project.keywords.map((k, i) => (
                                         <span
                                             key={i}
-                                            className="px-2 py-1 text-xs rounded-full bg-(--color-tag-bg) text-(--color-tag-fg)"
+                                            className="rounded-full bg-(--color-tag-bg) px-2 py-1 text-xs text-(--color-tag-fg)"
                                         >
                                             {k}
                                         </span>
@@ -178,15 +178,15 @@ export default function PortfolioView({ projects }: Props) {
                     ))}
                 </div>
             ) : (
-                <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2">
+                <div className="tablet:grid-cols-2 grid grid-cols-1 gap-6">
                     {projects.map((project, index) => (
                         <a
                             key={project.slug}
                             href={`/portfolio/${project.slug}`}
-                            className="group block rounded-xl border border-(--color-border) bg-(--color-surface-subtle) overflow-hidden hover:border-(--color-accent) transition-colors"
+                            className="group block overflow-hidden rounded-xl border border-(--color-border) bg-(--color-surface-subtle) transition-colors hover:border-(--color-accent)"
                         >
                             {/* 썸네일 */}
-                            <div className="aspect-video w-full bg-(--color-border) overflow-hidden">
+                            <div className="aspect-video w-full overflow-hidden bg-(--color-border)">
                                 {project.thumbnail ? (
                                     <img
                                         src={project.thumbnail}
@@ -198,17 +198,17 @@ export default function PortfolioView({ projects }: Props) {
                                         fetchPriority={
                                             index < 2 ? "high" : undefined
                                         }
-                                        className="h-full w-full object-cover group-hover:scale-[1.02] transition-transform duration-200"
+                                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
                                     />
                                 ) : (
-                                    <div className="h-full w-full flex items-center justify-center text-(--color-muted) text-sm">
+                                    <div className="flex h-full w-full items-center justify-center text-sm text-(--color-muted)">
                                         No image
                                     </div>
                                 )}
                             </div>
                             <div className="p-4">
                                 {/* 제목 */}
-                                <h2 className="font-semibold text-(--color-foreground) mb-2 flex items-center gap-2">
+                                <h2 className="mb-2 flex items-center gap-2 font-semibold text-(--color-foreground)">
                                     <span
                                         className="text-(--color-muted)"
                                         aria-hidden
@@ -219,11 +219,11 @@ export default function PortfolioView({ projects }: Props) {
                                 </h2>
                                 {/* 태그 */}
                                 {project.keywords.length > 0 ? (
-                                    <div className="flex flex-wrap gap-1.5 mb-3">
+                                    <div className="mb-3 flex flex-wrap gap-1.5">
                                         {project.keywords.map((k, i) => (
                                             <span
                                                 key={i}
-                                                className={`px-2 py-0.5 text-xs rounded ${getTagClass(i)}`}
+                                                className={`rounded px-2 py-0.5 text-xs ${getTagClass(i)}`}
                                             >
                                                 {k}
                                             </span>
@@ -231,7 +231,7 @@ export default function PortfolioView({ projects }: Props) {
                                     </div>
                                 ) : null}
                                 {/* 설명 */}
-                                <p className="text-sm text-(--color-muted) line-clamp-2">
+                                <p className="line-clamp-2 text-sm text-(--color-muted)">
                                     {project.description}
                                 </p>
                                 {/* 배지 (STOVE 출시, BIC 선정 등) */}

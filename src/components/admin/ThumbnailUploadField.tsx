@@ -65,21 +65,21 @@ export default function ThumbnailUploadField({
                     <img
                         src={value}
                         alt="썸네일 미리보기"
-                        className="h-20 w-20 object-cover rounded-lg border border-(--color-border)"
+                        className="h-20 w-20 rounded-lg border border-(--color-border) object-cover"
                         onError={(e) => {
                             (e.target as HTMLImageElement).style.display =
                                 "none";
                         }}
                     />
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm text-(--color-muted) truncate">
+                    <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm text-(--color-muted)">
                             {value}
                         </p>
                     </div>
                 </div>
             )}
 
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
                 <input
                     ref={fileInputRef}
                     type="file"
@@ -91,10 +91,10 @@ export default function ThumbnailUploadField({
                 />
                 <label
                     htmlFor="thumbnail-file-input"
-                    className={`inline-flex items-center justify-center px-4 py-2 rounded-lg border border-(--color-border) text-base font-medium cursor-pointer transition-colors shrink-0 ${
+                    className={`inline-flex shrink-0 cursor-pointer items-center justify-center rounded-lg border border-(--color-border) px-4 py-2 text-base font-medium transition-colors ${
                         uploading
-                            ? "opacity-50 cursor-not-allowed"
-                            : "hover:bg-(--color-surface-subtle) hover:border-(--color-accent)"
+                            ? "cursor-not-allowed opacity-50"
+                            : "hover:border-(--color-accent) hover:bg-(--color-surface-subtle)"
                     } text-(--color-foreground)`}
                 >
                     {uploading ? "업로드 중..." : "파일 선택"}
@@ -104,7 +104,7 @@ export default function ThumbnailUploadField({
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                     placeholder={placeholder}
-                    className="flex-1 px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base font-mono focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40"
+                    className="flex-1 rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 font-mono text-base text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none"
                 />
             </div>
 

@@ -49,11 +49,11 @@ export default function AuthGuard({ children }: Props) {
 
     if (authState === "loading") {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-(--color-surface)">
+            <div className="flex min-h-screen items-center justify-center bg-(--color-surface)">
                 <div className="flex flex-col items-center gap-3 text-(--color-muted)">
                     {/* 스피너 */}
                     <svg
-                        className="w-8 h-8 animate-spin"
+                        className="h-8 w-8 animate-spin"
                         fill="none"
                         viewBox="0 0 24 24"
                     >

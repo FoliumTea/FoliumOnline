@@ -91,7 +91,7 @@ export default function TagSelector({
                     onChange={(e) => onChange(e.target.value)}
                     disabled={disabled}
                     placeholder="slug1, slug2 (직접 입력)"
-                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40"
+                    className="w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-base text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none"
                 />
             </div>
         );
@@ -105,14 +105,14 @@ export default function TagSelector({
                         {orphanSlugs.map((slug) => (
                             <span
                                 key={slug}
-                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-base border border-amber-300 dark:border-amber-600 bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-200"
+                                className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50 px-3 py-1.5 text-base text-amber-800 dark:border-amber-600 dark:bg-amber-950/30 dark:text-amber-200"
                             >
                                 {slug}
                                 <button
                                     type="button"
                                     onClick={() => removeOrphan(slug)}
                                     disabled={disabled}
-                                    className="hover:opacity-70 text-sm"
+                                    className="text-sm hover:opacity-70"
                                     aria-label={`${slug} 제거`}
                                 >
                                     ×
@@ -130,11 +130,11 @@ export default function TagSelector({
                             onClick={() => toggle(tag.slug)}
                             disabled={disabled}
                             className={[
-                                "px-3 py-1.5 rounded-lg text-base font-medium transition-colors border",
+                                "rounded-lg border px-3 py-1.5 text-base font-medium transition-colors",
                                 isSelected
                                     ? "border-(--color-accent) bg-(--color-accent) text-(--color-on-accent)"
                                     : "border-(--color-border) bg-(--color-surface) text-(--color-foreground) hover:bg-(--color-surface-subtle)",
-                                disabled ? "opacity-50 cursor-not-allowed" : "",
+                                disabled ? "cursor-not-allowed opacity-50" : "",
                             ].join(" ")}
                             style={
                                 isSelected && tag.color

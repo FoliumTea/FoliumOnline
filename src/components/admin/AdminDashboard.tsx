@@ -43,13 +43,13 @@ export default function AdminDashboard() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="flex min-h-screen flex-col">
             {/* 헤더 */}
-            <header className="border-b border-(--color-border) bg-(--color-surface) px-6 py-3 flex items-center justify-between">
+            <header className="flex items-center justify-between border-b border-(--color-border) bg-(--color-surface) px-6 py-3">
                 <div className="flex items-center gap-3">
                     <a
                         href="/"
-                        className="text-base font-medium text-(--color-muted) hover:text-(--color-foreground) transition-colors"
+                        className="text-base font-medium text-(--color-muted) transition-colors hover:text-(--color-foreground)"
                     >
                         ← 사이트
                     </a>
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
                     <ThemeToggle />
                     <button
                         onClick={handleLogout}
-                        className="text-base text-(--color-muted) hover:text-red-500 transition-colors px-3 py-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-950/30"
+                        className="rounded-md px-3 py-1.5 text-base text-(--color-muted) transition-colors hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950/30"
                     >
                         로그아웃
                     </button>
@@ -71,13 +71,13 @@ export default function AdminDashboard() {
 
             <div className="flex flex-1 overflow-hidden">
                 {/* 사이드바 탭 */}
-                <nav className="w-48 border-r border-(--color-border) bg-(--color-surface-subtle) flex flex-col py-4 gap-1 px-2 shrink-0">
+                <nav className="flex w-48 shrink-0 flex-col gap-1 border-r border-(--color-border) bg-(--color-surface-subtle) px-2 py-4">
                     {TABS.map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={[
-                                "flex items-center gap-2.5 px-3 py-2 rounded-lg text-base font-medium text-left transition-colors",
+                                "flex items-center gap-2.5 rounded-lg px-3 py-2 text-left text-base font-medium transition-colors",
                                 activeTab === tab.id
                                     ? "bg-(--color-accent) text-(--color-on-accent)"
                                     : "text-(--color-muted) hover:bg-(--color-border) hover:text-(--color-foreground)",
