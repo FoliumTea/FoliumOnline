@@ -3,8 +3,5 @@
 # --allow-empty: 삭제만 스테이지된 경우(매칭되는 스테이지 파일 없음)에도 훅 통과
 pnpm exec lint-staged --allow-empty
 
-# Prettier 포맷팅
-pnpm format
-
 # 테스트 스위트 통과 여부 검증 (진행 불가 시 커밋 거부)
 pnpm vitest run
