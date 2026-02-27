@@ -9,11 +9,18 @@
 import "@/styles/global.css";
 import AuthGuard from "@/components/admin/AuthGuard";
 import AdminDashboard from "@/components/admin/AdminDashboard";
+import ThemeLoader from "@/components/ThemeLoader";
 
 const colorScheme = (import.meta.env.PUBLIC_COLOR_SCHEME ?? "gray") as string;
-const validScheme = ["blue", "gray", "beige", "blackwhite"].includes(
-    colorScheme
-)
+const validScheme = [
+    "blue",
+    "gray",
+    "beige",
+    "blackwhite",
+    "forest",
+    "sunset",
+    "lavender",
+].includes(colorScheme)
     ? colorScheme
     : "gray";
 ---
@@ -40,6 +47,7 @@ const validScheme = ["blue", "gray", "beige", "blackwhite"].includes(
         </script>
     </head>
     <body class="min-h-screen bg-(--color-surface) text-(--color-foreground)">
+        <ThemeLoader client:load />
         <AuthGuard client:load>
             <AdminDashboard client:load />
         </AuthGuard>
