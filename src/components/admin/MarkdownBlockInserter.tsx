@@ -153,14 +153,14 @@ export default function MarkdownBlockInserter({
     return (
         <>
             <div className={`flex flex-wrap items-center gap-2 ${className}`}>
-                <span className="text-xs text-(--color-muted)">
+                <span className="text-sm text-(--color-muted)">
                     커스텀 블록:
                 </span>
                 <button
                     type="button"
                     onClick={() => setModal("folium-table")}
                     disabled={disabled}
-                    className="px-2.5 py-1 rounded-md border border-(--color-border) text-xs font-medium text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
+                    className="px-2.5 py-1 rounded-md border border-(--color-border) text-sm font-medium text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
                 >
                     📋 Folium Table
                 </button>
@@ -168,7 +168,7 @@ export default function MarkdownBlockInserter({
                     type="button"
                     onClick={() => setModal("youtube")}
                     disabled={disabled}
-                    className="px-2.5 py-1 rounded-md border border-(--color-border) text-xs font-medium text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
+                    className="px-2.5 py-1 rounded-md border border-(--color-border) text-sm font-medium text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
                 >
                     ▶ YouTube
                 </button>
@@ -176,7 +176,7 @@ export default function MarkdownBlockInserter({
                     type="button"
                     onClick={() => setModal("image")}
                     disabled={disabled}
-                    className="px-2.5 py-1 rounded-md border border-(--color-border) text-xs font-medium text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
+                    className="px-2.5 py-1 rounded-md border border-(--color-border) text-sm font-medium text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
                 >
                     🖼 이미지
                 </button>
@@ -200,12 +200,12 @@ export default function MarkdownBlockInserter({
                         className="w-full max-w-lg mx-4 p-6 rounded-xl border border-(--color-border) bg-(--color-surface) shadow-xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 className="text-lg font-semibold text-(--color-foreground) mb-4">
+                        <h3 className="text-xl font-semibold text-(--color-foreground) mb-4">
                             Folium Table 삽입
                         </h3>
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                <label className="block text-base font-medium text-(--color-muted) mb-1">
                                     컬럼 헤더 (쉼표 구분)
                                 </label>
                                 <input
@@ -215,11 +215,11 @@ export default function MarkdownBlockInserter({
                                         setFtColumns(e.target.value)
                                     }
                                     placeholder="항목, 내용"
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-sm"
+                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                <label className="block text-base font-medium text-(--color-muted) mb-1">
                                     행 데이터 (한 줄에 한 행, 셀은 | 로 구분)
                                 </label>
                                 <textarea
@@ -227,11 +227,11 @@ export default function MarkdownBlockInserter({
                                     onChange={(e) => setFtRows(e.target.value)}
                                     rows={6}
                                     placeholder="값1 | 값2&#10;값3 | 값4"
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-sm font-mono resize-y"
+                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base font-mono resize-y"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                <label className="block text-base font-medium text-(--color-muted) mb-1">
                                     컬럼 헤더 색상 (선택, Tailwind 이름, 쉼표
                                     구분)
                                 </label>
@@ -242,11 +242,11 @@ export default function MarkdownBlockInserter({
                                         setFtColHeadColors(e.target.value)
                                     }
                                     placeholder="green-400, blue-200"
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-sm"
+                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                <label className="block text-base font-medium text-(--color-muted) mb-1">
                                     행 배경 색상 (선택, 쉼표 구분)
                                 </label>
                                 <input
@@ -256,7 +256,7 @@ export default function MarkdownBlockInserter({
                                         setFtRowColors(e.target.value)
                                     }
                                     placeholder="green-100, green-50"
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-sm"
+                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
                                 />
                             </div>
                         </div>
@@ -264,14 +264,14 @@ export default function MarkdownBlockInserter({
                             <button
                                 type="button"
                                 onClick={() => setModal(null)}
-                                className="px-4 py-2 rounded-lg border border-(--color-border) text-sm text-(--color-muted) hover:bg-(--color-surface-subtle)"
+                                className="px-4 py-2 rounded-lg border border-(--color-border) text-base text-(--color-muted) hover:bg-(--color-surface-subtle)"
                             >
                                 취소
                             </button>
                             <button
                                 type="button"
                                 onClick={handleInsertFoliumTable}
-                                className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-sm font-medium"
+                                className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-medium"
                             >
                                 삽입
                             </button>
@@ -290,11 +290,11 @@ export default function MarkdownBlockInserter({
                         className="w-full max-w-md mx-4 p-6 rounded-xl border border-(--color-border) bg-(--color-surface) shadow-xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 className="text-lg font-semibold text-(--color-foreground) mb-4">
+                        <h3 className="text-xl font-semibold text-(--color-foreground) mb-4">
                             YouTube 삽입
                         </h3>
                         <div>
-                            <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                            <label className="block text-base font-medium text-(--color-muted) mb-1">
                                 동영상 ID
                             </label>
                             <input
@@ -302,7 +302,7 @@ export default function MarkdownBlockInserter({
                                 value={ytId}
                                 onChange={(e) => setYtId(e.target.value)}
                                 placeholder="Qr6olpAJfvk (youtu.be/Qr6olpAJfvk 에서)"
-                                className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-sm"
+                                className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
                                 autoFocus
                             />
                         </div>
@@ -310,7 +310,7 @@ export default function MarkdownBlockInserter({
                             <button
                                 type="button"
                                 onClick={() => setModal(null)}
-                                className="px-4 py-2 rounded-lg border border-(--color-border) text-sm text-(--color-muted) hover:bg-(--color-surface-subtle)"
+                                className="px-4 py-2 rounded-lg border border-(--color-border) text-base text-(--color-muted) hover:bg-(--color-surface-subtle)"
                             >
                                 취소
                             </button>
@@ -318,7 +318,7 @@ export default function MarkdownBlockInserter({
                                 type="button"
                                 onClick={handleInsertYoutube}
                                 disabled={!ytId.trim()}
-                                className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-sm font-medium disabled:opacity-50"
+                                className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-medium disabled:opacity-50"
                             >
                                 삽입
                             </button>

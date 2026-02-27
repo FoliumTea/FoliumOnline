@@ -259,7 +259,7 @@ export default function ImageUploader({
                 className="w-full max-w-md mx-4 p-6 rounded-xl border border-(--color-border) bg-(--color-surface) shadow-xl"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h3 className="text-lg font-semibold text-(--color-foreground) mb-4">
+                <h3 className="text-xl font-semibold text-(--color-foreground) mb-4">
                     이미지 삽입
                 </h3>
 
@@ -271,7 +271,7 @@ export default function ImageUploader({
                             setMode("upload");
                             reset();
                         }}
-                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                        className={`px-3 py-1.5 rounded-lg text-base font-medium transition-colors ${
                             mode === "upload"
                                 ? "bg-(--color-accent) text-(--color-on-accent)"
                                 : "border border-(--color-border) text-(--color-muted) hover:bg-(--color-surface-subtle)"
@@ -285,7 +285,7 @@ export default function ImageUploader({
                             setMode("url");
                             reset();
                         }}
-                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                        className={`px-3 py-1.5 rounded-lg text-base font-medium transition-colors ${
                             mode === "url"
                                 ? "bg-(--color-accent) text-(--color-on-accent)"
                                 : "border border-(--color-border) text-(--color-muted) hover:bg-(--color-surface-subtle)"
@@ -297,7 +297,7 @@ export default function ImageUploader({
 
                 {/* Alt 텍스트 (공통) */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                    <label className="block text-base font-medium text-(--color-muted) mb-1">
                         대체 텍스트 (선택)
                     </label>
                     <input
@@ -305,7 +305,7 @@ export default function ImageUploader({
                         value={altInput}
                         onChange={(e) => setAltInput(e.target.value)}
                         placeholder="이미지 설명"
-                        className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-sm"
+                        className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
                     />
                 </div>
 
@@ -334,7 +334,7 @@ export default function ImageUploader({
                                         className="max-h-48 mx-auto rounded"
                                     />
                                 ) : (
-                                    <span className="text-(--color-muted) text-sm">
+                                    <span className="text-(--color-muted) text-base">
                                         클릭하거나 이미지를 끌어다 놓으세요
                                         <br />
                                         (최대 5MB, WebP로 변환 저장)
@@ -345,7 +345,7 @@ export default function ImageUploader({
                     </>
                 ) : (
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                        <label className="block text-base font-medium text-(--color-muted) mb-1">
                             이미지 URL
                         </label>
                         <input
@@ -353,21 +353,23 @@ export default function ImageUploader({
                             value={urlInput}
                             onChange={(e) => setUrlInput(e.target.value)}
                             placeholder="https://..."
-                            className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-sm"
+                            className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
                         />
-                        <p className="text-xs text-(--color-muted) mt-1">
+                        <p className="text-sm text-(--color-muted) mt-1">
                             Supabase 업로드 시도 후, 실패하면 URL 그대로 사용
                         </p>
                     </div>
                 )}
 
-                {error && <p className="text-sm text-red-500 mb-4">{error}</p>}
+                {error && (
+                    <p className="text-base text-red-500 mb-4">{error}</p>
+                )}
 
                 <div className="flex justify-end gap-2">
                     <button
                         type="button"
                         onClick={onClose}
-                        className="px-4 py-2 rounded-lg border border-(--color-border) text-sm text-(--color-muted) hover:bg-(--color-surface-subtle)"
+                        className="px-4 py-2 rounded-lg border border-(--color-border) text-base text-(--color-muted) hover:bg-(--color-surface-subtle)"
                     >
                         취소
                     </button>
@@ -376,7 +378,7 @@ export default function ImageUploader({
                             type="button"
                             onClick={handleUpload}
                             disabled={!file || uploading}
-                            className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-sm font-medium disabled:opacity-50"
+                            className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-medium disabled:opacity-50"
                         >
                             {uploading ? "업로드 중..." : "삽입"}
                         </button>
@@ -386,7 +388,7 @@ export default function ImageUploader({
                                 type="button"
                                 onClick={handleInsertUrlAsIs}
                                 disabled={!urlInput.trim()}
-                                className="px-4 py-2 rounded-lg border border-(--color-border) text-sm text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50"
+                                className="px-4 py-2 rounded-lg border border-(--color-border) text-base text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50"
                             >
                                 URL 그대로
                             </button>
@@ -394,7 +396,7 @@ export default function ImageUploader({
                                 type="button"
                                 onClick={handleUrlChange}
                                 disabled={!urlInput.trim() || uploading}
-                                className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-sm font-medium disabled:opacity-50"
+                                className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-medium disabled:opacity-50"
                             >
                                 {uploading ? "업로드 중..." : "Supabase에 저장"}
                             </button>

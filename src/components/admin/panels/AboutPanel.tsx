@@ -142,21 +142,21 @@ export default function AboutPanel() {
     };
 
     const inputCls =
-        "w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40";
+        "w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40";
 
     return (
         <div className="max-w-2xl space-y-8">
-            <h2 className="text-xl font-bold text-(--color-foreground)">
+            <h2 className="text-2xl font-bold text-(--color-foreground)">
                 About 편집
             </h2>
 
             {/* 프로필 */}
             <section className="space-y-3">
-                <h3 className="text-base font-semibold text-(--color-foreground)">
+                <h3 className="text-lg font-semibold text-(--color-foreground)">
                     프로필
                 </h3>
                 <div>
-                    <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                    <label className="block text-base font-medium text-(--color-muted) mb-1">
                         프로필 이미지 URL
                     </label>
                     <input
@@ -168,7 +168,7 @@ export default function AboutPanel() {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                    <label className="block text-base font-medium text-(--color-muted) mb-1">
                         이름
                     </label>
                     <input
@@ -183,11 +183,11 @@ export default function AboutPanel() {
 
             {/* 소개 */}
             <section className="space-y-3">
-                <h3 className="text-base font-semibold text-(--color-foreground)">
+                <h3 className="text-lg font-semibold text-(--color-foreground)">
                     소개
                 </h3>
                 <div>
-                    <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                    <label className="block text-base font-medium text-(--color-muted) mb-1">
                         메인 소개
                     </label>
                     <textarea
@@ -197,7 +197,7 @@ export default function AboutPanel() {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                    <label className="block text-base font-medium text-(--color-muted) mb-1">
                         보조 소개
                     </label>
                     <textarea
@@ -210,11 +210,11 @@ export default function AboutPanel() {
 
             {/* 연락처 */}
             <section className="space-y-3">
-                <h3 className="text-base font-semibold text-(--color-foreground)">
+                <h3 className="text-lg font-semibold text-(--color-foreground)">
                     연락처
                 </h3>
                 <div>
-                    <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                    <label className="block text-base font-medium text-(--color-muted) mb-1">
                         Email
                     </label>
                     <input
@@ -225,7 +225,7 @@ export default function AboutPanel() {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                    <label className="block text-base font-medium text-(--color-muted) mb-1">
                         GitHub URL
                     </label>
                     <input
@@ -236,7 +236,7 @@ export default function AboutPanel() {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                    <label className="block text-base font-medium text-(--color-muted) mb-1">
                         LinkedIn URL
                     </label>
                     <input
@@ -250,15 +250,15 @@ export default function AboutPanel() {
 
             {/* 경험 유형별 */}
             <section className="space-y-3">
-                <h3 className="text-base font-semibold text-(--color-foreground)">
+                <h3 className="text-lg font-semibold text-(--color-foreground)">
                     경험 유형별 리스트
                 </h3>
-                <p className="text-xs text-(--color-muted)">
+                <p className="text-sm text-(--color-muted)">
                     한 줄 = 한 항목. 비워두면 표시 안 됨.
                 </p>
                 {ABOUT_SECTION_KEYS.map((key) => (
                     <div key={key}>
-                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                        <label className="block text-base font-medium text-(--color-muted) mb-1">
                             {key}
                         </label>
                         <textarea
@@ -275,12 +275,12 @@ export default function AboutPanel() {
 
             {/* 역량 키워드별 */}
             <section className="space-y-3">
-                <h3 className="text-base font-semibold text-(--color-foreground)">
+                <h3 className="text-lg font-semibold text-(--color-foreground)">
                     역량 키워드별 리스트
                 </h3>
                 {COMPETENCY_SECTION_KEYS.map((key) => (
                     <div key={key}>
-                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                        <label className="block text-base font-medium text-(--color-muted) mb-1">
                             {key}
                         </label>
                         <textarea
@@ -298,7 +298,7 @@ export default function AboutPanel() {
             {/* 피드백 + 저장 */}
             {status && (
                 <p
-                    className={`text-sm px-3 py-2 rounded-lg ${status.type === "error" ? "text-red-500 bg-red-50 dark:bg-red-950/30" : "text-green-600 bg-green-50 dark:bg-green-950/30"}`}
+                    className={`text-base px-3 py-2 rounded-lg ${status.type === "error" ? "text-red-500 bg-red-50 dark:bg-red-950/30" : "text-green-600 bg-green-50 dark:bg-green-950/30"}`}
                 >
                     {status.msg}
                 </p>
@@ -306,7 +306,7 @@ export default function AboutPanel() {
             <button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-6 py-2.5 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
+                className="px-6 py-2.5 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
             >
                 {saving ? "저장 중..." : "Supabase에 저장"}
             </button>

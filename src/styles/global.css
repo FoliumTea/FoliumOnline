@@ -72,8 +72,9 @@ body {
     --color-link: #ffffff;
 }
 
-/* gray: 중립 회색 (라이트 배경 완화로 코드블록 대비 개선) */
-[data-color-scheme="gray"] {
+/* gray: 중립 회색 (라이트 배경 완화로 코드블록 대비 개선) / 스킴 미지정 시 기본값 */
+[data-color-scheme="gray"],
+:root:not([data-color-scheme]) {
     --color-code-block-bg: #262626;
     --color-code-block-fg: #e5e5e5;
     --color-surface: #fafafa;
@@ -90,7 +91,8 @@ body {
     --color-code-fg: #171717;
     --color-link: #404040;
 }
-[data-color-scheme="gray"].dark {
+[data-color-scheme="gray"].dark,
+:root:not([data-color-scheme]).dark {
     --color-code-block-bg: #262626;
     --color-code-block-fg: #e5e5e5;
     --color-surface: #171717;
@@ -178,42 +180,6 @@ body {
     --color-code-bg: #292524;
     --color-code-fg: #e7e5e4;
     --color-link: #fcd34d;
-}
-
-/* 스킴 미지정 시 gray 기본 */
-:root:not([data-color-scheme]) {
-    --color-code-block-bg: #262626;
-    --color-code-block-fg: #e5e5e5;
-    --color-surface: #fafafa;
-    --color-surface-subtle: #f5f5f5;
-    --color-foreground: #171717;
-    --color-muted: #525252;
-    --color-border: #e5e5e5;
-    --color-accent: #525252;
-    --color-on-accent: #ffffff;
-    --color-highlight: #404040;
-    --color-tag-bg: #e5e5e5;
-    --color-tag-fg: #404040;
-    --color-code-bg: #f0f0f0;
-    --color-code-fg: #171717;
-    --color-link: #404040;
-}
-:root:not([data-color-scheme]).dark {
-    --color-code-block-bg: #262626;
-    --color-code-block-fg: #e5e5e5;
-    --color-surface: #171717;
-    --color-surface-subtle: #262626;
-    --color-foreground: #fafafa;
-    --color-muted: #a3a3a3;
-    --color-border: #404040;
-    --color-accent: #a3a3a3;
-    --color-on-accent: #171717;
-    --color-highlight: #d4d4d4;
-    --color-tag-bg: #404040;
-    --color-tag-fg: #e5e5e5;
-    --color-code-bg: #262626;
-    --color-code-fg: #e5e5e5;
-    --color-link: #d4d4d4;
 }
 
 /* prose: 컬러 스킴 변수 적용 (코드블록, 인라인코드, 링크) */
@@ -335,17 +301,24 @@ body {
 }
 
 /* ── YouTubeEmbed ─────────────────────────────────────────────────── */
-/* renderMarkdown()이 생성한 HTML에 적용 (YouTubeEmbed.astro scoped 스타일 대체) */
-.youtube-embed-wrapper {
+/* 공통 16:9 래퍼 (블로그/에디터) */
+.youtube-embed-wrapper,
+.rich-editor-youtube-wrapper {
     position: relative;
     width: 100%;
     padding-bottom: 56.25%; /* 16:9 */
-    margin: 1em 0;
     border-radius: 0.5rem;
     overflow: hidden;
     background: var(--color-surface-subtle, #1a1a1a);
 }
-.youtube-embed {
+.youtube-embed-wrapper {
+    margin: 1em 0;
+}
+.rich-editor-youtube-wrapper {
+    min-width: 280px;
+}
+.youtube-embed,
+.rich-editor-youtube-embed {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -403,14 +376,176 @@ body {
     display: none;
 }
 
-/* Admin 마크다운 미리보기: 커스텀 태그 플레이스홀더 */
+/* Admin RichMarkdownEditor: 다크모드 (Tailwind @apply) */
+.dark .mdxeditor button,
+.dark .mdxeditor [role="button"],
+.dark .mdxeditor svg,
+.dark .mdxeditor .mdxeditor-toolbar,
+.dark .mdxeditor [class*="toolbar"],
+.dark .mdxeditor select,
+.dark .mdxeditor input,
+.dark .mdxeditor [contenteditable="true"],
+.dark .mdxeditor [contenteditable="true"] p,
+.dark .mdxeditor [contenteditable="true"] li,
+.dark .mdxeditor [contenteditable="true"] blockquote,
+.dark .mdxeditor [contenteditable="true"] span:not([class*="code"]),
+.dark .mdxeditor [class*="selectTrigger"],
+.dark .mdxeditor [class*="SelectTrigger"] {
+    @apply text-(--color-foreground);
+}
+
+/* CodeMirror 다크 모드: basicDark 구문 강조 복원 (상위 text 규칙 상속 차단) */
+.dark .mdxeditor [class*="codeMirrorWrapper"] .cm-content,
+.dark .mdxeditor [class*="codeMirrorWrapper"] .cm-content *,
+.dark .mdxeditor [class*="sp-wrapper"] .cm-content,
+.dark .mdxeditor [class*="sp-wrapper"] .cm-content * {
+    color: revert;
+}
+.dark .mdxeditor .cm-gutters {
+    @apply text-(--color-muted) border-(--color-border);
+}
+/* .mdxeditor 내부 + Radix Portal로 body에 렌더된 이미지/링크 모달 */
+.dark .mdxeditor [class*="DialogContent"],
+.dark .mdxeditor [class*="PopoverContent"],
+html.dark [class*="DialogContent"],
+html.dark [class*="PopoverContent"] {
+    @apply bg-(--color-surface) text-(--color-foreground) border-(--color-border);
+}
+.dark .mdxeditor [class*="DialogContent"] input,
+.dark .mdxeditor [class*="PopoverContent"] input,
+html.dark [class*="DialogContent"] input,
+html.dark [class*="PopoverContent"] input {
+    @apply bg-(--color-surface-subtle) text-(--color-foreground) border-(--color-border);
+}
+
+/* Rich text / Diff / Source 토글: 다크 배경 + 호버 */
+.dark .mdxeditor [class*="diffSourceToggle"],
+.dark .mdxeditor [class*="diffSourceToggleWrapper"] {
+    @apply bg-(--color-surface-subtle);
+}
+.dark .mdxeditor [class*="diffSourceToggle"] [class*="toolbarToggleItem"] {
+    @apply text-(--color-foreground);
+}
+.dark
+    .mdxeditor
+    [class*="diffSourceToggle"]
+    [class*="toolbarToggleItem"]:hover {
+    @apply bg-(--color-border);
+}
+.dark
+    .mdxeditor
+    [class*="diffSourceToggle"]
+    [class*="toolbarToggleItem"][data-state="on"] {
+    @apply bg-(--color-border);
+}
+
+/* 툴바 버튼(Bold, Image 등) 호버/active: diff 토글과 동일한 스타일 */
+.dark .mdxeditor [class*="toolbarToggleItem"]:hover,
+.dark .mdxeditor [class*="toolbarButton"]:hover {
+    background-color: var(--color-border) !important;
+}
+.dark .mdxeditor [class*="toolbarToggleItem"][data-state="on"],
+.dark .mdxeditor [class*="toolbarToggleItem"]:active,
+.dark .mdxeditor [class*="toolbarButton"][data-state="on"],
+.dark .mdxeditor [class*="toolbarButton"]:active {
+    background-color: var(--color-border) !important;
+}
+
+/* Code block (CodeMirror): Consolas 폰트 (Pretendard 상속 차단) + 배경 */
+.rich-markdown-editor .cm-editor,
+.rich-markdown-editor .cm-editor *,
+.rich-markdown-editor .cm-scroller,
+.rich-markdown-editor .cm-content,
+.rich-markdown-editor [class*="codeMirrorWrapper"],
+.rich-markdown-editor [class*="codeMirrorWrapper"] *,
+.rich-markdown-editor [class*="sp-wrapper"] .cm-editor,
+.rich-markdown-editor [class*="sp-wrapper"] .cm-editor * {
+    font-family: Consolas, "Courier New", monospace !important;
+}
+/* 라이트 모드: 밝은 배경 + basicLight 다색 구문 강조 */
+html:not(.dark) .mdxeditor .cm-editor,
+html:not(.dark) .mdxeditor .cm-scroller,
+html:not(.dark) .mdxeditor [class*="codeMirrorWrapper"],
+html:not(.dark) .mdxeditor [class*="sp-wrapper"] .cm-editor {
+    @apply bg-(--color-code-bg);
+}
+/* 다크 모드: 어두운 배경 + basicDark 다색 구문 강조 */
+.dark .mdxeditor .cm-editor,
+.dark .mdxeditor .cm-scroller,
+.dark .mdxeditor [class*="codeMirrorWrapper"],
+.dark .mdxeditor [class*="sp-wrapper"] .cm-editor {
+    @apply bg-(--color-code-block-bg);
+}
+
+/* 코드블록 언어 선택기: 다크 배경 */
+.dark .mdxeditor [class*="codeMirrorToolbar"],
+.dark .mdxeditor [class*="codeMirrorToolbar"] *,
+.dark .mdxeditor [class*="CodeBlockLanguage"] select,
+.dark .mdxeditor [class*="codeBlock"] select,
+.dark .mdxeditor [class*="codeMirrorWrapper"] select,
+.dark .mdxeditor [class*="toolbarCodeBlockLanguageSelectTrigger"],
+.dark .mdxeditor [class*="toolbarCodeBlockLanguageSelectContent"],
+.dark .mdxeditor [class*="codeMirrorWrapper"] [class*="selectTrigger"],
+.dark .mdxeditor [class*="codeMirrorWrapper"] [class*="SelectContent"] {
+    @apply bg-(--color-surface-subtle) text-(--color-foreground) border-(--color-border);
+}
+
+/* 인라인 코드 (``): 다크모드에서 텍스트를 검정으로 (밝은 배경 대비 가독) */
+html.dark .rich-markdown-editor :not(pre) > code,
+.dark .rich-markdown-editor :not(pre) > code,
+html.dark .rich-markdown-editor .rich-editor-prose :not(pre) > code,
+.dark .rich-markdown-editor .rich-editor-prose :not(pre) > code {
+    color: #000 !important;
+    padding: 0.125rem 0.25rem !important;
+    border-radius: 0.25rem !important;
+}
+
+/* Admin RichMarkdownEditor: Pretendard 폰트 적용 */
+.rich-markdown-editor,
+.rich-markdown-editor .mdxeditor,
+.rich-markdown-editor [contenteditable="true"] {
+    font-family: var(--font-sans);
+}
+
+/* Admin RichMarkdownEditor: prose heading 스타일 보강 (MDXEditor contentEditable) */
+[contenteditable="true"][data-lexical-editor="true"].prose h1,
+[contenteditable="true"][data-lexical-editor="true"].prose h2,
+[contenteditable="true"][data-lexical-editor="true"].prose h3,
+[contenteditable="true"][data-lexical-editor="true"].prose h4,
+[contenteditable="true"][data-lexical-editor="true"].prose h5,
+[contenteditable="true"][data-lexical-editor="true"].prose h6 {
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+[contenteditable="true"][data-lexical-editor="true"].prose h1 {
+    font-size: 2.25rem;
+}
+[contenteditable="true"][data-lexical-editor="true"].prose h2 {
+    font-size: 1.875rem;
+}
+[contenteditable="true"][data-lexical-editor="true"].prose h3 {
+    font-size: 1.5rem;
+}
+[contenteditable="true"][data-lexical-editor="true"].prose h4 {
+    font-size: 1.25rem;
+}
+[contenteditable="true"][data-lexical-editor="true"].prose h5 {
+    font-size: 1.125rem;
+}
+[contenteditable="true"][data-lexical-editor="true"].prose h6 {
+    font-size: 1rem;
+}
+
+/* Admin 마크다운 미리보기: 커스텀 태그 PLACEHOLDER */
 .admin-preview-body .preview-placeholder {
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     background: var(--color-surface-subtle);
     border: 1px dashed var(--color-border);
     color: var(--color-muted);
-    font-size: 0.875rem;
+    font-size: 1rem;
     margin: 0.5rem 0;
 }
 .admin-preview-body .preview-folium-table {

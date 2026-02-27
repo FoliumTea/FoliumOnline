@@ -68,7 +68,7 @@ export default function CategorySelect({
                         }
                     }}
                     placeholder={placeholder}
-                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 disabled:opacity-50 disabled:cursor-not-allowed"
                     autoComplete="off"
                 />
                 <ComboboxOptions
@@ -76,7 +76,7 @@ export default function CategorySelect({
                     className="mt-1 max-h-48 min-w-48 overflow-y-auto rounded-lg border border-(--color-border) bg-(--color-surface) py-1 shadow-lg empty:invisible z-50 tablet:min-w-96"
                 >
                     {displayOptions.length === 0 && !showCreateOption ? (
-                        <div className="px-3 py-2 text-sm text-(--color-muted)">
+                        <div className="px-3 py-2 text-base text-(--color-muted)">
                             카테고리가 없습니다. 입력 후 Enter로 추가하세요.
                         </div>
                     ) : (
@@ -84,7 +84,7 @@ export default function CategorySelect({
                             <ComboboxOption
                                 key={idx}
                                 value={opt}
-                                className="group cursor-pointer px-3 py-2 text-sm text-(--color-foreground) data-focus:bg-(--color-accent)/10 data-selected:bg-(--color-accent)/20"
+                                className="group cursor-pointer px-3 py-2 text-base text-(--color-foreground) data-focus:bg-(--color-accent)/10 data-selected:bg-(--color-accent)/20"
                             >
                                 {idx === 0 && showCreateOption ? (
                                     <span className="flex items-center gap-2">
@@ -94,7 +94,7 @@ export default function CategorySelect({
                                         <span className="font-medium">
                                             {opt}
                                         </span>
-                                        <span className="text-xs text-(--color-muted)">
+                                        <span className="text-sm text-(--color-muted)">
                                             (새로 만들기)
                                         </span>
                                     </span>

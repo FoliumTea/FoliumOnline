@@ -25,11 +25,11 @@ export default function TagsPanel() {
     const loadTags = async () => {
         if (!browserClient) return;
         setLoading(true);
-        const { data, err } = await browserClient
+        const { data, error } = await browserClient
             .from("tags")
             .select("slug, name, color")
             .order("slug");
-        if (err) setError(err.message);
+        if (error) setError(error.message);
         else setTags(data ?? []);
         setLoading(false);
     };
@@ -135,7 +135,7 @@ export default function TagsPanel() {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-(--color-foreground)">
+                <h2 className="text-2xl font-bold text-(--color-foreground)">
                     태그 관리
                 </h2>
                 {editSlug === null && (
@@ -150,12 +150,12 @@ export default function TagsPanel() {
             </div>
 
             {error && (
-                <div className="p-3 rounded-lg bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-300 text-sm">
+                <div className="p-3 rounded-lg bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-300 text-base">
                     {error}
                 </div>
             )}
             {success && (
-                <div className="p-3 rounded-lg bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-300 text-sm">
+                <div className="p-3 rounded-lg bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-300 text-base">
                     {success}
                 </div>
             )}
@@ -166,7 +166,7 @@ export default function TagsPanel() {
                         {editSlug === "new" ? "태그 추가" : "태그 수정"}
                     </h3>
                     <div>
-                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                        <label className="block text-base font-medium text-(--color-muted) mb-1">
                             slug (URL/식별자)
                         </label>
                         <input
@@ -180,7 +180,7 @@ export default function TagsPanel() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                        <label className="block text-base font-medium text-(--color-muted) mb-1">
                             표시 이름 *
                         </label>
                         <input
@@ -198,7 +198,7 @@ export default function TagsPanel() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                        <label className="block text-base font-medium text-(--color-muted) mb-1">
                             색상 (hex, rgb 등)
                         </label>
                         <input
@@ -249,7 +249,7 @@ export default function TagsPanel() {
                         >
                             <div className="flex items-center gap-3">
                                 <span
-                                    className="px-2 py-1 text-xs rounded-full"
+                                    className="px-2 py-1 text-sm rounded-full"
                                     style={
                                         tag.color
                                             ? {
@@ -261,7 +261,7 @@ export default function TagsPanel() {
                                 >
                                     {tag.name}
                                 </span>
-                                <span className="text-sm text-(--color-muted)">
+                                <span className="text-base text-(--color-muted)">
                                     {tag.slug}
                                 </span>
                             </div>
@@ -269,7 +269,7 @@ export default function TagsPanel() {
                                 <button
                                     type="button"
                                     onClick={() => openEdit(tag)}
-                                    className="text-sm text-(--color-muted) hover:text-(--color-foreground)"
+                                    className="text-base text-white bg-blue-500 px-3 py-2 rounded-lg border border-(--color-border) hover:text-(--color-foreground) hover:bg-blue-400 hover:border-(--color-accent) transition-colors"
                                 >
                                     수정
                                 </button>
@@ -277,7 +277,7 @@ export default function TagsPanel() {
                                     type="button"
                                     onClick={() => handleDelete(tag.slug)}
                                     disabled={saving}
-                                    className="text-sm text-red-500 hover:underline"
+                                    className="text-base text-white bg-red-500 px-3 py-2 rounded-lg border border-(--color-border) hover:text-(--color-foreground) hover:bg-red-400 hover:border-(--color-accent) transition-colors"
                                 >
                                     삭제
                                 </button>

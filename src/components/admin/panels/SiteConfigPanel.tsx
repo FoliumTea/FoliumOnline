@@ -115,16 +115,16 @@ export default function SiteConfigPanel() {
 
     return (
         <div className="max-w-lg space-y-8">
-            <h2 className="text-xl font-bold text-(--color-foreground)">
+            <h2 className="text-2xl font-bold text-(--color-foreground)">
                 사이트 설정
             </h2>
 
             {/* 컬러 스킴 */}
             <section className="space-y-3">
-                <h3 className="text-base font-semibold text-(--color-foreground)">
+                <h3 className="text-lg font-semibold text-(--color-foreground)">
                     컬러 스킴
                 </h3>
-                <p className="text-xs text-(--color-muted)">
+                <p className="text-sm text-(--color-muted)">
                     저장 후 페이지를 새로고침하면 즉시 반영됩니다.
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -139,10 +139,10 @@ export default function SiteConfigPanel() {
                                     : "border-(--color-border) hover:border-(--color-accent)/50",
                             ].join(" ")}
                         >
-                            <span className="text-sm font-semibold text-(--color-foreground)">
+                            <span className="text-base font-semibold text-(--color-foreground)">
                                 {opt.label}
                             </span>
-                            <span className="text-xs text-(--color-muted)">
+                            <span className="text-sm text-(--color-muted)">
                                 {opt.desc}
                             </span>
                         </button>
@@ -152,10 +152,10 @@ export default function SiteConfigPanel() {
 
             {/* 직무 분야 */}
             <section className="space-y-3">
-                <h3 className="text-base font-semibold text-(--color-foreground)">
+                <h3 className="text-lg font-semibold text-(--color-foreground)">
                     이력서 직무 분야
                 </h3>
-                <p className="text-xs text-(--color-muted)">
+                <p className="text-sm text-(--color-muted)">
                     Resume / Portfolio 페이지에서 이 값으로 항목을 필터링합니다.
                 </p>
                 <div className="flex gap-2">
@@ -164,7 +164,7 @@ export default function SiteConfigPanel() {
                             key={f}
                             onClick={() => setJobField(f)}
                             className={[
-                                "px-5 py-2.5 rounded-lg border text-sm font-medium transition-colors",
+                                "px-5 py-2.5 rounded-lg border text-base font-medium transition-colors",
                                 jobField === f
                                     ? "border-(--color-accent) bg-(--color-accent)/5 text-(--color-accent)"
                                     : "border-(--color-border) text-(--color-muted) hover:border-(--color-accent)/50",
@@ -179,7 +179,7 @@ export default function SiteConfigPanel() {
             {/* 피드백 */}
             {status && (
                 <p
-                    className={`text-sm px-3 py-2 rounded-lg ${status.type === "error" ? "text-red-500 bg-red-50 dark:bg-red-950/30" : "text-green-600 bg-green-50 dark:bg-green-950/30"}`}
+                    className={`text-base px-3 py-2 rounded-lg ${status.type === "error" ? "text-red-500 bg-red-50 dark:bg-red-950/30" : "text-green-600 bg-green-50 dark:bg-green-950/30"}`}
                 >
                     {status.msg}
                 </p>
@@ -190,7 +190,7 @@ export default function SiteConfigPanel() {
                 <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="px-5 py-2.5 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
+                    className="px-5 py-2.5 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
                 >
                     {saving ? "저장 중..." : "설정 저장"}
                 </button>
@@ -198,13 +198,13 @@ export default function SiteConfigPanel() {
                 <button
                     onClick={handleDeploy}
                     disabled={deploying}
-                    className="px-5 py-2.5 rounded-lg border border-(--color-border) text-sm font-semibold text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
+                    className="px-5 py-2.5 rounded-lg border border-(--color-border) text-base font-semibold text-(--color-foreground) hover:bg-(--color-surface-subtle) disabled:opacity-50 transition-colors"
                 >
                     {deploying ? "빌드 트리거 중..." : "🚀 게시 (빌드 트리거)"}
                 </button>
             </div>
 
-            <div className="rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-4 text-xs text-(--color-muted) space-y-1">
+            <div className="rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-4 text-sm text-(--color-muted) space-y-1">
                 <p className="font-semibold text-(--color-foreground)">
                     빌드 트리거 동작 방식
                 </p>

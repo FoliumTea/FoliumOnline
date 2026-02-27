@@ -73,7 +73,7 @@ export default function TagSelector({
 
     if (loading) {
         return (
-            <div className={`text-sm text-(--color-muted) ${className}`}>
+            <div className={`text-base text-(--color-muted) ${className}`}>
                 태그 불러오는 중...
             </div>
         );
@@ -82,7 +82,7 @@ export default function TagSelector({
     if (tags.length === 0) {
         return (
             <div className={`space-y-2 ${className}`}>
-                <p className="text-sm text-(--color-muted)">
+                <p className="text-base text-(--color-muted)">
                     등록된 태그가 없습니다. Admin → 태그에서 먼저 추가하세요.
                 </p>
                 <input
@@ -91,7 +91,7 @@ export default function TagSelector({
                     onChange={(e) => onChange(e.target.value)}
                     disabled={disabled}
                     placeholder="slug1, slug2 (직접 입력)"
-                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40"
+                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40"
                 />
             </div>
         );
@@ -105,14 +105,14 @@ export default function TagSelector({
                         {orphanSlugs.map((slug) => (
                             <span
                                 key={slug}
-                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm border border-amber-300 dark:border-amber-600 bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-200"
+                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-base border border-amber-300 dark:border-amber-600 bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-200"
                             >
                                 {slug}
                                 <button
                                     type="button"
                                     onClick={() => removeOrphan(slug)}
                                     disabled={disabled}
-                                    className="hover:opacity-70 text-xs"
+                                    className="hover:opacity-70 text-sm"
                                     aria-label={`${slug} 제거`}
                                 >
                                     ×
@@ -130,7 +130,7 @@ export default function TagSelector({
                             onClick={() => toggle(tag.slug)}
                             disabled={disabled}
                             className={[
-                                "px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border",
+                                "px-3 py-1.5 rounded-lg text-base font-medium transition-colors border",
                                 isSelected
                                     ? "border-(--color-accent) bg-(--color-accent) text-(--color-on-accent)"
                                     : "border-(--color-border) bg-(--color-surface) text-(--color-foreground) hover:bg-(--color-surface-subtle)",
@@ -151,7 +151,7 @@ export default function TagSelector({
                     );
                 })}
             </div>
-            <p className="text-xs text-(--color-muted)">
+            <p className="text-sm text-(--color-muted)">
                 클릭하여 선택/해제. 새 태그는 Admin → 태그에서 추가.
             </p>
         </div>

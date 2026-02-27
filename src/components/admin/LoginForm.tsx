@@ -40,10 +40,10 @@ export default function LoginForm() {
             <div className="w-full max-w-sm">
                 {/* 헤더 */}
                 <div className="text-center mb-8">
-                    <p className="text-xs font-medium text-(--color-muted) uppercase tracking-widest mb-2">
+                    <p className="text-base font-medium text-(--color-muted) uppercase tracking-widest mb-2">
                         FoliumOnline
                     </p>
-                    <h1 className="text-2xl font-bold text-(--color-foreground)">
+                    <h1 className="text-3xl font-bold text-(--color-foreground)">
                         어드민 로그인
                     </h1>
                 </div>
@@ -53,7 +53,7 @@ export default function LoginForm() {
                     <div>
                         <label
                             htmlFor="email"
-                            className="block text-sm font-medium text-(--color-muted) mb-1.5"
+                            className="block text-base font-medium text-(--color-muted) mb-1.5"
                         >
                             이메일
                         </label>
@@ -64,7 +64,7 @@ export default function LoginForm() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-3 py-2.5 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 focus:border-(--color-accent) transition-colors"
+                            className="w-full px-3 py-2.5 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 focus:border-(--color-accent) transition-colors"
                             placeholder="admin@example.com"
                         />
                     </div>
@@ -72,7 +72,7 @@ export default function LoginForm() {
                     <div>
                         <label
                             htmlFor="password"
-                            className="block text-sm font-medium text-(--color-muted) mb-1.5"
+                            className="block text-base font-medium text-(--color-muted) mb-1.5"
                         >
                             패스워드
                         </label>
@@ -83,14 +83,14 @@ export default function LoginForm() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2.5 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 focus:border-(--color-accent) transition-colors"
+                            className="w-full px-3 py-2.5 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 focus:border-(--color-accent) transition-colors"
                             placeholder="••••••••"
                         />
                     </div>
 
                     {/* 에러 메시지 */}
                     {error && (
-                        <p className="text-sm text-red-500 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded-lg">
+                        <p className="text-base text-red-500 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded-lg">
                             {error}
                         </p>
                     )}
@@ -98,7 +98,7 @@ export default function LoginForm() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-2.5 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full py-2.5 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? "로그인 중..." : "로그인"}
                     </button>
@@ -108,7 +108,7 @@ export default function LoginForm() {
                 <p className="text-center mt-6">
                     <a
                         href="/"
-                        className="text-xs text-(--color-muted) hover:text-(--color-foreground) transition-colors"
+                        className="text-base text-(--color-muted) hover:text-(--color-foreground) transition-colors"
                     >
                         ← 사이트로 돌아가기
                     </a>
