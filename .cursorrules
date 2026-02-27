@@ -6,7 +6,7 @@ Try to answer everything in Korean if possible.
 ## Coding Rules
 - **Error Handling:** Always use early returns in case of an error with user-friendly logs. The filename and the function name must be included neatly in the log as well.
 - **Explanation:** Always explain at least briefly about the solution you're proposing.
-- **Comments:** If a function is no longer in use, then don't just mark it as "deprecated". Just erase it from the code and the docs and everywhere else.
+- **Deletion:** If a function is no longer in use, then don't just mark it as "deprecated". Just erase it from the code and the docs and everywhere else.
 
 ## Documentation Requirements
 - Add brief docstrings in Korean for newly created functions.
