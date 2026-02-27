@@ -21,6 +21,9 @@ interface PortfolioItem {
     featured: boolean;
     order_idx: number;
     published: boolean;
+    meta_title: string | null;
+    meta_description: string | null;
+    og_image: string | null;
 }
 
 interface ItemForm {
@@ -42,6 +45,9 @@ interface ItemForm {
     github: string;
     liveUrl: string;
     jobField: string;
+    meta_title: string;
+    meta_description: string;
+    og_image: string;
 }
 
 const EMPTY_FORM: ItemForm = {
@@ -62,6 +68,9 @@ const EMPTY_FORM: ItemForm = {
     github: "",
     liveUrl: "",
     jobField: "web",
+    meta_title: "",
+    meta_description: "",
+    og_image: "",
 };
 
 function toSlug(title: string): string {
@@ -94,6 +103,9 @@ function itemToForm(item: PortfolioItem): ItemForm {
         github: (d.github as string) ?? "",
         liveUrl: (d.liveUrl as string) ?? "",
         jobField: (d.jobField as string) ?? "web",
+        meta_title: item.meta_title ?? "",
+        meta_description: item.meta_description ?? "",
+        og_image: item.og_image ?? "",
     };
 }
 
@@ -169,6 +181,9 @@ export default function PortfolioPanel() {
                 liveUrl: form.liveUrl || undefined,
                 jobField: form.jobField || "web",
             },
+            meta_title: form.meta_title || null,
+            meta_description: form.meta_description || null,
+            og_image: form.og_image || null,
         };
 
         let err;
@@ -300,6 +315,47 @@ export default function PortfolioPanel() {
                         {field("github", "GitHub URL", { mono: true })}
                         {field("liveUrl", "라이브 URL", { mono: true })}
                     </div>
+
+                    {/* SEO 설정 (선택사항) */}
+                    <details className="group border border-(--color-border) rounded-lg bg-(--color-surface-subtle) open:bg-(--color-surface)">
+                        <summary className="px-4 py-3 cursor-pointer font-medium text-(--color-foreground) list-none flex justify-between items-center hover:bg-(--color-surface-subtle) transition-colors">
+                            <span>SEO 설정 (선택사항)</span>
+                            <span className="text-(--color-muted) group-open:rotate-180 transition-transform">
+                                ▼
+                            </span>
+                        </summary>
+                        <div className="p-4 border-t border-(--color-border) space-y-4">
+                            {field("meta_title", "SEO 제목 (Meta Title)", {
+                                placeholder:
+                                    "비워두면 프로젝트 제목이 사용됩니다",
+                            })}
+                            {field(
+                                "meta_description",
+                                "SEO 설명 (Meta Description)",
+                                {
+                                    rows: 2,
+                                    placeholder:
+                                        "비워두면 프로젝트 요약이 사용됩니다",
+                                }
+                            )}
+                            <div>
+                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                    소셜 공유 이미지 (OG Image)
+                                </label>
+                                <ThumbnailUploadField
+                                    value={form.og_image}
+                                    onChange={(url) =>
+                                        setForm((f) => ({
+                                            ...f,
+                                            og_image: url,
+                                        }))
+                                    }
+                                    placeholder="비워두면 썸네일 혹은 전역 설정이 사용됩니다"
+                                />
+                            </div>
+                        </div>
+                    </details>
+
                     <div>
                         <label className="block text-base font-medium text-(--color-muted) mb-1">
                             본문 (Markdown)
@@ -312,6 +368,7 @@ export default function PortfolioPanel() {
                             placeholder="본문을 작성하세요. ## 제목, **굵게** 등 마크다운 문법이 즉시 반영됩니다."
                         />
                     </div>
+
                     <div className="grid grid-cols-2 gap-4">
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input

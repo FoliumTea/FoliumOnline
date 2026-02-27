@@ -8,6 +8,7 @@
 import "@/styles/global.css";
 import Header from "@/components/Header.astro";
 import ThemeLoader from "@/components/ThemeLoader";
+import SEO from "@/components/SEO.astro";
 
 interface Props {
     title?: string;
@@ -31,9 +32,8 @@ const validScheme = ["blue", "gray", "beige", "blackwhite"].includes(
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content={description} />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <title>{title}</title>
+        <SEO title={title} description={description} image={image} />
         {/* 다크모드: 초기 로드 시 깜빡임 방지를 위한 인라인 스크립트 */}
         <script is:inline define:vars={{}}>
             (function () {

@@ -61,12 +61,16 @@ const tagDisplay = tagSlugs.filter(Boolean).map((s) => ({
     color: slugToTagColor.get(s),
 }));
 const pubDate = new Date(post.pub_date);
-const pageTitle = category
-    ? `${category} | ${post.title} - FoliumOnline`
-    : `${post.title} - FoliumOnline`;
+const pageTitle =
+    post.meta_title ||
+    (category
+        ? `${category} | ${post.title} - FoliumOnline`
+        : `${post.title} - FoliumOnline`);
+const pageDesc = post.meta_description || post.description || "";
+const pageImage = post.og_image || post.thumbnail || "";
 ---
 
-<BaseLayout title={pageTitle} description={post.description ?? ""}>
+<BaseLayout title={pageTitle} description={pageDesc} image={pageImage}>
     <div class="flex gap-12 max-w-5xl mx-auto">
         <article class="flex-1 min-w-0 max-w-3xl">
             <header class="mb-6">

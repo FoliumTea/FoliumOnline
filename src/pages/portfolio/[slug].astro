@@ -54,12 +54,13 @@ const project: PortfolioProject = {
 // 마크다운 → HTML 변환 (Markdoc + Shiki, 빌드 타임)
 const contentHtml = await renderMarkdown(item.content ?? "");
 const tocEntries = extractTocFromHtml(contentHtml);
+const pageTitle =
+    item.meta_title || `${project.title} - Portfolio | FoliumOnline`;
+const pageDesc = item.meta_description || project.description || "";
+const pageImage = item.og_image || project.thumbnail || "";
 ---
 
-<BaseLayout
-    title={`${project.title} - Portfolio | FoliumOnline`}
-    description={project.description}
->
+<BaseLayout title={pageTitle} description={pageDesc} image={pageImage}>
     <div class="flex gap-12 max-w-5xl mx-auto">
         <article class="flex-1 min-w-0 max-w-3xl">
             <a

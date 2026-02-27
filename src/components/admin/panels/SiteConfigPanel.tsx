@@ -10,19 +10,34 @@
 import { useEffect, useState } from "react";
 import { browserClient } from "@/lib/supabase";
 
-type ColorScheme = "blue" | "gray" | "beige" | "blackwhite";
+type ColorScheme =
+    | "blue"
+    | "gray"
+    | "beige"
+    | "blackwhite"
+    | "forest"
+    | "sunset"
+    | "lavender";
 type JobField = "web" | "game";
 
 const COLOR_OPTIONS: { value: ColorScheme; label: string; desc: string }[] = [
-    { value: "blue", label: "Blue", desc: "파란톤 액센트" },
     { value: "gray", label: "Gray", desc: "중립 회색" },
+    { value: "blue", label: "Blue", desc: "파란톤 액센트" },
     { value: "beige", label: "Beige", desc: "따뜻한 베이지" },
+    { value: "forest", label: "Forest", desc: "깊은 숲의 그린" },
+    { value: "sunset", label: "Sunset", desc: "따뜻한 석양 (오렌지)" },
+    { value: "lavender", label: "Lavender", desc: "차분한 보라" },
     { value: "blackwhite", label: "Black & White", desc: "순수 흑백" },
 ];
 
 export default function SiteConfigPanel() {
     const [colorScheme, setColorScheme] = useState<ColorScheme>("gray");
     const [jobField, setJobField] = useState<JobField>("game");
+    const [seoConfig, setSeoConfig] = useState({
+        defaultTitle: "FoliumOnline",
+        defaultDescription: "포트폴리오 & 기술 블로그",
+        defaultOgImage: "",
+    });
     const [saving, setSaving] = useState(false);
     const [deploying, setDeploying] = useState(false);
     const [status, setStatus] = useState<{
@@ -36,17 +51,32 @@ export default function SiteConfigPanel() {
         browserClient
             .from("site_config")
             .select("key, value")
-            .in("key", ["color_scheme", "job_field"])
+            .in("key", ["color_scheme", "job_field", "seo_config"])
             .then(({ data }) => {
                 if (!data) return;
                 for (const row of data) {
                     const v =
                         typeof row.value === "string"
-                            ? row.value
-                            : JSON.parse(row.value as string);
-                    if (row.key === "color_scheme")
+                            ? JSON.parse(row.value)
+                            : row.value;
+                    if (row.key === "color_scheme") {
                         setColorScheme(v as ColorScheme);
+                        // Apply immediately on load in the admin panel if it differs
+                        document.documentElement.setAttribute(
+                            "data-color-scheme",
+                            v as ColorScheme
+                        );
+                    }
                     if (row.key === "job_field") setJobField(v as JobField);
+                    if (row.key === "seo_config") {
+                        setSeoConfig({
+                            defaultTitle: v.default_title || "FoliumOnline",
+                            defaultDescription:
+                                v.default_description ||
+                                "포트폴리오 & 기술 블로그",
+                            defaultOgImage: v.default_og_image || "",
+                        });
+                    }
                 }
             });
     }, []);
@@ -60,6 +90,14 @@ export default function SiteConfigPanel() {
         const rows = [
             { key: "color_scheme", value: JSON.stringify(colorScheme) },
             { key: "job_field", value: JSON.stringify(jobField) },
+            {
+                key: "seo_config",
+                value: {
+                    default_title: seoConfig.defaultTitle,
+                    default_description: seoConfig.defaultDescription,
+                    default_og_image: seoConfig.defaultOgImage,
+                },
+            },
         ];
 
         const { error } = await browserClient
@@ -72,7 +110,7 @@ export default function SiteConfigPanel() {
                 ? { type: "error", msg: error.message }
                 : {
                       type: "success",
-                      msg: "설정이 저장됐습니다. 컬러 스킴은 페이지 새로고침 후 반영됩니다.",
+                      msg: "설정이 저장됐습니다. 변경 사항이 사이트에 반영되었습니다.",
                   }
         );
     };
@@ -125,13 +163,20 @@ export default function SiteConfigPanel() {
                     컬러 스킴
                 </h3>
                 <p className="text-sm text-(--color-muted)">
-                    저장 후 페이지를 새로고침하면 즉시 반영됩니다.
+                    새로운 테마를 선택하면 대시보드 화면에 즉시 반영되며, '설정
+                    저장' 버튼을 누르면 다른 사용자들에게도 배포됩니다.
                 </p>
                 <div className="grid grid-cols-2 gap-2">
                     {COLOR_OPTIONS.map((opt) => (
                         <button
                             key={opt.value}
-                            onClick={() => setColorScheme(opt.value)}
+                            onClick={() => {
+                                setColorScheme(opt.value);
+                                document.documentElement.setAttribute(
+                                    "data-color-scheme",
+                                    opt.value
+                                );
+                            }}
                             className={[
                                 "flex flex-col items-start gap-0.5 px-4 py-3 rounded-lg border text-left transition-colors",
                                 colorScheme === opt.value
@@ -173,6 +218,68 @@ export default function SiteConfigPanel() {
                             {f === "web" ? "🌐 Web" : "🎮 Game"}
                         </button>
                     ))}
+                </div>
+            </section>
+
+            {/* 글로벌 SEO 설정 */}
+            <section className="space-y-4">
+                <h3 className="text-lg font-semibold text-(--color-foreground)">
+                    글로벌 SEO 기본값
+                </h3>
+                <p className="text-sm text-(--color-muted)">
+                    개별 포스트나 포트폴리오에 SEO 설정이 없을 때 사용되는
+                    기본값입니다.
+                </p>
+                <div className="space-y-3">
+                    <div>
+                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                            기본 사이트 제목 (Title)
+                        </label>
+                        <input
+                            type="text"
+                            value={seoConfig.defaultTitle}
+                            onChange={(e) =>
+                                setSeoConfig({
+                                    ...seoConfig,
+                                    defaultTitle: e.target.value,
+                                })
+                            }
+                            className="w-full px-3 py-2 bg-transparent border border-(--color-border) rounded-lg focus:outline-none focus:border-(--color-accent) text-(--color-foreground) transition-colors"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                            기본 사이트 설명 (Description)
+                        </label>
+                        <textarea
+                            value={seoConfig.defaultDescription}
+                            onChange={(e) =>
+                                setSeoConfig({
+                                    ...seoConfig,
+                                    defaultDescription: e.target.value,
+                                })
+                            }
+                            rows={3}
+                            className="w-full px-3 py-2 bg-transparent border border-(--color-border) rounded-lg focus:outline-none focus:border-(--color-accent) text-(--color-foreground) transition-colors"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                            기본 OG 이미지 URL
+                        </label>
+                        <input
+                            type="text"
+                            value={seoConfig.defaultOgImage}
+                            onChange={(e) =>
+                                setSeoConfig({
+                                    ...seoConfig,
+                                    defaultOgImage: e.target.value,
+                                })
+                            }
+                            placeholder="https://..."
+                            className="w-full px-3 py-2 bg-transparent border border-(--color-border) rounded-lg focus:outline-none focus:border-(--color-accent) text-(--color-foreground) transition-colors"
+                        />
+                    </div>
                 </div>
             </section>
 

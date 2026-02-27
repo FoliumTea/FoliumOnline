@@ -25,6 +25,9 @@ interface Post {
     content: string;
     published: boolean;
     updated_at: string;
+    meta_title: string | null;
+    meta_description: string | null;
+    og_image: string | null;
 }
 
 // 편집 폼 상태 (신규/수정 공통)
@@ -38,6 +41,9 @@ interface PostForm {
     thumbnail: string;
     content: string;
     published: boolean;
+    meta_title: string;
+    meta_description: string;
+    og_image: string;
 }
 
 const EMPTY_FORM: PostForm = {
@@ -50,6 +56,9 @@ const EMPTY_FORM: PostForm = {
     thumbnail: "",
     content: "",
     published: false,
+    meta_title: "",
+    meta_description: "",
+    og_image: "",
 };
 
 /** slug 자동 생성: 제목에서 공백→하이픈, 영소문자/숫자/하이픈만 허용 */
@@ -78,7 +87,7 @@ export default function PostsPanel() {
         const { data, error: err } = await browserClient
             .from("posts")
             .select(
-                "id, slug, title, description, pub_date, category, tags, thumbnail, content, published, updated_at"
+                "id, slug, title, description, pub_date, category, tags, thumbnail, content, published, updated_at, meta_title, meta_description, og_image"
             )
             .order("pub_date", { ascending: false });
         if (err) setError(err.message);
@@ -102,6 +111,9 @@ export default function PostsPanel() {
             thumbnail: post.thumbnail ?? "",
             content: post.content,
             published: post.published,
+            meta_title: post.meta_title ?? "",
+            meta_description: post.meta_description ?? "",
+            og_image: post.og_image ?? "",
         });
         setEditTarget(post);
         setError(null);
@@ -138,6 +150,9 @@ export default function PostsPanel() {
             thumbnail: form.thumbnail || null,
             content: form.content,
             published: form.published,
+            meta_title: form.meta_title || null,
+            meta_description: form.meta_description || null,
+            og_image: form.og_image || null,
         };
 
         let err;
@@ -320,6 +335,67 @@ export default function PostsPanel() {
                         }
                         placeholder="파일 업로드 또는 URL 입력"
                     />
+
+                    {/* SEO 설정 (선택사항) */}
+                    <details className="group border border-(--color-border) rounded-lg bg-(--color-surface-subtle) open:bg-(--color-surface)">
+                        <summary className="px-4 py-3 cursor-pointer font-medium text-(--color-foreground) list-none flex justify-between items-center hover:bg-(--color-surface-subtle) transition-colors">
+                            <span>SEO 설정 (선택사항)</span>
+                            <span className="text-(--color-muted) group-open:rotate-180 transition-transform">
+                                ▼
+                            </span>
+                        </summary>
+                        <div className="p-4 border-t border-(--color-border) space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                    SEO 제목 (Meta Title)
+                                </label>
+                                <input
+                                    type="text"
+                                    value={form.meta_title}
+                                    onChange={(e) =>
+                                        setForm((f) => ({
+                                            ...f,
+                                            meta_title: e.target.value,
+                                        }))
+                                    }
+                                    placeholder="비워두면 포스트 제목이 사용됩니다"
+                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                    SEO 설명 (Meta Description)
+                                </label>
+                                <textarea
+                                    value={form.meta_description}
+                                    onChange={(e) =>
+                                        setForm((f) => ({
+                                            ...f,
+                                            meta_description: e.target.value,
+                                        }))
+                                    }
+                                    placeholder="비워두면 포스트 요약이 사용됩니다"
+                                    rows={2}
+                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 resize-y"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                    소셜 공유 이미지 (OG Image)
+                                </label>
+                                <ThumbnailUploadField
+                                    value={form.og_image}
+                                    onChange={(url) =>
+                                        setForm((f) => ({
+                                            ...f,
+                                            og_image: url,
+                                        }))
+                                    }
+                                    placeholder="비워두면 썸네일 또는 전역 SEO 이미지가 사용됩니다"
+                                />
+                            </div>
+                        </div>
+                    </details>
 
                     {/* 본문: WYSIWYG 마크다운 에디터 */}
                     <div>
