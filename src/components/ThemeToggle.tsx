@@ -69,7 +69,7 @@ export default function ThemeToggle() {
 
     if (!mounted) {
         return (
-            <div className="w-10 h-10 rounded-md bg-(--color-muted)/20 animate-pulse" />
+            <div className="h-10 w-10 animate-pulse rounded-md bg-(--color-muted)/20" />
         );
     }
 
@@ -81,14 +81,14 @@ export default function ThemeToggle() {
         >
             <button
                 type="button"
-                className="p-2 text-(--color-muted) hover:text-(--color-foreground) rounded-md hover:opacity-80 transition-colors"
+                className="rounded-md p-2 text-(--color-muted) transition-colors hover:text-(--color-foreground) hover:opacity-80"
                 aria-label="테마 선택"
                 aria-haspopup="true"
                 aria-expanded={isOpen}
             >
                 {theme === "light" && (
                     <svg
-                        className="w-5 h-5"
+                        className="h-5 w-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -103,7 +103,7 @@ export default function ThemeToggle() {
                 )}
                 {theme === "dark" && (
                     <svg
-                        className="w-5 h-5"
+                        className="h-5 w-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -118,7 +118,7 @@ export default function ThemeToggle() {
                 )}
                 {theme === "system" && (
                     <svg
-                        className="w-5 h-5"
+                        className="h-5 w-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -136,17 +136,17 @@ export default function ThemeToggle() {
             {/* 드롭다운 메뉴 - hover 시 표시 */}
             {isOpen && (
                 <div
-                    className="absolute right-0 top-full pt-1 min-w-[120px]"
+                    className="absolute top-full right-0 min-w-[120px] pt-1"
                     role="menu"
                     aria-orientation="vertical"
                 >
-                    <div className="py-1 rounded-md border border-(--color-border) bg-(--color-surface) shadow-lg">
+                    <div className="rounded-md border border-(--color-border) bg-(--color-surface) py-1 shadow-lg">
                         {(["light", "dark", "system"] as const).map((t) => (
                             <button
                                 key={t}
                                 type="button"
                                 role="menuitem"
-                                className={`w-full px-3 py-2 text-left text-sm flex items-center gap-2 transition-colors first:rounded-t-md last:rounded-b-md ${
+                                className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors first:rounded-t-md last:rounded-b-md ${
                                     theme === t
                                         ? "bg-(--color-accent)/10 text-(--color-accent)"
                                         : "text-(--color-foreground) hover:bg-(--color-muted)/10"
@@ -155,7 +155,7 @@ export default function ThemeToggle() {
                             >
                                 {t === "light" && (
                                     <svg
-                                        className="w-4 h-4 shrink-0"
+                                        className="h-4 w-4 shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -170,7 +170,7 @@ export default function ThemeToggle() {
                                 )}
                                 {t === "dark" && (
                                     <svg
-                                        className="w-4 h-4 shrink-0"
+                                        className="h-4 w-4 shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -185,7 +185,7 @@ export default function ThemeToggle() {
                                 )}
                                 {t === "system" && (
                                     <svg
-                                        className="w-4 h-4 shrink-0"
+                                        className="h-4 w-4 shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"

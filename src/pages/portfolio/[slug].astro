@@ -61,18 +61,18 @@ const pageImage = item.og_image || project.thumbnail || "";
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} image={pageImage}>
-    <div class="flex gap-12 max-w-5xl mx-auto">
-        <article class="flex-1 min-w-0 max-w-3xl">
+    <div class="mx-auto flex max-w-5xl gap-12">
+        <article class="max-w-3xl min-w-0 flex-1">
             <a
                 href="/portfolio"
-                class="inline-flex items-center gap-1 text-sm text-(--color-muted) hover:text-(--color-foreground) mb-6"
+                class="mb-6 inline-flex items-center gap-1 text-sm text-(--color-muted) hover:text-(--color-foreground)"
             >
                 ← Portfolio 목록
             </a>
 
             {
                 project.thumbnail ? (
-                    <div class="rounded-xl overflow-hidden border border-(--color-border) mb-6 aspect-video bg-(--color-surface-subtle)">
+                    <div class="mb-6 aspect-video overflow-hidden rounded-xl border border-(--color-border) bg-(--color-surface-subtle)">
                         <img
                             src={project.thumbnail}
                             alt=""
@@ -80,21 +80,21 @@ const pageImage = item.og_image || project.thumbnail || "";
                             height={360}
                             loading="eager"
                             decoding="async"
-                            class="w-full h-full object-cover"
+                            class="h-full w-full object-cover"
                         />
                     </div>
                 ) : null
             }
 
             <header class="mb-6">
-                <h1 class="text-3xl font-bold text-(--color-foreground) mb-2">
+                <h1 class="mb-2 text-3xl font-bold text-(--color-foreground)">
                     {project.title}
                 </h1>
                 {
                     project.keywords.length > 0 ? (
                         <div class="flex flex-wrap gap-2">
                             {project.keywords.map((k) => (
-                                <span class="px-2 py-1 text-xs rounded-full bg-(--color-tag-bg) text-(--color-tag-fg)">
+                                <span class="rounded-full bg-(--color-tag-bg) px-2 py-1 text-xs text-(--color-tag-fg)">
                                     {k}
                                 </span>
                             ))}
@@ -103,31 +103,31 @@ const pageImage = item.og_image || project.thumbnail || "";
                 }
             </header>
 
-            <p class="text-(--color-foreground) leading-relaxed mb-8">
+            <p class="mb-8 leading-relaxed text-(--color-foreground)">
                 {project.description}
             </p>
 
             <dl
-                class="grid grid-cols-1 gap-4 text-sm mb-8 p-6 rounded-xl border border-(--color-border) bg-(--color-surface-subtle) tablet:grid-cols-2"
+                class="tablet:grid-cols-2 mb-8 grid grid-cols-1 gap-4 rounded-xl border border-(--color-border) bg-(--color-surface-subtle) p-6 text-sm"
             >
                 <div>
-                    <dt class="text-(--color-muted) font-medium">기간</dt>
+                    <dt class="font-medium text-(--color-muted)">기간</dt>
                     <dd class="text-(--color-foreground)">
                         {project.startDate} ~ {project.endDate}
                     </dd>
                 </div>
                 <div>
-                    <dt class="text-(--color-muted) font-medium">역할</dt>
+                    <dt class="font-medium text-(--color-muted)">역할</dt>
                     <dd class="text-(--color-foreground)">{project.role}</dd>
                 </div>
                 <div>
-                    <dt class="text-(--color-muted) font-medium">참여 인원</dt>
+                    <dt class="font-medium text-(--color-muted)">참여 인원</dt>
                     <dd class="text-(--color-foreground)">
                         {project.teamSize}명
                     </dd>
                 </div>
                 <div>
-                    <dt class="text-(--color-muted) font-medium">목표</dt>
+                    <dt class="font-medium text-(--color-muted)">목표</dt>
                     <dd class="text-(--color-foreground)">{project.goal}</dd>
                 </div>
             </dl>
@@ -135,10 +135,10 @@ const pageImage = item.og_image || project.thumbnail || "";
             {
                 project.accomplishments.length > 0 ? (
                     <section class="mb-8">
-                        <h2 class="text-lg font-semibold text-(--color-foreground) mb-3">
+                        <h2 class="mb-3 text-lg font-semibold text-(--color-foreground)">
                             성과
                         </h2>
-                        <ul class="list-disc list-inside space-y-2 text-(--color-foreground)">
+                        <ul class="list-inside list-disc space-y-2 text-(--color-foreground)">
                             {project.accomplishments.map((a) => (
                                 <li>{a}</li>
                             ))}
@@ -150,7 +150,7 @@ const pageImage = item.og_image || project.thumbnail || "";
             {
                 project.badges?.length ? (
                     <section class="mb-8">
-                        <h2 class="text-lg font-semibold text-(--color-foreground) mb-3">
+                        <h2 class="mb-3 text-lg font-semibold text-(--color-foreground)">
                             수상·출시
                         </h2>
                         <ul class="space-y-2 text-(--color-foreground)">
@@ -177,7 +177,7 @@ const pageImage = item.og_image || project.thumbnail || "";
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="text-(--color-link) hover:underline font-medium"
+                            class="font-medium text-(--color-link) hover:underline"
                         >
                             GitHub 저장소 →
                         </a>
@@ -186,7 +186,7 @@ const pageImage = item.og_image || project.thumbnail || "";
             }
 
             <div
-                class="portfolio-markdoc-body mt-10 pt-8 border-t border-(--color-border) prose max-w-none text-(--color-foreground)"
+                class="portfolio-markdoc-body prose mt-10 max-w-none border-t border-(--color-border) pt-8 text-(--color-foreground)"
                 data-content="true"
                 set:html={contentHtml}
             />

@@ -205,7 +205,7 @@ export default function PostsPanel() {
             <div className="w-full max-w-6xl">
                 <button
                     onClick={() => setEditTarget(null)}
-                    className="text-lg text-(--color-muted) bg-(--color-surface-subtle) px-3 py-2 rounded-lg border border-(--color-border) hover:text-(--color-foreground) hover:bg-(--color-surface-subtle) hover:border-(--color-accent) transition-colors"
+                    className="rounded-lg border border-(--color-border) bg-(--color-surface-subtle) px-3 py-2 text-lg text-(--color-muted) transition-colors hover:border-(--color-accent) hover:bg-(--color-surface-subtle) hover:text-(--color-foreground)"
                 >
                     ← 목록
                 </button>
@@ -216,7 +216,7 @@ export default function PostsPanel() {
                 <div className="mt-6 space-y-4">
                     {/* 제목 */}
                     <div>
-                        <label className="block text-base font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-base font-medium text-(--color-muted)">
                             제목 *
                         </label>
                         <input
@@ -230,14 +230,14 @@ export default function PostsPanel() {
                                     slug: f.slug || toSlug(t),
                                 }));
                             }}
-                            className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40"
+                            className="w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-base text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none"
                         />
                     </div>
 
                     {/* slug + 발행일 */}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-base font-medium text-(--color-muted) mb-1">
+                            <label className="mb-1 block text-base font-medium text-(--color-muted)">
                                 Slug *
                             </label>
                             <input
@@ -249,11 +249,11 @@ export default function PostsPanel() {
                                         slug: e.target.value,
                                     }))
                                 }
-                                className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base font-mono focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40"
+                                className="w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 font-mono text-base text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none"
                             />
                         </div>
                         <div>
-                            <label className="block text-base font-medium text-(--color-muted) mb-1">
+                            <label className="mb-1 block text-base font-medium text-(--color-muted)">
                                 발행일
                             </label>
                             <input
@@ -265,15 +265,15 @@ export default function PostsPanel() {
                                         pub_date: e.target.value,
                                     }))
                                 }
-                                className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40"
+                                className="w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-base text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none"
                             />
                         </div>
                     </div>
 
                     {/* 카테고리 + 태그 */}
-                    <div className="grid grid-cols-1 tablet:grid-cols-2 gap-4">
+                    <div className="tablet:grid-cols-2 grid grid-cols-1 gap-4">
                         <div>
-                            <label className="block text-base font-medium text-(--color-muted) mb-1">
+                            <label className="mb-1 block text-base font-medium text-(--color-muted)">
                                 카테고리
                             </label>
                             <CategorySelect
@@ -297,7 +297,7 @@ export default function PostsPanel() {
                             />
                         </div>
                         <div>
-                            <label className="block text-base font-medium text-(--color-muted) mb-1">
+                            <label className="mb-1 block text-base font-medium text-(--color-muted)">
                                 태그
                             </label>
                             <TagSelector
@@ -311,7 +311,7 @@ export default function PostsPanel() {
 
                     {/* 요약 */}
                     <div>
-                        <label className="block text-base font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-base font-medium text-(--color-muted)">
                             요약
                         </label>
                         <textarea
@@ -323,7 +323,7 @@ export default function PostsPanel() {
                                 }))
                             }
                             rows={2}
-                            className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 resize-y"
+                            className="w-full resize-y rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-base text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none"
                         />
                     </div>
 
@@ -337,16 +337,16 @@ export default function PostsPanel() {
                     />
 
                     {/* SEO 설정 (선택사항) */}
-                    <details className="group border border-(--color-border) rounded-lg bg-(--color-surface-subtle) open:bg-(--color-surface)">
-                        <summary className="px-4 py-3 cursor-pointer font-medium text-(--color-foreground) list-none flex justify-between items-center hover:bg-(--color-surface-subtle) transition-colors">
+                    <details className="group rounded-lg border border-(--color-border) bg-(--color-surface-subtle) open:bg-(--color-surface)">
+                        <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 font-medium text-(--color-foreground) transition-colors hover:bg-(--color-surface-subtle)">
                             <span>SEO 설정 (선택사항)</span>
-                            <span className="text-(--color-muted) group-open:rotate-180 transition-transform">
+                            <span className="text-(--color-muted) transition-transform group-open:rotate-180">
                                 ▼
                             </span>
                         </summary>
-                        <div className="p-4 border-t border-(--color-border) space-y-4">
+                        <div className="space-y-4 border-t border-(--color-border) p-4">
                             <div>
-                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                <label className="mb-1 block text-sm font-medium text-(--color-muted)">
                                     SEO 제목 (Meta Title)
                                 </label>
                                 <input
@@ -359,11 +359,11 @@ export default function PostsPanel() {
                                         }))
                                     }
                                     placeholder="비워두면 포스트 제목이 사용됩니다"
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40"
+                                    className="w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-sm text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                <label className="mb-1 block text-sm font-medium text-(--color-muted)">
                                     SEO 설명 (Meta Description)
                                 </label>
                                 <textarea
@@ -376,11 +376,11 @@ export default function PostsPanel() {
                                     }
                                     placeholder="비워두면 포스트 요약이 사용됩니다"
                                     rows={2}
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 resize-y"
+                                    className="w-full resize-y rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-sm text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-(--color-muted) mb-1">
+                                <label className="mb-1 block text-sm font-medium text-(--color-muted)">
                                     소셜 공유 이미지 (OG Image)
                                 </label>
                                 <ThumbnailUploadField
@@ -399,7 +399,7 @@ export default function PostsPanel() {
 
                     {/* 본문: WYSIWYG 마크다운 에디터 */}
                     <div>
-                        <label className="block text-base font-medium text-(--color-muted) mb-1">
+                        <label className="mb-1 block text-base font-medium text-(--color-muted)">
                             본문 (Markdown)
                         </label>
                         <RichMarkdownEditor
@@ -412,7 +412,7 @@ export default function PostsPanel() {
                     </div>
 
                     {/* 발행 여부 */}
-                    <label className="flex items-center gap-2 cursor-pointer">
+                    <label className="flex cursor-pointer items-center gap-2">
                         <input
                             type="checkbox"
                             checked={form.published}
@@ -422,7 +422,7 @@ export default function PostsPanel() {
                                     published: e.target.checked,
                                 }))
                             }
-                            className="w-4 h-4 accent-(--color-accent)"
+                            className="h-4 w-4 accent-(--color-accent)"
                         />
                         <span className="text-base font-medium text-(--color-foreground)">
                             즉시 발행
@@ -434,12 +434,12 @@ export default function PostsPanel() {
 
                     {/* 피드백 */}
                     {error && (
-                        <p className="text-base text-red-500 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded-lg">
+                        <p className="rounded-lg bg-red-50 px-3 py-2 text-base text-red-500 dark:bg-red-950/30">
                             {error}
                         </p>
                     )}
                     {success && (
-                        <p className="text-base text-green-600 bg-green-50 dark:bg-green-950/30 px-3 py-2 rounded-lg">
+                        <p className="rounded-lg bg-green-50 px-3 py-2 text-base text-green-600 dark:bg-green-950/30">
                             {success}
                         </p>
                     )}
@@ -449,13 +449,13 @@ export default function PostsPanel() {
                         <button
                             onClick={handleSave}
                             disabled={saving}
-                            className="px-5 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+                            className="rounded-lg bg-(--color-accent) px-5 py-2 text-base font-semibold text-(--color-on-accent) transition-opacity hover:opacity-90 disabled:opacity-50"
                         >
                             {saving ? "저장 중..." : "저장"}
                         </button>
                         <button
                             onClick={() => setEditTarget(null)}
-                            className="px-5 py-2 rounded-lg border border-(--color-border) text-base font-medium text-(--color-muted) hover:text-(--color-foreground) transition-colors"
+                            className="rounded-lg border border-(--color-border) px-5 py-2 text-base font-medium text-(--color-muted) transition-colors hover:text-(--color-foreground)"
                         >
                             취소
                         </button>
@@ -468,19 +468,19 @@ export default function PostsPanel() {
     // ── 목록 화면 ─────────────────────────────────────────────
     return (
         <div>
-            <div className="flex items-center justify-between mb-6">
+            <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-(--color-foreground)">
                     블로그 포스트
                 </h2>
                 <button
                     onClick={openNew}
-                    className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-semibold hover:opacity-90 transition-opacity"
+                    className="rounded-lg bg-(--color-accent) px-4 py-2 text-base font-semibold text-(--color-on-accent) transition-opacity hover:opacity-90"
                 >
                     + 새 포스트
                 </button>
             </div>
 
-            {error && <p className="text-base text-red-500 mb-4">{error}</p>}
+            {error && <p className="mb-4 text-base text-red-500">{error}</p>}
 
             {loading ? (
                 <p className="text-base text-(--color-muted)">불러오는 중...</p>
@@ -493,12 +493,12 @@ export default function PostsPanel() {
                     {posts.map((post) => (
                         <div
                             key={post.id}
-                            className="flex items-center gap-4 p-4 rounded-lg border border-(--color-border) bg-(--color-surface) hover:border-(--color-accent)/50 transition-colors"
+                            className="flex items-center gap-4 rounded-lg border border-(--color-border) bg-(--color-surface) p-4 transition-colors hover:border-(--color-accent)/50"
                         >
-                            <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2 mb-0.5">
+                            <div className="min-w-0 flex-1">
+                                <div className="mb-0.5 flex items-center gap-2">
                                     <span
-                                        className={`inline-block text-sm px-2 py-0.5 rounded-full font-medium ${
+                                        className={`inline-block rounded-full px-2 py-0.5 text-sm font-medium ${
                                             post.published
                                                 ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400"
                                                 : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-400"
@@ -512,32 +512,32 @@ export default function PostsPanel() {
                                         </span>
                                     )}
                                 </div>
-                                <p className="text-base font-semibold text-(--color-foreground) truncate">
+                                <p className="truncate text-base font-semibold text-(--color-foreground)">
                                     {post.title}
                                 </p>
-                                <p className="text-sm text-(--color-muted) font-mono">
+                                <p className="font-mono text-sm text-(--color-muted)">
                                     {post.slug} ·{" "}
                                     {new Date(post.pub_date).toLocaleDateString(
                                         "ko-KR"
                                     )}
                                 </p>
                             </div>
-                            <div className="flex items-center gap-2 shrink-0">
+                            <div className="flex shrink-0 items-center gap-2">
                                 <button
                                     onClick={() => togglePublish(post)}
-                                    className="text-sm px-2 py-1 rounded border border-(--color-border) text-(--color-muted) hover:text-(--color-foreground) transition-colors"
+                                    className="rounded border border-(--color-border) px-2 py-1 text-sm text-(--color-muted) transition-colors hover:text-(--color-foreground)"
                                 >
                                     {post.published ? "초안으로" : "발행"}
                                 </button>
                                 <button
                                     onClick={() => openEdit(post)}
-                                    className="text-sm px-2 py-1 rounded border border-(--color-border) text-(--color-muted) hover:text-(--color-foreground) transition-colors"
+                                    className="rounded border border-(--color-border) px-2 py-1 text-sm text-(--color-muted) transition-colors hover:text-(--color-foreground)"
                                 >
                                     편집
                                 </button>
                                 <button
                                     onClick={() => handleDelete(post.id)}
-                                    className="text-sm px-2 py-1 rounded border border-red-200 text-red-400 hover:text-red-600 hover:border-red-400 transition-colors"
+                                    className="rounded border border-red-200 px-2 py-1 text-sm text-red-400 transition-colors hover:border-red-400 hover:text-red-600"
                                 >
                                     삭제
                                 </button>

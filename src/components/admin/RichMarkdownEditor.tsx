@@ -84,7 +84,7 @@ function YoutubeDirectiveEditor({
                         className="rich-editor-youtube-embed"
                     />
                 ) : (
-                    <div className="flex min-h-[180px] items-center justify-center rounded-lg border border-dashed border-(--color-border) bg-(--color-surface-subtle) text-(--color-muted) text-sm">
+                    <div className="flex min-h-[180px] items-center justify-center rounded-lg border border-dashed border-(--color-border) bg-(--color-surface-subtle) text-sm text-(--color-muted)">
                         YouTube Video ID 없음 — 설정에서 입력하세요
                     </div>
                 )}
@@ -230,14 +230,14 @@ function InsertButtons() {
             <button
                 type="button"
                 onClick={() => setModal("youtube")}
-                className="px-2 py-1 rounded text-sm font-medium border border-(--color-border) text-(--color-foreground) hover:bg-(--color-surface-subtle) hover:border-(--color-accent) hover:text-(--color-accent) transition-colors"
+                className="rounded border border-(--color-border) px-2 py-1 text-sm font-medium text-(--color-foreground) transition-colors hover:border-(--color-accent) hover:bg-(--color-surface-subtle) hover:text-(--color-accent)"
             >
                 ▶ YouTube
             </button>
             <button
                 type="button"
                 onClick={() => setModal("folium-table")}
-                className="px-2 py-1 rounded text-sm font-medium border border-(--color-border) text-(--color-foreground) hover:bg-(--color-surface-subtle) hover:border-(--color-accent) hover:text-(--color-accent) transition-colors"
+                className="rounded border border-(--color-border) px-2 py-1 text-sm font-medium text-(--color-foreground) transition-colors hover:border-(--color-accent) hover:bg-(--color-surface-subtle) hover:text-(--color-accent)"
             >
                 📋 Folium Table
             </button>
@@ -249,15 +249,15 @@ function InsertButtons() {
                     onClick={() => setModal(null)}
                 >
                     <div
-                        className="w-full max-w-lg mx-4 p-6 rounded-xl border border-(--color-border) bg-(--color-surface) shadow-xl"
+                        className="mx-4 w-full max-w-lg rounded-xl border border-(--color-border) bg-(--color-surface) p-6 shadow-xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 className="text-xl font-semibold text-(--color-foreground) mb-4">
+                        <h3 className="mb-4 text-xl font-semibold text-(--color-foreground)">
                             Folium Table 삽입
                         </h3>
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-base font-medium text-(--color-muted) mb-1">
+                                <label className="mb-1 block text-base font-medium text-(--color-muted)">
                                     컬럼 헤더 (쉼표 구분)
                                 </label>
                                 <input
@@ -267,11 +267,11 @@ function InsertButtons() {
                                         setFtColumns(e.target.value)
                                     }
                                     placeholder="항목, 내용"
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
+                                    className="w-full rounded-lg border border-(--color-border) bg-(--color-surface-subtle) px-3 py-2 text-base text-(--color-foreground)"
                                 />
                             </div>
                             <div>
-                                <label className="block text-base font-medium text-(--color-muted) mb-1">
+                                <label className="mb-1 block text-base font-medium text-(--color-muted)">
                                     행 데이터 (한 줄에 한 행, 셀은 | 로 구분)
                                 </label>
                                 <textarea
@@ -279,11 +279,11 @@ function InsertButtons() {
                                     onChange={(e) => setFtRows(e.target.value)}
                                     rows={6}
                                     placeholder="값1 | 값2&#10;값3 | 값4"
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base font-mono resize-y"
+                                    className="w-full resize-y rounded-lg border border-(--color-border) bg-(--color-surface-subtle) px-3 py-2 font-mono text-base text-(--color-foreground)"
                                 />
                             </div>
                             <div>
-                                <label className="block text-base font-medium text-(--color-muted) mb-1">
+                                <label className="mb-1 block text-base font-medium text-(--color-muted)">
                                     컬럼 헤더 색상 (선택, Tailwind 이름, 쉼표
                                     구분)
                                 </label>
@@ -294,11 +294,11 @@ function InsertButtons() {
                                         setFtColHeadColors(e.target.value)
                                     }
                                     placeholder="green-400, blue-200"
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
+                                    className="w-full rounded-lg border border-(--color-border) bg-(--color-surface-subtle) px-3 py-2 text-base text-(--color-foreground)"
                                 />
                             </div>
                             <div>
-                                <label className="block text-base font-medium text-(--color-muted) mb-1">
+                                <label className="mb-1 block text-base font-medium text-(--color-muted)">
                                     행 배경 색상 (선택, 쉼표 구분)
                                 </label>
                                 <input
@@ -308,22 +308,22 @@ function InsertButtons() {
                                         setFtRowColors(e.target.value)
                                     }
                                     placeholder="green-100, green-50"
-                                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
+                                    className="w-full rounded-lg border border-(--color-border) bg-(--color-surface-subtle) px-3 py-2 text-base text-(--color-foreground)"
                                 />
                             </div>
                         </div>
-                        <div className="flex justify-end gap-2 mt-6">
+                        <div className="mt-6 flex justify-end gap-2">
                             <button
                                 type="button"
                                 onClick={() => setModal(null)}
-                                className="px-4 py-2 rounded-lg border border-(--color-border) text-base text-(--color-muted) hover:bg-(--color-surface-subtle)"
+                                className="rounded-lg border border-(--color-border) px-4 py-2 text-base text-(--color-muted) hover:bg-(--color-surface-subtle)"
                             >
                                 취소
                             </button>
                             <button
                                 type="button"
                                 onClick={handleInsertFoliumTable}
-                                className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-medium"
+                                className="rounded-lg bg-(--color-accent) px-4 py-2 text-base font-medium text-(--color-on-accent)"
                             >
                                 삽입
                             </button>
@@ -339,14 +339,14 @@ function InsertButtons() {
                     onClick={() => setModal(null)}
                 >
                     <div
-                        className="w-full max-w-md mx-4 p-6 rounded-xl border border-(--color-border) bg-(--color-surface) shadow-xl"
+                        className="mx-4 w-full max-w-md rounded-xl border border-(--color-border) bg-(--color-surface) p-6 shadow-xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 className="text-xl font-semibold text-(--color-foreground) mb-4">
+                        <h3 className="mb-4 text-xl font-semibold text-(--color-foreground)">
                             YouTube 삽입
                         </h3>
                         <div>
-                            <label className="block text-base font-medium text-(--color-muted) mb-1">
+                            <label className="mb-1 block text-base font-medium text-(--color-muted)">
                                 동영상 ID
                             </label>
                             <input
@@ -354,15 +354,15 @@ function InsertButtons() {
                                 value={ytId}
                                 onChange={(e) => setYtId(e.target.value)}
                                 placeholder="Qr6olpAJfvk (youtu.be/Qr6olpAJfvk 에서)"
-                                className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) text-base"
+                                className="w-full rounded-lg border border-(--color-border) bg-(--color-surface-subtle) px-3 py-2 text-base text-(--color-foreground)"
                                 autoFocus
                             />
                         </div>
-                        <div className="flex justify-end gap-2 mt-6">
+                        <div className="mt-6 flex justify-end gap-2">
                             <button
                                 type="button"
                                 onClick={() => setModal(null)}
-                                className="px-4 py-2 rounded-lg border border-(--color-border) text-base text-(--color-muted) hover:bg-(--color-surface-subtle)"
+                                className="rounded-lg border border-(--color-border) px-4 py-2 text-base text-(--color-muted) hover:bg-(--color-surface-subtle)"
                             >
                                 취소
                             </button>
@@ -370,7 +370,7 @@ function InsertButtons() {
                                 type="button"
                                 onClick={handleInsertYoutube}
                                 disabled={!ytId.trim()}
-                                className="px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) text-base font-medium disabled:opacity-50"
+                                className="rounded-lg bg-(--color-accent) px-4 py-2 text-base font-medium text-(--color-on-accent) disabled:opacity-50"
                             >
                                 삽입
                             </button>
@@ -425,14 +425,14 @@ export default function RichMarkdownEditor({
 
     if (!mounted) {
         return (
-            <div className="min-h-[280px] rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-4 text-(--color-muted) text-sm">
+            <div className="min-h-[280px] rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-4 text-sm text-(--color-muted)">
                 에디터 로딩 중...
             </div>
         );
     }
 
     return (
-        <div className="rich-markdown-editor rounded-lg border border-(--color-border) overflow-hidden [&_.mdxeditor]:!bg-(--color-surface) [&_.mdxeditor-root]:!border-0 [&_.mdxeditor-toolbar]:!bg-(--color-surface-subtle) [&_.mdxeditor-toolbar]:!border-b [&_.mdxeditor-toolbar]:!border-(--color-border) [&_.mdxeditor_[contenteditable]]:!min-h-[260px]">
+        <div className="rich-markdown-editor overflow-hidden rounded-lg border border-(--color-border) [&_.mdxeditor]:!bg-(--color-surface) [&_.mdxeditor_[contenteditable]]:!min-h-[260px] [&_.mdxeditor-root]:!border-0 [&_.mdxeditor-toolbar]:!border-b [&_.mdxeditor-toolbar]:!border-(--color-border) [&_.mdxeditor-toolbar]:!bg-(--color-surface-subtle)">
             <MDXEditor
                 markdown={mdxValue}
                 onChange={handleChange}
@@ -495,16 +495,16 @@ export default function RichMarkdownEditor({
                             <DiffSourceToggleWrapper>
                                 <div className="flex flex-wrap items-center gap-1 p-2">
                                     <UndoRedo />
-                                    <div className="w-px h-5 bg-(--color-border)" />
+                                    <div className="h-5 w-px bg-(--color-border)" />
                                     <BlockTypeSelect />
                                     <BoldItalicUnderlineToggles />
                                     <ListsToggle />
-                                    <div className="w-px h-5 bg-(--color-border)" />
+                                    <div className="h-5 w-px bg-(--color-border)" />
                                     <CreateLink />
                                     <InsertImage />
                                     <InsertCodeBlock />
                                     <InsertTable />
-                                    <div className="w-px h-5 bg-(--color-border)" />
+                                    <div className="h-5 w-px bg-(--color-border)" />
                                     <InsertButtons />
                                 </div>
                             </DiffSourceToggleWrapper>

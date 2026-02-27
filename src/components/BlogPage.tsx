@@ -191,17 +191,17 @@ export default function BlogPage({
     }, [posts, selectedCategory, selectedTag]);
 
     return (
-        <div className="flex flex-col gap-8 tablet:flex-row">
+        <div className="tablet:flex-row flex flex-col gap-8">
             {/* Hamburger + title + Write post: mobile top row */}
-            <div className="flex items-center gap-4 flex-wrap tablet:hidden">
+            <div className="tablet:hidden flex flex-wrap items-center gap-4">
                 <button
                     type="button"
                     onClick={() => setSidebarOpen((o) => !o)}
-                    className="p-2 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground)"
+                    className="rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-2 text-(--color-foreground)"
                     aria-label="Toggle filters"
                 >
                     <svg
-                        className="w-6 h-6"
+                        className="h-6 w-6"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -214,7 +214,7 @@ export default function BlogPage({
                         />
                     </svg>
                 </button>
-                <h1 className="text-2xl font-bold text-(--color-foreground) flex-1">
+                <h1 className="flex-1 text-2xl font-bold text-(--color-foreground)">
                     Blog
                 </h1>
                 {showWritePost && (
@@ -222,7 +222,7 @@ export default function BlogPage({
                         href="/keystatic"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="shrink-0 px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) font-medium hover:opacity-90 transition-opacity text-sm"
+                        className="shrink-0 rounded-lg bg-(--color-accent) px-4 py-2 text-sm font-medium text-(--color-on-accent) transition-opacity hover:opacity-90"
                     >
                         Write post
                     </a>
@@ -231,14 +231,10 @@ export default function BlogPage({
 
             {/* Sidebar: categories + tags */}
             <aside
-                className={`
-                    w-full shrink-0 flex flex-col gap-6
-                    tablet:w-56 tablet:block
-                    ${sidebarOpen ? "block" : "hidden"}
-                `}
+                className={`tablet:w-56 tablet:block flex w-full shrink-0 flex-col gap-6 ${sidebarOpen ? "block" : "hidden"} `}
             >
                 <div className="space-y-2">
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-(--color-muted)">
+                    <h2 className="text-sm font-semibold tracking-wider text-(--color-muted) uppercase">
                         Categories
                     </h2>
                     <ul className="space-y-1">
@@ -249,10 +245,10 @@ export default function BlogPage({
                                     setSelectedCategory(ALL_CATEGORY);
                                     setSidebarOpen(false);
                                 }}
-                                className={`w-full text-left px-3 py-1.5 rounded-md text-sm transition-colors ${
+                                className={`w-full rounded-md px-3 py-1.5 text-left text-sm transition-colors ${
                                     selectedCategory === ALL_CATEGORY
                                         ? "bg-(--color-accent) text-(--color-on-accent)"
-                                        : "hover:bg-(--color-surface-subtle) text-(--color-foreground)"
+                                        : "text-(--color-foreground) hover:bg-(--color-surface-subtle)"
                                 }`}
                             >
                                 All ({posts.length})
@@ -266,10 +262,10 @@ export default function BlogPage({
                                         setSelectedCategory(name);
                                         setSidebarOpen(false);
                                     }}
-                                    className={`w-full text-left px-3 py-1.5 rounded-md text-sm transition-colors ${
+                                    className={`w-full rounded-md px-3 py-1.5 text-left text-sm transition-colors ${
                                         selectedCategory === name
                                             ? "bg-(--color-accent) text-(--color-on-accent)"
-                                            : "hover:bg-(--color-surface-subtle) text-(--color-foreground)"
+                                            : "text-(--color-foreground) hover:bg-(--color-surface-subtle)"
                                     }`}
                                 >
                                     {name} ({count})
@@ -279,8 +275,8 @@ export default function BlogPage({
                     </ul>
                 </div>
 
-                <div className="space-y-2 mt-4 tablet:mt-6">
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-(--color-muted)">
+                <div className="tablet:mt-6 mt-4 space-y-2">
+                    <h2 className="text-sm font-semibold tracking-wider text-(--color-muted) uppercase">
                         Tags
                     </h2>
                     <div className="flex flex-wrap gap-1.5">
@@ -296,10 +292,10 @@ export default function BlogPage({
                                         );
                                         setSidebarOpen(false);
                                     }}
-                                    className={`px-2.5 py-1 rounded-md text-xs transition-colors ${
+                                    className={`rounded-md px-2.5 py-1 text-xs transition-colors ${
                                         selectedTag === value
                                             ? "bg-(--color-accent) text-(--color-on-accent)"
-                                            : "border border-(--color-border) hover:bg-(--color-surface-subtle) text-(--color-foreground)"
+                                            : "border border-(--color-border) text-(--color-foreground) hover:bg-(--color-surface-subtle)"
                                     }`}
                                 >
                                     {name} ({count})
@@ -311,8 +307,8 @@ export default function BlogPage({
             </aside>
 
             {/* Main: post list */}
-            <div className="flex-1 min-w-0">
-                <div className="hidden mb-6 tablet:flex tablet:items-center tablet:justify-between tablet:gap-4">
+            <div className="min-w-0 flex-1">
+                <div className="tablet:flex tablet:items-center tablet:justify-between tablet:gap-4 mb-6 hidden">
                     <h1 className="text-3xl font-bold text-(--color-foreground)">
                         Blog
                     </h1>
@@ -321,7 +317,7 @@ export default function BlogPage({
                             href="/admin"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="shrink-0 px-4 py-2 rounded-lg bg-(--color-accent) text-(--color-on-accent) font-medium hover:opacity-90 transition-opacity text-sm"
+                            className="shrink-0 rounded-lg bg-(--color-accent) px-4 py-2 text-sm font-medium text-(--color-on-accent) transition-opacity hover:opacity-90"
                         >
                             Write post
                         </a>
@@ -337,12 +333,12 @@ export default function BlogPage({
                             <li key={post.slug}>
                                 <a
                                     href={`/blog/${post.slug}`}
-                                    className="flex flex-col gap-4 p-4 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) hover:opacity-95 transition-opacity group tablet:flex-row"
+                                    className="group tablet:flex-row flex flex-col gap-4 rounded-lg border border-(--color-border) bg-(--color-surface-subtle) p-4 transition-opacity hover:opacity-95"
                                 >
-                                    <div className="flex-1 min-w-0 order-2 tablet:order-1">
-                                        <h2 className="font-semibold text-lg text-(--color-foreground) group-hover:underline flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                                    <div className="tablet:order-1 order-2 min-w-0 flex-1">
+                                        <h2 className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-lg font-semibold text-(--color-foreground) group-hover:underline">
                                             {post.category && (
-                                                <span className="font-semibold text-lg text-(--color-highlight)">
+                                                <span className="text-lg font-semibold text-(--color-highlight)">
                                                     {post.category}
                                                 </span>
                                             )}
@@ -356,10 +352,10 @@ export default function BlogPage({
                                             )}
                                             <span>{post.title}</span>
                                         </h2>
-                                        <p className="text-sm text-(--color-muted) mt-1 line-clamp-2">
+                                        <p className="mt-1 line-clamp-2 text-sm text-(--color-muted)">
                                             {post.displayDescription}
                                         </p>
-                                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-2">
+                                        <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
                                             {post.tagsDisplay &&
                                                 post.tagsDisplay.length > 0 && (
                                                     <>
@@ -398,7 +394,7 @@ export default function BlogPage({
                                                                         key={
                                                                             tag.name
                                                                         }
-                                                                        className={`text-xs px-1.5 py-0.5 rounded border ${
+                                                                        className={`rounded border px-1.5 py-0.5 text-xs ${
                                                                             !bgColor
                                                                                 ? "bg-(--color-accent)"
                                                                                 : ""
@@ -430,18 +426,18 @@ export default function BlogPage({
                                                 )}
                                         </div>
                                         <time
-                                            className="text-xs text-(--color-muted) block mt-2"
+                                            className="mt-2 block text-xs text-(--color-muted)"
                                             dateTime={post.pubDateIso}
                                         >
                                             {post.pubDateFormatted}
                                         </time>
                                     </div>
                                     {post.thumbnailUrl && (
-                                        <div className="shrink-0 w-full h-28 rounded-md overflow-hidden bg-(--color-surface) order-1 tablet:w-40 tablet:h-24 tablet:order-2">
+                                        <div className="tablet:w-40 tablet:h-24 tablet:order-2 order-1 h-28 w-full shrink-0 overflow-hidden rounded-md bg-(--color-surface)">
                                             <img
                                                 src={post.thumbnailUrl}
                                                 alt=""
-                                                className="w-full h-full object-cover"
+                                                className="h-full w-full object-cover"
                                             />
                                         </div>
                                     )}

@@ -510,20 +510,20 @@ body {
     color: revert;
 }
 .dark .mdxeditor .cm-gutters {
-    @apply text-(--color-muted) border-(--color-border);
+    @apply border-(--color-border) text-(--color-muted);
 }
 /* .mdxeditor 내부 + Radix Portal로 body에 렌더된 이미지/링크 모달 */
 .dark .mdxeditor [class*="DialogContent"],
 .dark .mdxeditor [class*="PopoverContent"],
 html.dark [class*="DialogContent"],
 html.dark [class*="PopoverContent"] {
-    @apply bg-(--color-surface) text-(--color-foreground) border-(--color-border);
+    @apply border-(--color-border) bg-(--color-surface) text-(--color-foreground);
 }
 .dark .mdxeditor [class*="DialogContent"] input,
 .dark .mdxeditor [class*="PopoverContent"] input,
 html.dark [class*="DialogContent"] input,
 html.dark [class*="PopoverContent"] input {
-    @apply bg-(--color-surface-subtle) text-(--color-foreground) border-(--color-border);
+    @apply border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground);
 }
 
 /* Rich text / Diff / Source 토글: 다크 배경 + 호버 */
@@ -595,7 +595,7 @@ html:not(.dark) .mdxeditor [class*="sp-wrapper"] .cm-editor {
 .dark .mdxeditor [class*="toolbarCodeBlockLanguageSelectContent"],
 .dark .mdxeditor [class*="codeMirrorWrapper"] [class*="selectTrigger"],
 .dark .mdxeditor [class*="codeMirrorWrapper"] [class*="SelectContent"] {
-    @apply bg-(--color-surface-subtle) text-(--color-foreground) border-(--color-border);
+    @apply border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground);
 }
 
 /* 인라인 코드 (``): 다크모드에서 텍스트를 검정으로 (밝은 배경 대비 가독) */

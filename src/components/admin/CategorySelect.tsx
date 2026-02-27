@@ -68,12 +68,12 @@ export default function CategorySelect({
                         }
                     }}
                     placeholder={placeholder}
-                    className="w-full px-3 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-base focus:outline-none focus:ring-2 focus:ring-(--color-accent)/40 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-base text-(--color-foreground) focus:ring-2 focus:ring-(--color-accent)/40 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                     autoComplete="off"
                 />
                 <ComboboxOptions
                     anchor="bottom"
-                    className="mt-1 max-h-48 min-w-48 overflow-y-auto rounded-lg border border-(--color-border) bg-(--color-surface) py-1 shadow-lg empty:invisible z-50 tablet:min-w-96"
+                    className="tablet:min-w-96 z-50 mt-1 max-h-48 min-w-48 overflow-y-auto rounded-lg border border-(--color-border) bg-(--color-surface) py-1 shadow-lg empty:invisible"
                 >
                     {displayOptions.length === 0 && !showCreateOption ? (
                         <div className="px-3 py-2 text-base text-(--color-muted)">

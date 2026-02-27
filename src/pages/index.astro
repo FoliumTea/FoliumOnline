@@ -102,32 +102,32 @@ const isDev = import.meta.env.DEV;
     description={heroDesc}
 >
     <!-- ── Hero ──────────────────────────────────────────────── -->
-    <section class="max-w-4xl mx-auto text-center py-16 tablet:py-24">
+    <section class="tablet:py-24 mx-auto max-w-4xl py-16 text-center">
         <p
-            class="text-sm font-semibold text-(--color-accent) uppercase tracking-widest mb-4"
+            class="mb-4 text-sm font-semibold tracking-widest text-(--color-accent) uppercase"
         >
             포트폴리오 & 기술 블로그
         </p>
         <h1
-            class="text-4xl font-black text-(--color-foreground) mb-4 tablet:text-6xl leading-tight"
+            class="tablet:text-6xl mb-4 text-4xl leading-tight font-black text-(--color-foreground)"
         >
             {heroName}
         </h1>
         <p
-            class="text-lg text-(--color-muted) max-w-2xl mx-auto leading-relaxed mb-8"
+            class="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-(--color-muted)"
         >
             {heroDesc}
         </p>
         <div class="flex flex-wrap justify-center gap-3">
             <a
                 href="/portfolio"
-                class="px-6 py-3 rounded-lg bg-(--color-accent) text-(--color-on-accent) font-semibold text-sm hover:opacity-90 transition-opacity"
+                class="rounded-lg bg-(--color-accent) px-6 py-3 text-sm font-semibold text-(--color-on-accent) transition-opacity hover:opacity-90"
             >
                 Portfolio 보기
             </a>
             <a
                 href="/resume"
-                class="px-6 py-3 rounded-lg border border-(--color-border) text-(--color-foreground) font-semibold text-sm hover:border-(--color-accent) hover:text-(--color-accent) transition-colors"
+                class="rounded-lg border border-(--color-border) px-6 py-3 text-sm font-semibold text-(--color-foreground) transition-colors hover:border-(--color-accent) hover:text-(--color-accent)"
             >
                 Resume 보기
             </a>
@@ -137,29 +137,29 @@ const isDev = import.meta.env.DEV;
     <!-- ── About 미리보기 ──────────────────────────────────────── -->
     {
         about.name && (
-            <section class="max-w-4xl mx-auto py-12 border-t border-(--color-border)">
-                <h2 class="text-2xl font-bold text-(--color-foreground) mb-6">
+            <section class="mx-auto max-w-4xl border-t border-(--color-border) py-12">
+                <h2 class="mb-6 text-2xl font-bold text-(--color-foreground)">
                     About me
                 </h2>
-                <div class="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:gap-8">
+                <div class="tablet:flex-row tablet:items-start tablet:gap-8 flex flex-col gap-4">
                     <div class="flex-1">
                         {about.description && (
-                            <p class="text-(--color-foreground) leading-relaxed mb-3">
+                            <p class="mb-3 leading-relaxed text-(--color-foreground)">
                                 {about.description}
                             </p>
                         )}
                         {about.descriptionSub && (
-                            <p class="text-(--color-muted) text-sm leading-relaxed">
+                            <p class="text-sm leading-relaxed text-(--color-muted)">
                                 {about.descriptionSub}
                             </p>
                         )}
                         <a
                             href="/about"
-                            class="inline-flex items-center gap-1 mt-4 text-sm font-medium text-(--color-accent) hover:underline"
+                            class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-(--color-accent) hover:underline"
                         >
                             소개 전체 보기
                             <svg
-                                class="w-4 h-4"
+                                class="h-4 w-4"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -181,18 +181,18 @@ const isDev = import.meta.env.DEV;
     <!-- ── Portfolio Featured ─────────────────────────────────── -->
     {
         featuredItems.length > 0 && (
-            <section class="max-w-4xl mx-auto py-12 border-t border-(--color-border)">
-                <div class="flex items-center justify-between mb-6">
+            <section class="mx-auto max-w-4xl border-t border-(--color-border) py-12">
+                <div class="mb-6 flex items-center justify-between">
                     <h2 class="text-2xl font-bold text-(--color-foreground)">
                         Portfolio
                     </h2>
                     <a
                         href="/portfolio"
-                        class="text-sm font-medium text-(--color-accent) hover:underline inline-flex items-center gap-1"
+                        class="inline-flex items-center gap-1 text-sm font-medium text-(--color-accent) hover:underline"
                     >
                         전체 보기
                         <svg
-                            class="w-4 h-4"
+                            class="h-4 w-4"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -206,11 +206,11 @@ const isDev = import.meta.env.DEV;
                         </svg>
                     </a>
                 </div>
-                <div class="grid grid-cols-1 gap-4 tablet:grid-cols-2 tablet:gap-6">
+                <div class="tablet:grid-cols-2 tablet:gap-6 grid grid-cols-1 gap-4">
                     {featuredItems.map((item) => (
                         <a
                             href={`/portfolio/${item.slug}`}
-                            class="group block rounded-xl border border-(--color-border) bg-(--color-surface-subtle) hover:border-(--color-accent) transition-colors overflow-hidden"
+                            class="group block overflow-hidden rounded-xl border border-(--color-border) bg-(--color-surface-subtle) transition-colors hover:border-(--color-accent)"
                         >
                             {item.thumbnail && (
                                 <div class="aspect-video overflow-hidden bg-(--color-border)">
@@ -220,23 +220,23 @@ const isDev = import.meta.env.DEV;
                                         width={480}
                                         height={270}
                                         loading="lazy"
-                                        class="w-full h-full object-cover transition-transform group-hover:scale-105"
+                                        class="h-full w-full object-cover transition-transform group-hover:scale-105"
                                     />
                                 </div>
                             )}
                             <div class="p-5">
-                                <h3 class="font-semibold text-(--color-foreground) mb-2 group-hover:text-(--color-accent) transition-colors">
+                                <h3 class="mb-2 font-semibold text-(--color-foreground) transition-colors group-hover:text-(--color-accent)">
                                     {item.title}
                                 </h3>
                                 {item.description && (
-                                    <p class="text-sm text-(--color-muted) line-clamp-2 mb-3">
+                                    <p class="mb-3 line-clamp-2 text-sm text-(--color-muted)">
                                         {item.description}
                                     </p>
                                 )}
                                 {item.tags && item.tags.length > 0 && (
                                     <div class="flex flex-wrap gap-1.5">
                                         {item.tags.slice(0, 4).map((t) => (
-                                            <span class="px-2 py-0.5 text-xs rounded-full bg-(--color-tag-bg) text-(--color-tag-fg)">
+                                            <span class="rounded-full bg-(--color-tag-bg) px-2 py-0.5 text-xs text-(--color-tag-fg)">
                                                 {t}
                                             </span>
                                         ))}
@@ -253,18 +253,18 @@ const isDev = import.meta.env.DEV;
     <!-- ── Blog 최신 글 ────────────────────────────────────────── -->
     {
         latestPosts.length > 0 && (
-            <section class="max-w-4xl mx-auto py-12 border-t border-(--color-border)">
-                <div class="flex items-center justify-between mb-6">
+            <section class="mx-auto max-w-4xl border-t border-(--color-border) py-12">
+                <div class="mb-6 flex items-center justify-between">
                     <h2 class="text-2xl font-bold text-(--color-foreground)">
                         Blog
                     </h2>
                     <a
                         href="/blog"
-                        class="text-sm font-medium text-(--color-accent) hover:underline inline-flex items-center gap-1"
+                        class="inline-flex items-center gap-1 text-sm font-medium text-(--color-accent) hover:underline"
                     >
                         전체 보기
                         <svg
-                            class="w-4 h-4"
+                            class="h-4 w-4"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -280,11 +280,11 @@ const isDev = import.meta.env.DEV;
                 </div>
 
                 {/* 최신 2개 — 큰 카드 블록 */}
-                <div class="grid grid-cols-1 gap-4 tablet:grid-cols-2 tablet:gap-6 mb-6">
+                <div class="tablet:grid-cols-2 tablet:gap-6 mb-6 grid grid-cols-1 gap-4">
                     {latestPosts.slice(0, 2).map((post) => (
                         <a
                             href={`/blog/${post.slug}`}
-                            class="group block rounded-xl border border-(--color-border) bg-(--color-surface-subtle) hover:border-(--color-accent) transition-colors overflow-hidden"
+                            class="group block overflow-hidden rounded-xl border border-(--color-border) bg-(--color-surface-subtle) transition-colors hover:border-(--color-accent)"
                         >
                             {post.thumbnailUrl && (
                                 <div class="aspect-video overflow-hidden bg-(--color-border)">
@@ -294,20 +294,20 @@ const isDev = import.meta.env.DEV;
                                         width={480}
                                         height={270}
                                         loading="lazy"
-                                        class="w-full h-full object-cover transition-transform group-hover:scale-105"
+                                        class="h-full w-full object-cover transition-transform group-hover:scale-105"
                                     />
                                 </div>
                             )}
                             <div class="p-5">
                                 {post.category && (
-                                    <p class="text-xs font-semibold text-(--color-accent) uppercase tracking-wider mb-1">
+                                    <p class="mb-1 text-xs font-semibold tracking-wider text-(--color-accent) uppercase">
                                         {post.category}
                                     </p>
                                 )}
-                                <h3 class="font-semibold text-(--color-foreground) mb-2 group-hover:text-(--color-accent) transition-colors line-clamp-2">
+                                <h3 class="mb-2 line-clamp-2 font-semibold text-(--color-foreground) transition-colors group-hover:text-(--color-accent)">
                                     {post.title}
                                 </h3>
-                                <p class="text-sm text-(--color-muted) line-clamp-2 mb-3">
+                                <p class="mb-3 line-clamp-2 text-sm text-(--color-muted)">
                                     {post.displayDescription}
                                 </p>
                                 <time
@@ -323,26 +323,26 @@ const isDev = import.meta.env.DEV;
 
                 {/* 다음 3개 — 컴팩트 리스트 */}
                 {latestPosts.length > 2 && (
-                    <ul class="divide-y divide-(--color-border) border border-(--color-border) rounded-xl overflow-hidden">
+                    <ul class="divide-y divide-(--color-border) overflow-hidden rounded-xl border border-(--color-border)">
                         {latestPosts.slice(2).map((post) => (
                             <li>
                                 <a
                                     href={`/blog/${post.slug}`}
-                                    class="group flex items-start gap-4 px-5 py-4 bg-(--color-surface-subtle) hover:bg-(--color-surface) transition-colors"
+                                    class="group flex items-start gap-4 bg-(--color-surface-subtle) px-5 py-4 transition-colors hover:bg-(--color-surface)"
                                 >
-                                    <div class="flex-1 min-w-0">
+                                    <div class="min-w-0 flex-1">
                                         {post.category && (
-                                            <span class="text-xs font-semibold text-(--color-accent) uppercase tracking-wider mr-2">
+                                            <span class="mr-2 text-xs font-semibold tracking-wider text-(--color-accent) uppercase">
                                                 {post.category}
                                             </span>
                                         )}
-                                        <span class="text-sm font-medium text-(--color-foreground) group-hover:text-(--color-accent) transition-colors">
+                                        <span class="text-sm font-medium text-(--color-foreground) transition-colors group-hover:text-(--color-accent)">
                                             {post.title}
                                         </span>
                                     </div>
                                     <time
                                         datetime={post.pubDateIso}
-                                        class="text-xs text-(--color-muted) shrink-0 mt-0.5"
+                                        class="mt-0.5 shrink-0 text-xs text-(--color-muted)"
                                     >
                                         {post.pubDateFormatted}
                                     </time>
@@ -358,14 +358,14 @@ const isDev = import.meta.env.DEV;
     <!-- ── Dev 도구 (dev 환경 전용) ───────────────────────────── -->
     {
         isDev && (
-            <section class="max-w-4xl mx-auto mt-4 mb-8 p-4 rounded-xl border border-(--color-border) border-dashed bg-(--color-surface-subtle)">
-                <p class="text-xs font-medium text-(--color-muted) mb-3 uppercase tracking-wider">
+            <section class="mx-auto mt-4 mb-8 max-w-4xl rounded-xl border border-dashed border-(--color-border) bg-(--color-surface-subtle) p-4">
+                <p class="mb-3 text-xs font-medium tracking-wider text-(--color-muted) uppercase">
                     개발 도구
                 </p>
                 <div class="flex flex-wrap gap-3">
                     <a
                         href="/admin"
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-(--color-border) bg-(--color-surface) text-(--color-foreground) text-sm font-medium hover:opacity-90 transition-opacity"
+                        class="inline-flex items-center gap-2 rounded-lg border border-(--color-border) bg-(--color-surface) px-4 py-2 text-sm font-medium text-(--color-foreground) transition-opacity hover:opacity-90"
                     >
                         Admin
                     </a>
