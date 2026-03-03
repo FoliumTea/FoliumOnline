@@ -49,17 +49,24 @@ export async function toWebPBlob(
 }
 
 /** 고유 파일 경로 생성 */
-export function getStoragePath(): string {
+export function getStoragePath(folderPath?: string): string {
+    const uuid = crypto.randomUUID();
+    if (folderPath) {
+        return `${folderPath}/${uuid}.webp`;
+    }
     const now = new Date();
     const y = now.getFullYear();
     const m = String(now.getMonth() + 1).padStart(2, "0");
-    return `${y}/${m}/${crypto.randomUUID()}.webp`;
+    return `misc/${y}/${m}/${uuid}.webp`;
 }
 
 /** Supabase Storage에 업로드, public URL 반환 */
-export async function uploadImageToSupabase(file: File): Promise<string> {
+export async function uploadImageToSupabase(
+    file: File,
+    folderPath?: string
+): Promise<string> {
     const blob = file.type === "image/webp" ? file : await toWebPBlob(file);
-    const path = getStoragePath();
+    const path = getStoragePath(folderPath);
 
     if (!browserClient) throw new Error("Supabase가 설정되지 않았습니다.");
 
