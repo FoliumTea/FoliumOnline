@@ -491,7 +491,7 @@ export default function BlogPage({
                                     <p className="mt-2 line-clamp-3 text-sm text-(--color-muted)">
                                         {post.displayDescription}
                                     </p>
-                                    <div className="mt-2">
+                                    <div className="mt-auto pt-6">
                                         <time
                                             className="text-xs text-(--color-muted)"
                                             dateTime={post.pubDateIso}
