@@ -468,23 +468,15 @@ export default function BlogPage({
                                 href={`${blogBasePath}/${post.slug}`}
                                 className="card-lift group flex flex-col overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-surface-subtle)"
                             >
-                                {/* Thumbnail */}
-                                <div className="aspect-video w-full overflow-hidden bg-(--color-surface)">
-                                    {post.thumbnailUrl ? (
+                                {post.thumbnailUrl && (
+                                    <div className="aspect-video w-full overflow-hidden bg-(--color-surface)">
                                         <img
                                             src={post.thumbnailUrl}
                                             alt=""
                                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                                         />
-                                    ) : (
-                                        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-(--color-accent)/20 to-(--color-accent)/5">
-                                            <span className="text-4xl font-black text-(--color-accent)/30">
-                                                {post.title.charAt(0)}
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
-                                {/* Content */}
+                                    </div>
+                                )}
                                 <div className="flex flex-1 flex-col p-5">
                                     <div>
                                         {post.category && (
