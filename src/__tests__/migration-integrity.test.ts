@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { APP_VERSION } from "@/lib/migrations";
+import { LATEST_SCHEMA_VERSION } from "@/lib/migrations";
 
 const repoRoot = process.cwd();
 const migrationDir = join(repoRoot, "supabase", "migrations");
@@ -24,7 +24,7 @@ describe("migration integrity", () => {
         }
     });
 
-    it("keeps initialization and whole-sync SQL at the app schema version", () => {
+    it("keeps initialization and whole-sync SQL at the latest schema version", () => {
         const setupSql = readFileSync(
             join(repoRoot, "supabase", "setup.sql"),
             "utf8"
@@ -34,9 +34,11 @@ describe("migration integrity", () => {
             "utf8"
         );
 
-        expect(setupSql).toContain(`'db_schema_version',  '"${APP_VERSION}"'`);
+        expect(setupSql).toContain(
+            `'db_schema_version',  '"${LATEST_SCHEMA_VERSION}"'`
+        );
         expect(wholeMigrationSql).toContain(
-            `VALUES ('db_schema_version', '"${APP_VERSION}"')`
+            `VALUES ('db_schema_version', '"${LATEST_SCHEMA_VERSION}"')`
         );
         for (const structure of [
             "category_colors",

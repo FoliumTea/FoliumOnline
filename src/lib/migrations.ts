@@ -6,7 +6,7 @@
 
 import packageJson from "../../package.json";
 
-// 현재 앱 버전 (package.json 기준)
+// 현재 앱 release 버전 (package.json 기준)
 export const APP_VERSION: string = packageJson.version;
 
 export interface Migration {
@@ -854,3 +854,7 @@ VALUES ('db_schema_version', '"0.12.190"')
 ON CONFLICT (key) DO UPDATE SET value = '"0.12.190"';`,
     },
 ];
+
+// 현재 DB schema 버전 (가장 최근 migration 기준)
+export const LATEST_SCHEMA_VERSION: string =
+    MIGRATIONS.at(-1)?.version ?? APP_VERSION;

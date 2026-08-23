@@ -92,7 +92,7 @@
 
 - Add brief docstrings in Korean for newly created functions.
 - `docs/changelogs/<YYYY-MM-DD>.md`에는 추적 가능한 code·configuration·schema·test·공개 기술 문서 변경만 간결히 기록한다. 이력서·Portfolio·About·Blog의 개별 내용, 지원·채용 맥락, 개인 경력·성과·프로젝트 사실, DB 콘텐츠 변경은 개인 정보로 취급하며 `docs/private/`와 Hive local confidential 지식에만 기록한다. Create the file with `# Changelog: YYYY-MM-DD` header if it doesn't exist, and add a row to the `docs/CHANGES.md` index. Never write version entries directly into `docs/CHANGES.md` — it is the index only.
-- `package.json` version은 명시적인 릴리스 또는 사용자 요청이 있을 때만 변경한다. 일반 문서, plan, directive, test, formatting, 내부 workflow 변경은 version을 올리지 않는다. Only update 1st/2nd if explicitly requested.
+- `package.json` version은 Semantic Versioning `X.Y.Z`를 사용한다. `X`(major)와 `Y`(minor)는 사용자 명시 승인 또는 명시 release 요청에서만 변경한다. `Z`(patch)는 non-trivial 기능 변경마다 자동으로 1 증가한다. 대상: runtime 동작, 공개 UI·route, DB schema·migration, 인증·보안, 공개 API·MCP 계약. refactor, 문서·plan, test만의 변경, formatting, 내부 workflow처럼 제품 기능을 바꾸지 않는 변경은 증가 대상이 아니다. DB schema version은 실제 migration 추가 때만 증가하며, 앱 release version과 같은 값일 필요가 없다.
 - Planning-only 문서 작업(`docs/plans/**/*.md`, 조사 메모 등)에서는 `package.json` version과 changelog를 변경하지 않는다.
 - Plan 파일은 `docs/plans/active/<slug>.md` (진행 중) 또는 `docs/plans/archive/<slug>.md` (완료/보류) 위치에만 생성한다. `PLAN_` prefix 사용 금지 — 폴더가 의미를 담당.
 - `docs/plans/`, `docs/pr/`, `docs/TODO.md`, `docs/USER_TASKS.md` 는 gitignored 라 사용자가 명시적으로 요구하지 않는 한 commit 하지 않는다.

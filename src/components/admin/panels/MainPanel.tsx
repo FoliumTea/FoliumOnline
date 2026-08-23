@@ -159,13 +159,13 @@ export default function MainPanel({
                             </div>
                             <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-(--color-muted)">
                                 <span>
-                                    DB 버전:{" "}
+                                    DB 스키마 버전:{" "}
                                     <code className="font-mono font-semibold text-(--color-foreground)">
                                         {data.db.currentVersion ?? "없음"}
                                     </code>
                                 </span>
                                 <span>
-                                    프론트엔드 버전:{" "}
+                                    앱 배포 버전:{" "}
                                     <code className="font-mono font-semibold text-(--color-foreground)">
                                         {data.db.frontendVersion}
                                     </code>
