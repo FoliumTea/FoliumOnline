@@ -2,11 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowLeft, ArrowUpRight, CalendarDays, Users } from "lucide-react";
-import {
-    getAllPortfolioSlugs,
-    getPortfolioItem,
-    getPortfolioItemMeta,
-} from "@/lib/queries";
+import { getAllPortfolioSlugs, getPortfolioItem } from "@/lib/queries";
+import { getPortfolioItemMetadata } from "@/lib/content-metadata";
 import { getCachedMarkdown } from "@/lib/markdown";
 import { extractTocFromHtml } from "@/lib/toc";
 import {
@@ -38,14 +35,7 @@ export async function generateMetadata({
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const { slug } = await params;
-    const item = await getPortfolioItemMeta(slug);
-    if (!item) return {};
-    const image = item.og_image ?? item.thumbnail ?? undefined;
-    return {
-        title: item.meta_title || `${item.title} - Portfolio`,
-        description: item.meta_description || item.description || undefined,
-        openGraph: image ? { images: [image] } : undefined,
-    };
+    return getPortfolioItemMetadata(slug);
 }
 
 const formatDateRange = (startDate: string, endDate: string): string => {

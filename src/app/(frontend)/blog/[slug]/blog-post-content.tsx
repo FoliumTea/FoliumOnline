@@ -1,7 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import {
     getPost,
-    getPostMeta,
     getTags,
     getSiteConfig,
     getAllPostSlugs,
@@ -19,6 +18,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { isGifUrl } from "@/lib/image-url";
 import { matchesJobField } from "@/lib/job-field";
+import { getBlogPostMetadata } from "@/lib/content-metadata";
 
 export const revalidate = false;
 export const dynamicParams = true;
@@ -33,17 +33,7 @@ export async function generateMetadata({
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const { slug } = await params;
-    const post = await getPostMeta(slug);
-    if (!post) return {};
-    const category = post.category?.trim() ?? "";
-    const title =
-        post.meta_title ||
-        (category ? `${category} | ${post.title}` : post.title);
-    return {
-        title,
-        description: post.meta_description || post.description || undefined,
-        openGraph: post.og_image ? { images: [post.og_image] } : undefined,
-    };
+    return getBlogPostMetadata(slug);
 }
 
 type BlogPostContentProps = {

@@ -12,7 +12,7 @@ export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
     const jobField = await resolvePublicJobField((await params).jobField);
-    return getSeoMetadata(jobField?.id);
+    return getSeoMetadata(jobField?.id, { title: "Portfolio" });
 }
 
 export default async function JobFieldPortfolioPage({ params }: PageProps) {

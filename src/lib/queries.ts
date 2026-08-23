@@ -97,7 +97,7 @@ const getCachedPostMeta = unstable_cache(
         const { data } = await serverClient
             .from("posts")
             .select(
-                "title, meta_title, meta_description, og_image, description, category, slug"
+                "title, meta_title, meta_description, og_image, thumbnail, description, category, slug"
             )
             .eq("slug", slug)
             .single();
