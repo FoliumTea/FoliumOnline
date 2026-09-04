@@ -1,36 +1,46 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PortfolioDetailContent from "../../../portfolio/[slug]/portfolio-detail-content";
-import { resolvePublicJobField } from "@/lib/public-job-field";
-import { getPublicPortfolioRouteParams } from "@/lib/public-route-params";
-import { getPortfolioItemMetadata } from "@/lib/content-metadata";
+import { getApplicationProfileByToken } from "@/lib/application-profile";
 
 type PageProps = {
     params: Promise<{ jobField: string; slug: string }>;
 };
 
 export async function generateStaticParams() {
-    return getPublicPortfolioRouteParams();
+    return [];
 }
 
 export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
-    const { slug } = await params;
-    return getPortfolioItemMetadata(slug);
+    const { jobField, slug } = await params;
+    const profile = await getApplicationProfileByToken(jobField);
+    const item = profile?.public_snapshot?.portfolio.find(
+        (entry) => entry.slug === slug
+    );
+    return item
+        ? {
+              title: item.meta_title || item.title,
+              robots: { index: false, follow: false },
+          }
+        : {};
 }
 
 export default async function JobFieldPortfolioDetailPage({
     params,
 }: PageProps) {
-    const { jobField: rawJobField, slug } = await params;
-    const jobField = await resolvePublicJobField(rawJobField);
-    if (!jobField) notFound();
+    const { jobField: token, slug } = await params;
+    const profile = await getApplicationProfileByToken(token);
+    const item = profile?.public_snapshot?.portfolio.find(
+        (entry) => entry.slug === slug
+    );
+    if (!profile?.public_snapshot || !item) notFound();
     return (
         <PortfolioDetailContent
             slug={slug}
-            jobField={jobField.id}
-            portfolioBasePath={`/${jobField.id}/portfolio`}
+            portfolioBasePath={`/${profile.public_token}/portfolio`}
+            itemOverride={item}
         />
     );
 }

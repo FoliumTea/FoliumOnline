@@ -1,14 +1,5 @@
-import BookDetailContent, {
-    generateMetadata,
-    generateStaticParams,
-} from "./book-detail-content";
+import { notFound } from "next/navigation";
 
-export { generateMetadata, generateStaticParams };
-
-export default async function BookDetailPage({
-    params,
-}: {
-    params: Promise<{ slug: string }>;
-}) {
-    return <BookDetailContent slug={(await params).slug} />;
+export default function BookDetailPage() {
+    notFound();
 }

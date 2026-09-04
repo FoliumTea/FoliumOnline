@@ -1,34 +1,44 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogPostContent from "../../../blog/[slug]/blog-post-content";
-import { resolvePublicJobField } from "@/lib/public-job-field";
-import { getPublicPostRouteParams } from "@/lib/public-route-params";
-import { getBlogPostMetadata } from "@/lib/content-metadata";
+import { getApplicationProfileByToken } from "@/lib/application-profile";
 
 type PageProps = {
     params: Promise<{ jobField: string; slug: string }>;
 };
 
 export async function generateStaticParams() {
-    return getPublicPostRouteParams();
+    return [];
 }
 
 export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
-    const { slug } = await params;
-    return getBlogPostMetadata(slug);
+    const { jobField, slug } = await params;
+    const profile = await getApplicationProfileByToken(jobField);
+    const post = profile?.public_snapshot?.posts.find(
+        (entry) => entry.slug === slug
+    );
+    return post
+        ? {
+              title: post.meta_title || post.title,
+              robots: { index: false, follow: false },
+          }
+        : {};
 }
 
 export default async function JobFieldBlogPostPage({ params }: PageProps) {
-    const { jobField: rawJobField, slug } = await params;
-    const jobField = await resolvePublicJobField(rawJobField);
-    if (!jobField) notFound();
+    const { jobField: token, slug } = await params;
+    const profile = await getApplicationProfileByToken(token);
+    const post = profile?.public_snapshot?.posts.find(
+        (entry) => entry.slug === slug
+    );
+    if (!profile?.public_snapshot || !post) notFound();
     return (
         <BlogPostContent
             slug={slug}
-            jobField={jobField.id}
-            blogBasePath={`/${jobField.id}/blog`}
+            blogBasePath={`/${profile.public_token}/blog`}
+            postOverride={post}
         />
     );
 }

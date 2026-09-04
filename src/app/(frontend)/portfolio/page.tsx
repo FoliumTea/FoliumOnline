@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ProfileSelectionPage from "@/components/ProfileSelectionPage";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
     title: "Portfolio",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default async function PortfolioPage() {
-    return <ProfileSelectionPage content="portfolio" />;
+    notFound();
 }

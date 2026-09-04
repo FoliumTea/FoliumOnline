@@ -18,6 +18,7 @@ import AgentTokensPanel from "@/components/admin/panels/AgentTokensPanel";
 import SnapshotsPanel from "@/components/admin/panels/SnapshotsPanel";
 import PromptLibraryPanel from "@/components/admin/panels/PromptLibraryPanel";
 import DebugPanel from "@/components/admin/panels/DebugPanel";
+import ApplicationProfilesPanel from "@/components/admin/panels/ApplicationProfilesPanel";
 import { REFUGE_ADMIN_TABS, type TabId } from "@/components/admin/AdminSidebar";
 
 // 비활동 제한 시간 (1시간)
@@ -30,6 +31,7 @@ const WARN_BEFORE_MS = 60 * 1000;
 const PANELS_OWN_HEIGHT = new Set<TabId>([
     "posts",
     "portfolio",
+    "application-profiles",
     "video-gif",
     "gantt-chart",
     "resume",
@@ -49,6 +51,7 @@ const VALID_TABS: TabId[] = [
     "main",
     "posts",
     "portfolio",
+    "application-profiles",
     "video-gif",
     "tags",
     "gantt-chart",
@@ -264,6 +267,11 @@ export default function AdminDashboard({
                                     key={`portfolio-${tabKey}`}
                                     editPath={editPath}
                                     onEditPathChange={handleEditPathChange}
+                                />
+                            )}
+                            {activeTab === "application-profiles" && (
+                                <ApplicationProfilesPanel
+                                    key={`application-profiles-${tabKey}`}
                                 />
                             )}
                             {activeTab === "video-gif" && (

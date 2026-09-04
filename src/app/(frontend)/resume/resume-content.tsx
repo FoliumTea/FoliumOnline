@@ -37,10 +37,18 @@ function coerceTheme(raw: unknown): "classic" | "modern" {
 
 type ResumePageContentProps = {
     jobField: string;
+    resumeOverride?: Resume;
+    aboutOverride?: AboutData;
+    jobFieldTitleOverride?: string;
+    portfolioBasePath?: string;
 };
 
 export default async function ResumePageContent({
     jobField,
+    resumeOverride,
+    aboutOverride,
+    jobFieldTitleOverride,
+    portfolioBasePath: portfolioBasePathOverride,
 }: ResumePageContentProps) {
     let resumeLayout: "classic" | "modern" = "modern";
     let resumeDataRaw: Resume = {} as Resume;
@@ -49,7 +57,7 @@ export default async function ResumePageContent({
     let resumeBasicsPresentationConfig =
         normalizeResumeBasicsPresentationConfig(undefined);
 
-    if (serverClient) {
+    if (serverClient && !resumeOverride) {
         const [
             layoutRes,
             sectionLayoutRes,
@@ -102,6 +110,9 @@ export default async function ResumePageContent({
         }
     }
 
+    if (resumeOverride) resumeDataRaw = resumeOverride;
+    if (aboutOverride) aboutData = aboutOverride;
+
     const rawCC = resumeDataRaw.coreCompetencies;
     const fallbackIntroduction =
         aboutData.description || aboutData.descriptionSub
@@ -120,11 +131,13 @@ export default async function ResumePageContent({
         aboutData.introductions?.[jobField],
         fallbackIntroduction
     );
-    const jobFieldTitle = (await getPublicJobFields()).find(
-        (field) => field.id === jobField
-    )?.headerTitle;
+    const jobFieldTitle =
+        jobFieldTitleOverride ??
+        (await getPublicJobFields()).find((field) => field.id === jobField)
+            ?.headerTitle;
     const coreCompetencies = filteredResumeData.coreCompetencies?.entries ?? [];
-    const portfolioBasePath = `/${jobField}/portfolio`;
+    const portfolioBasePath =
+        portfolioBasePathOverride ?? `/${jobField}/portfolio`;
     const basicsPresentation = resolveResumeBasicsPresentation(
         resumeBasicsPresentationConfig,
         jobField

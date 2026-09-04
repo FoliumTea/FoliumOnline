@@ -28,10 +28,14 @@ export const metadata: Metadata = {
 
 type PortfolioPageContentProps = {
     jobField: string;
+    projectsOverride?: PortfolioRawRow[];
+    portfolioBasePath?: string;
 };
 
 export default async function PortfolioPageContent({
     jobField,
+    projectsOverride,
+    portfolioBasePath: portfolioBasePathOverride,
 }: PortfolioPageContentProps) {
     const [configRows, resumeBasics] = await Promise.all([
         getSiteConfig(),
@@ -46,10 +50,11 @@ export default async function PortfolioPageContent({
     const portfolioEyebrow = "Selected Work";
     const portfolioIntroduction =
         "프로젝트의 목표, 개인 책임, 핵심 구현과 확인 가능한 결과를 정리했습니다.";
-    const portfolioBasePath = `/${jobField}/portfolio`;
+    const portfolioBasePath =
+        portfolioBasePathOverride ?? `/${jobField}/portfolio`;
 
     let publicBooks: BookItem[] = [];
-    if (serverClient) {
+    if (serverClient && !projectsOverride) {
         const { data: booksData } = await serverClient
             .from("books")
             .select("slug, title, author, cover_url, description, rating")
@@ -61,7 +66,11 @@ export default async function PortfolioPageContent({
 
     let publicProjects: PortfolioProject[] = [];
 
-    if (serverClient) {
+    if (projectsOverride) {
+        publicProjects = projectsOverride.map((item) =>
+            normalizePortfolioProject(item)
+        );
+    } else if (serverClient) {
         const { data: items } = await serverClient
             .from("portfolio_items")
             .select(
@@ -141,6 +150,7 @@ export default async function PortfolioPageContent({
                     projects={publicProjects}
                     portfolioBasePath={portfolioBasePath}
                     design={portfolioDesign}
+                    preserveOrder={Boolean(projectsOverride)}
                 />
 
                 {publicBooks.length > 0 && (

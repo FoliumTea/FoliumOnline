@@ -8,6 +8,7 @@ type PortfolioViewProps = {
     portfolioBasePath?: string;
     jobField?: string;
     design?: "timeline" | "cards";
+    preserveOrder?: boolean;
 };
 
 const sortByRecentDate = (left: PortfolioProject, right: PortfolioProject) =>
@@ -19,6 +20,7 @@ export default function PortfolioView({
     projects,
     portfolioBasePath,
     design = "cards",
+    preserveOrder = false,
 }: PortfolioViewProps) {
     if (projects.length === 0) {
         return (
@@ -48,7 +50,7 @@ export default function PortfolioView({
                 "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
             projects: projects
                 .filter((project) => project.projectType === "work")
-                .sort(sortByRecentDate),
+                .sort(preserveOrder ? () => 0 : sortByRecentDate),
         },
         {
             eyebrow: "개인 제작",
@@ -60,7 +62,7 @@ export default function PortfolioView({
                 "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300",
             projects: projects
                 .filter((project) => project.projectType === "personal")
-                .sort(sortByRecentDate),
+                .sort(preserveOrder ? () => 0 : sortByRecentDate),
         },
     ];
 

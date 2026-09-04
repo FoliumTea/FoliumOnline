@@ -1,5 +1,5 @@
-import ProfileSelectionPage from "@/components/ProfileSelectionPage";
+import { notFound } from "next/navigation";
 
 export default async function HomePage() {
-    return <ProfileSelectionPage content="home" />;
+    notFound();
 }

@@ -153,7 +153,24 @@ CREATE TABLE IF NOT EXISTS ai_agent_tokens (
     expires_at     TIMESTAMPTZ NOT NULL,
     revoked        BOOLEAN     NOT NULL DEFAULT FALSE,
     last_used_at   TIMESTAMPTZ,
+    permissions    JSONB,
     created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS application_profiles (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    name text NOT NULL CHECK (char_length(trim(name)) BETWEEN 1 AND 120),
+    public_token text NOT NULL UNIQUE CHECK (public_token ~ '^[A-Za-z0-9_-]{22,64}$'),
+    parent_job_field text NOT NULL CHECK (parent_job_field ~ '^[A-Za-z0-9_-]{1,64}$'),
+    job_description text NOT NULL DEFAULT '',
+    status text NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'revoked')),
+    version integer NOT NULL DEFAULT 1 CHECK (version > 0),
+    base_snapshot jsonb NOT NULL,
+    overrides jsonb NOT NULL DEFAULT '{}'::jsonb,
+    public_snapshot jsonb,
+    published_at timestamptz,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now()
 );
 
 -- 관리자 로그인 rate limit
@@ -490,6 +507,7 @@ ALTER TABLE editor_states ENABLE ROW LEVEL SECURITY;
 
 -- gantt_chart_archives: 인증된 사용자만 접근
 ALTER TABLE gantt_chart_archives ENABLE ROW LEVEL SECURITY;
+ALTER TABLE application_profiles ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "database_snapshots_admin_all"
     ON database_snapshots FOR ALL
@@ -508,6 +526,9 @@ CREATE POLICY "gantt_chart_archives_admin_all"
     TO authenticated
     USING (true)
     WITH CHECK (true);
+
+REVOKE ALL ON TABLE application_profiles FROM anon, authenticated;
+GRANT ALL ON TABLE application_profiles TO service_role;
 
 -- ── exec_sql 함수 (service_role 전용 DDL 실행) ───────────────
 
@@ -619,5 +640,5 @@ INSERT INTO site_config (key, value) VALUES
     ('seo_config',         '{"default_title":"PortareFolium","default_description":"포트폴리오 & 기술 블로그","default_og_image":""}'),
     ('resume_layout',      '"modern"'),
     -- 신규 설치: setup.sql이 최신 스키마를 적용하므로 현재 버전으로 초기화
-    ('db_schema_version',  '"0.12.190"')
+    ('db_schema_version',  '"0.13.1"')
 ON CONFLICT (key) DO NOTHING;

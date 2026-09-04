@@ -6,6 +6,7 @@ import {
 } from "@/lib/mcp-rate-limit";
 import { MCP_TOOLS, dispatchTool } from "@/lib/mcp-tools";
 import { getRequestIpFromHeaders } from "@/lib/request-ip";
+import type { AgentTokenPermissions } from "@/lib/agent-token";
 
 // Bearer 토큰 추출
 function extractBearer(req: NextRequest): string | null {
@@ -15,10 +16,15 @@ function extractBearer(req: NextRequest): string | null {
 }
 
 // 인증 + invalid 시도 throttle
-async function authenticate(
-    req: NextRequest
-): Promise<
-    | { ok: true; agent: { id: string; label: string } }
+async function authenticate(req: NextRequest): Promise<
+    | {
+          ok: true;
+          agent: {
+              id: string;
+              label: string;
+              permissions: AgentTokenPermissions | null;
+          };
+      }
     | { ok: false; throttled: boolean; retryAfterSec: number }
 > {
     const ip = getRequestIpFromHeaders(req.headers);
@@ -93,10 +99,11 @@ function toolsListResponse(id: unknown) {
 async function toolsCallResponse(
     id: unknown,
     toolName: string,
-    args: Record<string, unknown>
+    args: Record<string, unknown>,
+    permissions: AgentTokenPermissions | null
 ) {
     try {
-        const result = await dispatchTool(toolName, args);
+        const result = await dispatchTool(toolName, args, permissions);
         return NextResponse.json({
             jsonrpc: "2.0",
             id,
@@ -185,7 +192,7 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        return toolsCallResponse(id, toolName, args);
+        return toolsCallResponse(id, toolName, args, auth.agent.permissions);
     }
 
     return NextResponse.json(

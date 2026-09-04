@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import HomePageContent from "../home-content";
-import { resolvePublicJobField } from "@/lib/public-job-field";
-import { getSeoMetadata } from "@/lib/seo-metadata";
+import ApplicationProfileHome from "@/components/ApplicationProfileHome";
+import { getApplicationProfileByToken } from "@/lib/application-profile";
 
 type PageProps = {
     params: Promise<{ jobField: string }>;
@@ -11,12 +10,21 @@ type PageProps = {
 export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
-    const jobField = await resolvePublicJobField((await params).jobField);
-    return getSeoMetadata(jobField?.id);
+    const profile = await getApplicationProfileByToken((await params).jobField);
+    if (!profile?.public_snapshot) return {};
+    return {
+        title: profile.public_snapshot.resume.basics?.label || "Portfolio",
+        robots: { index: false, follow: false },
+    };
 }
 
 export default async function JobFieldHomePage({ params }: PageProps) {
-    const jobField = await resolvePublicJobField((await params).jobField);
-    if (!jobField) notFound();
-    return <HomePageContent jobField={jobField.id} />;
+    const profile = await getApplicationProfileByToken((await params).jobField);
+    if (!profile?.public_snapshot) notFound();
+    return (
+        <ApplicationProfileHome
+            token={profile.public_token}
+            snapshot={profile.public_snapshot}
+        />
+    );
 }

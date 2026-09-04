@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogListContent from "../../blog/blog-list-content";
-import { resolvePublicJobField } from "@/lib/public-job-field";
-import { getSeoMetadata } from "@/lib/seo-metadata";
+import { getApplicationProfileByToken } from "@/lib/application-profile";
 
 type PageProps = {
     params: Promise<{ jobField: string }>;
@@ -11,12 +10,18 @@ type PageProps = {
 export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
-    const jobField = await resolvePublicJobField((await params).jobField);
-    return getSeoMetadata(jobField?.id, { title: "Blog" });
+    const profile = await getApplicationProfileByToken((await params).jobField);
+    if (!profile?.public_snapshot) return {};
+    return { title: "Blog", robots: { index: false, follow: false } };
 }
 
 export default async function JobFieldBlogPage({ params }: PageProps) {
-    const jobField = await resolvePublicJobField((await params).jobField);
-    if (!jobField) notFound();
-    return <BlogListContent jobFieldOverride={jobField.id} />;
+    const profile = await getApplicationProfileByToken((await params).jobField);
+    if (!profile?.public_snapshot) notFound();
+    return (
+        <BlogListContent
+            postsOverride={profile.public_snapshot.posts}
+            blogBasePath={`/${profile.public_token}/blog`}
+        />
+    );
 }

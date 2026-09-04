@@ -3,6 +3,7 @@ import { serverClient } from "@/lib/supabase";
 import { formatPubDateKST } from "@/lib/blog";
 import type { PostItem, FilterMeta } from "@/components/BlogPage";
 import BlogPage from "@/components/BlogPage";
+import type { ApplicationPost } from "@/types/application-profile";
 
 export const revalidate = false;
 
@@ -13,14 +14,18 @@ export const metadata: Metadata = {
 
 type BlogListContentProps = {
     jobFieldOverride?: string;
+    postsOverride?: ApplicationPost[];
+    blogBasePath?: string;
 };
 
 export default async function BlogListContent({
     jobFieldOverride,
+    postsOverride,
+    blogBasePath,
 }: BlogListContentProps) {
     let slugToTagName = new Map<string, string>();
     let slugToTagColor = new Map<string, string>();
-    if (serverClient) {
+    if (serverClient && !postsOverride) {
         const { data: tagsData } = await serverClient
             .from("tags")
             .select("slug, name, color");
@@ -38,7 +43,41 @@ export default async function BlogListContent({
     let categories: FilterMeta[] = [];
     let tags: FilterMeta[] = [];
 
-    if (serverClient) {
+    if (postsOverride) {
+        postItems = postsOverride.map((post) => ({
+            slug: post.slug,
+            title: post.title,
+            displayDescription: post.description?.trim() ?? "",
+            pubDateFormatted: formatPubDateKST(new Date(post.pub_date)),
+            pubDateIso: post.pub_date,
+            category: post.category?.trim() ?? null,
+            tags: post.tags,
+            tagsDisplay: post.tags.map((name) => ({ name })),
+            thumbnailUrl: post.thumbnail,
+        }));
+        const categoryCount = new Map<string, number>();
+        const tagCount = new Map<string, number>();
+        for (const post of postItems) {
+            if (post.category)
+                categoryCount.set(
+                    post.category,
+                    (categoryCount.get(post.category) ?? 0) + 1
+                );
+            for (const tag of post.tags)
+                tagCount.set(tag, (tagCount.get(tag) ?? 0) + 1);
+        }
+        categories = [...categoryCount.entries()].map(([name, count]) => ({
+            name,
+            count,
+        }));
+        tags = [...tagCount.entries()].map(([name, count]) => ({
+            name,
+            slug: name,
+            count,
+        }));
+    }
+
+    if (serverClient && !postsOverride) {
         let postsQuery = serverClient
             .from("posts")
             .select(
@@ -116,7 +155,10 @@ export default async function BlogListContent({
                     categories={categories}
                     tags={tags}
                     blogBasePath={
-                        jobFieldOverride ? `/${jobFieldOverride}/blog` : "/blog"
+                        blogBasePath ??
+                        (jobFieldOverride
+                            ? `/${jobFieldOverride}/blog`
+                            : "/blog")
                     }
                 />
             )}

@@ -19,6 +19,7 @@ import type { Metadata } from "next";
 import { isGifUrl } from "@/lib/image-url";
 import { matchesJobField } from "@/lib/job-field";
 import { getBlogPostMetadata } from "@/lib/content-metadata";
+import type { ApplicationPost } from "@/types/application-profile";
 
 export const revalidate = false;
 export const dynamicParams = true;
@@ -40,17 +41,20 @@ type BlogPostContentProps = {
     slug: string;
     jobField?: string;
     blogBasePath?: string;
+    postOverride?: ApplicationPost;
 };
 
 export default async function BlogPostContent({
     slug,
     jobField,
     blogBasePath = "/blog",
+    postOverride,
 }: BlogPostContentProps) {
-    const post = await getPost(slug);
+    const post = postOverride ?? (await getPost(slug));
     if (!post) redirect(blogBasePath);
     if (
         jobField &&
+        !postOverride &&
         (!post.published ||
             !matchesJobField(
                 post.job_field as string | string[] | undefined,
@@ -60,7 +64,7 @@ export default async function BlogPostContent({
         notFound();
     }
 
-    const tagsData = await getTags();
+    const tagsData = postOverride ? [] : await getTags();
     const slugToTagName = new Map(tagsData.map((t) => [t.slug, t.name]));
     const slugToTagColor = new Map(
         tagsData
@@ -73,7 +77,7 @@ export default async function BlogPostContent({
 
     type TocStyle = "hover" | "github" | "both";
     let tocStyle: TocStyle = "hover";
-    const configRows = await getSiteConfig();
+    const configRows = postOverride ? [] : await getSiteConfig();
     const tocRow = configRows.find((r) => r.key === "post_toc_styles");
     if (tocRow?.value && typeof tocRow.value === "object") {
         const styles = tocRow.value as Record<string, TocStyle>;

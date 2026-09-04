@@ -5,6 +5,9 @@ import { mergePortfolioDataPatch } from "@/lib/portfolio";
 import type { PortfolioRawRow } from "@/types/portfolio";
 import { getPublicJobFields } from "@/lib/public-job-field";
 import { PUBLIC_CONTENT_CACHE_TAG } from "@/lib/queries";
+import { getApplicationProfileForAdmin } from "@/lib/application-profile";
+import type { AgentTokenPermissions } from "@/lib/agent-token";
+import type { ApplicationProfileOverrides } from "@/types/application-profile";
 
 const PORTFOLIO_MUTATION_KEYS = [
     "title",
@@ -700,6 +703,81 @@ export async function handleUpdateResume(args: {
     return updated;
 }
 
+function requireApplicationPermission(
+    permissions: AgentTokenPermissions | null | undefined,
+    profileId: string,
+    action: string
+): void {
+    if (permissions == null) return;
+    if (
+        !permissions.applicationProfileIds?.includes(profileId) ||
+        !permissions.actions?.includes(action)
+    ) {
+        throw new Error(
+            "[mcp-tools::requireApplicationPermission] 지원 프로필 권한 없음"
+        );
+    }
+}
+
+async function handleGetApplicationProfile(
+    args: { id: string },
+    permissions: AgentTokenPermissions | null | undefined
+): Promise<unknown> {
+    requireApplicationPermission(permissions, args.id, "application:read");
+    const profile = await getApplicationProfileForAdmin(args.id);
+    if (!profile)
+        throw new Error(
+            "[mcp-tools::handleGetApplicationProfile] 지원 프로필 없음"
+        );
+    return {
+        id: profile.id,
+        name: profile.name,
+        parent_job_field: profile.parent_job_field,
+        job_description: profile.job_description,
+        version: profile.version,
+        base_snapshot: profile.base_snapshot,
+        overrides: profile.overrides,
+    };
+}
+
+async function handleSaveApplicationDraft(
+    args: {
+        id: string;
+        expected_version: number;
+        overrides: ApplicationProfileOverrides;
+    },
+    permissions: AgentTokenPermissions | null | undefined
+): Promise<unknown> {
+    requireApplicationPermission(permissions, args.id, "application:draft");
+    if (!serverClient)
+        throw new Error(
+            "[mcp-tools::handleSaveApplicationDraft] serverClient 없음"
+        );
+    if (!Number.isInteger(args.expected_version) || args.expected_version < 1) {
+        throw new Error(
+            "[mcp-tools::handleSaveApplicationDraft] expected_version 필요"
+        );
+    }
+    const { data, error } = await serverClient
+        .from("application_profiles")
+        .update({
+            overrides: args.overrides,
+            version: args.expected_version + 1,
+            updated_at: new Date().toISOString(),
+        })
+        .eq("id", args.id)
+        .eq("version", args.expected_version)
+        .select("id, version")
+        .maybeSingle();
+    if (error)
+        throw new Error(
+            `[mcp-tools::handleSaveApplicationDraft] ${error.message}`
+        );
+    if (!data)
+        throw new Error("[mcp-tools::handleSaveApplicationDraft] version 충돌");
+    return data;
+}
+
 // ─── 툴 정의 (MCP tool schema) ────────────────────────────────────────────────
 
 const PORTFOLIO_DATA_INPUT_SCHEMA = {
@@ -998,13 +1076,47 @@ export const MCP_TOOLS = [
             required: ["data"],
         },
     },
+    {
+        name: "get_application_profile",
+        description:
+            "권한이 부여된 JD 지원 프로필의 기준본과 초안 수정사항 조회",
+        inputSchema: {
+            type: "object",
+            properties: { id: { type: "string" } },
+            required: ["id"],
+        },
+    },
+    {
+        name: "save_application_draft",
+        description:
+            "JD 지원 프로필의 초안 수정사항 저장. 공개 상태와 원본 콘텐츠는 변경 불가",
+        inputSchema: {
+            type: "object",
+            properties: {
+                id: { type: "string" },
+                expected_version: { type: "integer" },
+                overrides: { type: "object" },
+            },
+            required: ["id", "expected_version", "overrides"],
+        },
+    },
 ] as const;
 
 // 툴 이름 → 핸들러 디스패치
 export async function dispatchTool(
     name: string,
-    args: Record<string, unknown>
+    args: Record<string, unknown>,
+    permissions: AgentTokenPermissions | null = null
 ): Promise<unknown> {
+    if (
+        permissions &&
+        !name.startsWith("get_application_") &&
+        name !== "save_application_draft"
+    ) {
+        throw new Error(
+            "[mcp-tools::dispatchTool] 제한 토큰으로 허용되지 않은 도구"
+        );
+    }
     switch (name) {
         case "get_schema":
             return handleGetSchema();
@@ -1035,6 +1147,20 @@ export async function dispatchTool(
         case "update_resume":
             return handleUpdateResume(
                 args as { lang?: string; data: Partial<Resume> }
+            );
+        case "get_application_profile":
+            return handleGetApplicationProfile(
+                args as { id: string },
+                permissions
+            );
+        case "save_application_draft":
+            return handleSaveApplicationDraft(
+                args as {
+                    id: string;
+                    expected_version: number;
+                    overrides: ApplicationProfileOverrides;
+                },
+                permissions
             );
         default:
             throw new Error(`[mcp-tools::dispatchTool] 알 수 없는 툴: ${name}`);

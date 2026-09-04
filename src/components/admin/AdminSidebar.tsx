@@ -15,6 +15,7 @@ import {
     ExternalLink,
     Bug,
     Film,
+    Send,
 } from "lucide-react";
 import type { ComponentType } from "react";
 
@@ -45,6 +46,7 @@ const SECTIONS = [
             { id: "posts", label: "포스트", icon: FileText },
             { id: "tags", label: "태그", icon: Tag },
             { id: "portfolio", label: "포트폴리오", icon: Briefcase },
+            { id: "application-profiles", label: "지원 프로필", icon: Send },
             { id: "about", label: "About", icon: User },
             { id: "resume", label: "이력서", icon: ScrollText },
         ],
@@ -76,6 +78,7 @@ export type TabId =
     | "main"
     | "posts"
     | "portfolio"
+    | "application-profiles"
     | "video-gif"
     | "gantt-chart"
     | "tags"

@@ -7,13 +7,20 @@ function hashToken(token: string): string {
     return createHash("sha256").update(token).digest("hex");
 }
 
+export type AgentTokenPermissions = {
+    applicationProfileIds?: string[];
+    actions?: string[];
+};
+
 const LAST_USED_THROTTLE_MS = 60 * 1000;
 
 // 토큰 유효성 검증 및 last_used_at 갱신
 // 유효하면 토큰 row 반환, 실패하면 null
-export async function validateAgentToken(
-    token: string
-): Promise<{ id: string; label: string } | null> {
+export async function validateAgentToken(token: string): Promise<{
+    id: string;
+    label: string;
+    permissions: AgentTokenPermissions | null;
+} | null> {
     if (!serverClient || isSqliteRefugeMode()) return null;
 
     const hash = hashToken(token);
@@ -22,7 +29,7 @@ export async function validateAgentToken(
 
     const { data, error } = await serverClient
         .from("ai_agent_tokens")
-        .select("id, label, last_used_at")
+        .select("id, label, last_used_at, permissions")
         .eq("token_hash", hash)
         .eq("revoked", false)
         .gt("expires_at", nowIso)
@@ -41,13 +48,18 @@ export async function validateAgentToken(
             .eq("id", data.id);
     }
 
-    return { id: data.id, label: data.label };
+    return {
+        id: data.id,
+        label: data.label,
+        permissions: (data.permissions as AgentTokenPermissions | null) ?? null,
+    };
 }
 
 // 토큰 발급 (raw token 반환 — 한 번만 노출)
 export async function issueToken(
     label: string,
-    durationMin: number
+    durationMin: number,
+    permissions: AgentTokenPermissions | null = null
 ): Promise<string | null> {
     if (!serverClient || isSqliteRefugeMode()) return null;
 
@@ -63,6 +75,7 @@ export async function issueToken(
         label,
         duration_min: durationMin,
         expires_at: expiresAt,
+        permissions,
     });
 
     if (error) return null;

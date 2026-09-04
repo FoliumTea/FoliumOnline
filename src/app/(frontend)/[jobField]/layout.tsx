@@ -1,10 +1,8 @@
-import { getPublicJobFieldParams } from "@/lib/public-route-params";
-
-export const revalidate = 3600;
+export const revalidate = false;
 export const dynamic = "force-static";
 
 export async function generateStaticParams() {
-    return getPublicJobFieldParams();
+    return [];
 }
 
 export default function JobFieldLayout({

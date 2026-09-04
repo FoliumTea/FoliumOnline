@@ -28,25 +28,44 @@ export default function Header({
     const currentJobField = jobFields.find(
         (field) => field.id === firstPathSegment
     );
-    const profileJobField = currentJobField?.id ?? "";
+    const isApplicationProfile =
+        Boolean(firstPathSegment) &&
+        !currentJobField &&
+        ![
+            "about",
+            "admin",
+            "api",
+            "blog",
+            "books",
+            "portfolio",
+            "resume",
+        ].includes(firstPathSegment);
+    const profileJobField =
+        currentJobField?.id ?? (isApplicationProfile ? firstPathSegment : "");
     const profilePrefix = profileJobField ? `/${profileJobField}` : "";
     const brandLabel = getHeaderBrandLabel(
         headerName,
         currentJobField?.headerTitle
     );
-    const navigationItems = profileJobField
+    const navigationItems = isApplicationProfile
         ? [
-              [`${profilePrefix}/about`, "About me"],
               [`${profilePrefix}/resume`, "Resume"],
               [`${profilePrefix}/portfolio`, "Portfolio"],
               [`${profilePrefix}/blog`, "Blog"],
           ]
-        : [
-              ["/about", "About me"],
-              ["/resume", "Resume"],
-              ["/portfolio", "Portfolio"],
-              ["/blog", "Blog"],
-          ];
+        : profileJobField
+          ? [
+                [`${profilePrefix}/about`, "About me"],
+                [`${profilePrefix}/resume`, "Resume"],
+                [`${profilePrefix}/portfolio`, "Portfolio"],
+                [`${profilePrefix}/blog`, "Blog"],
+            ]
+          : [
+                ["/about", "About me"],
+                ["/resume", "Resume"],
+                ["/portfolio", "Portfolio"],
+                ["/blog", "Blog"],
+            ];
 
     return (
         <header
@@ -135,7 +154,9 @@ export default function Header({
                         className="tablet:block tablet:h-5 tablet:w-px tablet:mx-2 hidden bg-(--color-border)"
                         aria-hidden="true"
                     />
-                    <GlobalSearch jobField={profileJobField} />
+                    {!isApplicationProfile && (
+                        <GlobalSearch jobField={profileJobField} />
+                    )}
                     <a
                         href={githubUrl || "https://github.com/"}
                         target="_blank"

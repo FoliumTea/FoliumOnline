@@ -182,7 +182,8 @@ export default defineConfig({
         // push gate: build + start, 수동 로컬 실행: dev
         command: webServerCommand,
         env: getDefinedProcessEnv(),
-        url: baseURL,
+        // 공개 루트는 지원 링크 외 404이므로 인증 화면으로 readiness 확인
+        url: `${baseURL}/admin/login`,
         reuseExistingServer: e2eServerMode !== "start",
         timeout: 120_000,
     },

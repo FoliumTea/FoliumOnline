@@ -3,7 +3,7 @@
 -- PortareFolium DB 스키마 전체 동기화
 --
 -- 대상: 모든 사용자 (최초 설치 또는 구버전 DB 보유)
--- 효과: 실행 후 db_schema_version = "0.12.190" 로 설정됨
+-- 효과: 실행 후 db_schema_version = "0.13.1" 로 설정됨
 -- 실행: Supabase 대시보드 → SQL Editor → 전체 내용 붙여넣기 후 실행
 -- 안전: idempotent — 이미 최신 DB에 재실행해도 에러 없음
 -- ============================================================
@@ -649,8 +649,33 @@ ON CONFLICT (key) DO NOTHING;
 DELETE FROM public.site_config
 WHERE key = 'job_field';
 
+-- ── JD별 지원 프로필 ─────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS application_profiles (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    name text NOT NULL CHECK (char_length(trim(name)) BETWEEN 1 AND 120),
+    public_token text NOT NULL UNIQUE CHECK (public_token ~ '^[A-Za-z0-9_-]{22,64}$'),
+    parent_job_field text NOT NULL CHECK (parent_job_field ~ '^[A-Za-z0-9_-]{1,64}$'),
+    job_description text NOT NULL DEFAULT '',
+    status text NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'revoked')),
+    version integer NOT NULL DEFAULT 1 CHECK (version > 0),
+    base_snapshot jsonb NOT NULL,
+    overrides jsonb NOT NULL DEFAULT '{}'::jsonb,
+    public_snapshot jsonb,
+    published_at timestamptz,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+ALTER TABLE ai_agent_tokens
+    ADD COLUMN IF NOT EXISTS permissions jsonb;
+
+ALTER TABLE application_profiles ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE application_profiles FROM anon, authenticated;
+GRANT ALL ON TABLE application_profiles TO service_role;
+
 -- ── DB schema version ───────────────────────────────────────
 
 INSERT INTO site_config (key, value)
-VALUES ('db_schema_version', '"0.12.190"')
-ON CONFLICT (key) DO UPDATE SET value = '"0.12.190"';
+VALUES ('db_schema_version', '"0.13.1"')
+ON CONFLICT (key) DO UPDATE SET value = '"0.13.1"';

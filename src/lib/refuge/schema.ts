@@ -15,6 +15,7 @@ export const REFUGE_SUPPORTED_TABLES = [
     "gantt_chart_archives",
     "database_snapshots",
     "admin_login_attempts",
+    "application_profiles",
 ] as const;
 
 export const REFUGE_LOCAL_ONLY_TABLES = ["admin_login_attempts"] as const;
@@ -133,6 +134,21 @@ const REFUGE_TABLE_COLUMNS: Record<string, readonly string[]> = {
         "updated_at",
     ],
     database_snapshots: ["id", "filename", "data", "table_names", "created_at"],
+    application_profiles: [
+        "id",
+        "name",
+        "public_token",
+        "parent_job_field",
+        "job_description",
+        "status",
+        "version",
+        "base_snapshot",
+        "overrides",
+        "public_snapshot",
+        "published_at",
+        "created_at",
+        "updated_at",
+    ],
 };
 
 export function refugeTableHasColumn(table: string, column: string): boolean {
@@ -201,6 +217,7 @@ const TABLE_IDENTITY_KEYS: Record<string, string[]> = {
     editor_states: ["id"],
     gantt_chart_archives: ["id"],
     database_snapshots: ["id"],
+    application_profiles: ["id"],
     admin_login_attempts: ["key_hash"],
 };
 

@@ -40,17 +40,6 @@ setup("Admin 로그인 + storageState 저장", async ({ page }) => {
         timeout: 15_000,
     });
 
-    // authenticated route 사전 컴파일
-    await page.goto("/web/resume", { waitUntil: "load" });
-    await expect(
-        page.getByRole("button", { name: /pdf 내보내기/i })
-    ).toBeVisible({ timeout: 15_000 });
-
-    await page.goto("/web/portfolio", { waitUntil: "load" });
-    await expect(
-        page.getByRole("button", { name: /pdf 내보내기/i })
-    ).toBeVisible({ timeout: 15_000 });
-
     // storageState 저장
     await page.context().storageState({ path: authFile });
 });
