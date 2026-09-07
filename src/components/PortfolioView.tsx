@@ -79,6 +79,7 @@ export default function PortfolioView({
                         >
                             <div
                                 className={`mb-7 rounded-2xl border border-l-4 border-(--color-border) ${group.accentClass} tablet:p-6 bg-(--color-surface) p-5`}
+                                data-pdf-block
                             >
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="flex items-start gap-3">
