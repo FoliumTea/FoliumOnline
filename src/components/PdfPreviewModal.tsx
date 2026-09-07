@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Download, X, ChevronDown, Loader2 } from "lucide-react";
 import { PDF_COLOR_SCHEMES, type PdfColorScheme } from "@/lib/color-schemes";
+import { getPdfImageSource } from "@/lib/pdf-image-source";
 
 // A4 비율 (297mm / 210mm)
 const A4_RATIO = 297 / 210;
@@ -251,6 +252,18 @@ export default function PdfPreviewModal({
                 scale: 2,
                 useCORS: true,
                 backgroundColor: scheme === "neutral" ? "#ffffff" : undefined,
+                onclone: (_document, element) => {
+                    element.querySelectorAll("img").forEach((image) => {
+                        const source = getPdfImageSource(
+                            image.currentSrc || image.src,
+                            window.location.href
+                        );
+                        image.removeAttribute("srcset");
+                        image.removeAttribute("crossorigin");
+                        image.src = source;
+                        image.loading = "eager";
+                    });
+                },
             });
             const imgData = canvas.toDataURL("image/png");
             const pdf = new jsPDF("p", "mm", "a4");
