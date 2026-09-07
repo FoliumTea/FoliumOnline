@@ -82,7 +82,8 @@ const AiProjectSubsection = ({
                         AI 프로젝트
                     </h3>
                     <p className="mt-1 text-base leading-relaxed text-(--color-muted)">
-                        AI를 활용해 개발 환경과 작업 흐름을 설계·구현한 프로젝트
+                        AI를 도구로 삼아 개발 역량과 문제 해결의 범위를 넓힌
+                        프로젝트
                     </p>
                 </div>
             </div>
