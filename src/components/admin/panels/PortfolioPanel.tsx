@@ -935,7 +935,9 @@ export default function PortfolioPanel({
                         </button>
                     ))}
                 </div>
+            </div>
 
+            <div className="min-h-0 flex-1 overflow-y-auto">
                 {tab === "portfolio" && (
                     <div className="pt-6">
                         <section className="mb-6 space-y-3 rounded-xl border border-(--color-border) bg-(--color-surface) p-6">
@@ -1307,7 +1309,7 @@ export default function PortfolioPanel({
             )}
 
             {tab === "portfolio" && (
-                <div className="min-h-0 flex-1 overflow-y-auto">
+                <div>
                     {/* Featured 순서 조정 */}
                     {featuredJobField && scopedFeaturedItems.length > 0 && (
                         <div className="mb-4 rounded-xl border border-(--color-border) bg-(--color-surface-subtle) p-4">
