@@ -3,12 +3,12 @@ import type { PortfolioProject } from "@/types/portfolio";
 export const PORTFOLIO_AI_SECTION_CONFIG_KEY = "portfolio_ai_section";
 
 export type PortfolioAiSectionConfig = {
-    projectSlug: string;
+    projectSlugs: string[];
     takePrecedence: boolean;
 };
 
 const DEFAULT_CONFIG: PortfolioAiSectionConfig = {
-    projectSlug: "aigent-hive",
+    projectSlugs: [],
     takePrecedence: false,
 };
 
@@ -21,13 +21,25 @@ export const normalizePortfolioAiSectionConfig = (
     if (!value || typeof value !== "object" || Array.isArray(value)) {
         return DEFAULT_CONFIG;
     }
-    const config = value as Partial<PortfolioAiSectionConfig>;
-    const projectSlug = config.projectSlug?.trim().toLowerCase();
+    const config = value as Partial<PortfolioAiSectionConfig> & {
+        projectSlug?: unknown;
+    };
+    const rawSlugs = Array.isArray(config.projectSlugs)
+        ? config.projectSlugs
+        : typeof config.projectSlug === "string"
+          ? [config.projectSlug]
+          : [];
+    const projectSlugs = Array.from(
+        new Set(
+            rawSlugs.flatMap((value) => {
+                if (typeof value !== "string") return [];
+                const slug = value.trim().toLowerCase();
+                return PROJECT_SLUG_PATTERN.test(slug) ? [slug] : [];
+            })
+        )
+    );
     return {
-        projectSlug:
-            projectSlug && PROJECT_SLUG_PATTERN.test(projectSlug)
-                ? projectSlug
-                : DEFAULT_CONFIG.projectSlug,
+        projectSlugs,
         takePrecedence: config.takePrecedence === true,
     };
 };
@@ -36,14 +48,17 @@ export const normalizePortfolioAiSectionConfig = (
 export const splitPortfolioAiSection = (
     projects: PortfolioProject[],
     config: PortfolioAiSectionConfig
-): { aiProject?: PortfolioProject; jobFieldProjects: PortfolioProject[] } => {
-    const aiProject = projects.find(
-        (project) => project.slug === config.projectSlug
-    );
+): { aiProjects: PortfolioProject[]; jobFieldProjects: PortfolioProject[] } => {
+    const bySlug = new Map(projects.map((project) => [project.slug, project]));
+    const aiProjects = config.projectSlugs.flatMap((slug) => {
+        const project = bySlug.get(slug);
+        return project ? [project] : [];
+    });
+    const aiSlugs = new Set(aiProjects.map((project) => project.slug));
     return {
-        aiProject,
-        jobFieldProjects: aiProject
-            ? projects.filter((project) => project !== aiProject)
-            : projects,
+        aiProjects,
+        jobFieldProjects: projects.filter(
+            (project) => !aiSlugs.has(project.slug)
+        ),
     };
 };

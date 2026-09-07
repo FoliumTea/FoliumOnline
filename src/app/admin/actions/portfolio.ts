@@ -234,13 +234,14 @@ export async function savePortfolioAiSection(
     if (!serverClient) return { success: false, error: "serverClient 없음" };
 
     const normalized = normalizePortfolioAiSectionConfig(config);
-    const { data: project } = await serverClient
-        .from("portfolio_items")
-        .select("id")
-        .eq("slug", normalized.projectSlug)
-        .eq("published", true)
-        .maybeSingle();
-    if (!project) {
+    const { data: projects } = normalized.projectSlugs.length
+        ? await serverClient
+              .from("portfolio_items")
+              .select("id")
+              .in("slug", normalized.projectSlugs)
+              .eq("published", true)
+        : { data: [] };
+    if ((projects?.length ?? 0) !== normalized.projectSlugs.length) {
         return {
             success: false,
             error: "Published 상태의 AI 프로젝트를 선택하세요.",

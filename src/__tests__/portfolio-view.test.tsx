@@ -86,14 +86,17 @@ describe("PortfolioView", () => {
         const firstHtml = renderToStaticMarkup(
             <PortfolioView
                 projects={[personalProject, aigentHive]}
-                aiSection={{ projectSlug: "aigent-hive", takePrecedence: true }}
+                aiSection={{
+                    projectSlugs: ["aigent-hive"],
+                    takePrecedence: true,
+                }}
             />
         );
         const lastHtml = renderToStaticMarkup(
             <PortfolioView
                 projects={[personalProject, aigentHive]}
                 aiSection={{
-                    projectSlug: "aigent-hive",
+                    projectSlugs: ["aigent-hive"],
                     takePrecedence: false,
                 }}
             />
@@ -101,6 +104,9 @@ describe("PortfolioView", () => {
 
         expect(firstHtml.indexOf("AI 프로젝트")).toBeLessThan(
             firstHtml.indexOf("직무별 프로젝트")
+        );
+        expect(firstHtml).toContain(
+            "AI를 활용해 개발 환경과 작업 흐름을 설계·구현한 프로젝트"
         );
         expect(lastHtml.indexOf("AI 프로젝트")).toBeGreaterThan(
             lastHtml.indexOf("직무별 프로젝트")

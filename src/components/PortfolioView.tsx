@@ -51,12 +51,12 @@ const renderProjectList = (
     );
 
 const AiProjectSubsection = ({
-    project,
+    projects,
     design,
     portfolioBasePath,
     className = "",
 }: {
-    project: PortfolioProject;
+    projects: PortfolioProject[];
     design: "timeline" | "cards";
     portfolioBasePath?: string;
     className?: string;
@@ -82,12 +82,12 @@ const AiProjectSubsection = ({
                         AI 프로젝트
                     </h3>
                     <p className="mt-1 text-base leading-relaxed text-(--color-muted)">
-                        직무 분야와 관계없이 보여 주는 AI 프로젝트 기록
+                        AI를 활용해 개발 환경과 작업 흐름을 설계·구현한 프로젝트
                     </p>
                 </div>
             </div>
         </div>
-        {renderProjectList([project], design, portfolioBasePath)}
+        {renderProjectList(projects, design, portfolioBasePath)}
     </section>
 );
 
@@ -95,13 +95,13 @@ const ProjectGroupSection = ({
     group,
     design,
     portfolioBasePath,
-    aiProject,
+    aiProjects,
     aiFirst,
 }: {
     group: ProjectGroup;
     design: "timeline" | "cards";
     portfolioBasePath?: string;
-    aiProject?: PortfolioProject;
+    aiProjects: PortfolioProject[];
     aiFirst: boolean;
 }) => (
     <section
@@ -138,20 +138,20 @@ const ProjectGroupSection = ({
                 <span
                     className={`shrink-0 rounded-lg px-3 py-1.5 text-sm font-bold ${group.badgeClass}`}
                 >
-                    {group.projects.length + (aiProject ? 1 : 0)}건
+                    {group.projects.length + aiProjects.length}건
                 </span>
             </div>
         </div>
-        {aiProject && aiFirst && (
+        {aiProjects.length > 0 && aiFirst && (
             <AiProjectSubsection
-                project={aiProject}
+                projects={aiProjects}
                 design={design}
                 portfolioBasePath={portfolioBasePath}
             />
         )}
         {group.projects.length > 0 && (
             <div>
-                {aiProject && (
+                {aiProjects.length > 0 && (
                     <h3 className="mb-5 text-2xl font-(--font-display) font-black text-(--color-foreground)">
                         직무별 프로젝트
                     </h3>
@@ -159,9 +159,9 @@ const ProjectGroupSection = ({
                 {renderProjectList(group.projects, design, portfolioBasePath)}
             </div>
         )}
-        {aiProject && !aiFirst && (
+        {aiProjects.length > 0 && !aiFirst && (
             <AiProjectSubsection
-                project={aiProject}
+                projects={aiProjects}
                 design={design}
                 portfolioBasePath={portfolioBasePath}
                 className="mt-12 border-t border-(--color-border) pt-10"
@@ -186,7 +186,7 @@ export default function PortfolioView({
     }
 
     const aiConfig = normalizePortfolioAiSectionConfig(aiSection);
-    const { aiProject, jobFieldProjects } = splitPortfolioAiSection(
+    const { aiProjects, jobFieldProjects } = splitPortfolioAiSection(
         projects,
         aiConfig
     );
@@ -224,7 +224,9 @@ export default function PortfolioView({
         .filter(
             (group) =>
                 group.projects.length > 0 ||
-                aiProject?.projectType === group.projectType
+                aiProjects.some(
+                    (project) => project.projectType === group.projectType
+                )
         )
         .map((group) => (
             <ProjectGroupSection
@@ -232,11 +234,9 @@ export default function PortfolioView({
                 group={group}
                 design={design}
                 portfolioBasePath={portfolioBasePath}
-                aiProject={
-                    aiProject?.projectType === group.projectType
-                        ? aiProject
-                        : undefined
-                }
+                aiProjects={aiProjects.filter(
+                    (project) => project.projectType === group.projectType
+                )}
                 aiFirst={aiConfig.takePrecedence}
             />
         ));

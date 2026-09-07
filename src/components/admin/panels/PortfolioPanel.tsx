@@ -1026,44 +1026,70 @@ export default function PortfolioPanel({
                                     <p className="mt-1 text-base leading-relaxed text-(--color-muted)">
                                         선택한 프로젝트를 모든 직무 Portfolio의
                                         기업 또는 개인 프로젝트 문맥 안에서 한
-                                        번만 보여 줍니다.
+                                        번씩 보여 줍니다.
                                     </p>
                                 </div>
                             </div>
                             <div className="rounded-xl border border-(--color-border) bg-(--color-surface-subtle) p-4">
-                                <label
-                                    htmlFor="ai-section-project"
-                                    className="text-sm font-semibold text-(--color-foreground)"
-                                >
-                                    AI 프로젝트
-                                </label>
-                                <p className="mt-1 text-sm leading-relaxed text-(--color-muted)">
-                                    Published 프로젝트 중 하나를 선택합니다.
-                                    선택한 프로젝트는 직무 분야 연결 여부와
-                                    관계없이 AI 구역에 표시됩니다.
+                                <p className="text-sm font-semibold text-(--color-foreground)">
+                                    AI 프로젝트 선택
                                 </p>
-                                <select
-                                    id="ai-section-project"
-                                    value={aiSection.projectSlug}
-                                    disabled={aiSectionSaving}
-                                    onChange={(event) =>
-                                        void changeAiSection({
-                                            projectSlug: event.target.value,
-                                        })
-                                    }
-                                    className="mt-3 w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-base text-(--color-foreground) focus:border-(--color-accent) focus:outline-none disabled:opacity-50"
-                                >
+                                <p className="mt-1 text-sm leading-relaxed text-(--color-muted)">
+                                    Published 프로젝트를 여러 개 선택할 수
+                                    있습니다. 선택한 순서대로 AI 구역에 표시되며
+                                    직무 분야 연결 여부의 영향을 받지 않습니다.
+                                </p>
+                                <div className="tablet:grid-cols-2 mt-3 grid gap-2">
                                     {items
                                         .filter((item) => item.published)
-                                        .map((item) => (
-                                            <option
-                                                key={item.id}
-                                                value={item.slug}
-                                            >
-                                                {item.title}
-                                            </option>
-                                        ))}
-                                </select>
+                                        .map((item) => {
+                                            const order =
+                                                aiSection.projectSlugs.indexOf(
+                                                    item.slug
+                                                );
+                                            const selected = order >= 0;
+                                            return (
+                                                <button
+                                                    key={item.id}
+                                                    type="button"
+                                                    disabled={aiSectionSaving}
+                                                    aria-pressed={selected}
+                                                    aria-label={`${item.title} AI 구역 ${selected ? "제외" : "포함"}`}
+                                                    onClick={() =>
+                                                        void changeAiSection({
+                                                            projectSlugs:
+                                                                selected
+                                                                    ? aiSection.projectSlugs.filter(
+                                                                          (
+                                                                              slug
+                                                                          ) =>
+                                                                              slug !==
+                                                                              item.slug
+                                                                      )
+                                                                    : [
+                                                                          ...aiSection.projectSlugs,
+                                                                          item.slug,
+                                                                      ],
+                                                        })
+                                                    }
+                                                    className={`rounded-lg border px-3 py-2 text-left text-sm transition-colors disabled:opacity-50 ${
+                                                        selected
+                                                            ? "border-(--color-accent) bg-(--color-accent) text-(--color-on-accent)"
+                                                            : "border-(--color-border) bg-(--color-surface) text-(--color-foreground) hover:border-(--color-accent)/50"
+                                                    }`}
+                                                >
+                                                    <span className="font-semibold">
+                                                        {item.title}
+                                                    </span>
+                                                    {selected && (
+                                                        <span className="ml-2 text-xs opacity-80">
+                                                            {order + 1}번째
+                                                        </span>
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
+                                </div>
                             </div>
                             <div className="tablet:grid-cols-2 grid gap-3">
                                 {[

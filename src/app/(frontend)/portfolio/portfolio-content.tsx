@@ -80,7 +80,7 @@ export default async function PortfolioPageContent({
             .filter(
                 (project) =>
                     matchesPortfolioJobField(project, jobField) ||
-                    project.slug === aiSection.projectSlug
+                    aiSection.projectSlugs.includes(project.slug)
             );
     } else if (serverClient) {
         const { data: items } = await serverClient
@@ -99,7 +99,7 @@ export default async function PortfolioPageContent({
                 .filter(
                     (project) =>
                         matchesPortfolioJobField(project, jobField) ||
-                        project.slug === aiSection.projectSlug
+                        aiSection.projectSlugs.includes(project.slug)
                 );
         }
     }
