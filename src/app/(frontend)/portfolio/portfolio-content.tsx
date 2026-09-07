@@ -6,6 +6,10 @@ import {
     matchesPortfolioJobField,
     normalizePortfolioProject,
 } from "@/lib/portfolio";
+import {
+    PORTFOLIO_AI_SECTION_CONFIG_KEY,
+    normalizePortfolioAiSectionConfig,
+} from "@/lib/portfolio-ai-section";
 import { getPublicResumeBasics, getSiteConfig } from "@/lib/queries";
 import { getResumeProfileUrl } from "@/lib/resume-profile-preset";
 import type { PortfolioProject, PortfolioRawRow } from "@/types/portfolio";
@@ -47,6 +51,10 @@ export default async function PortfolioPageContent({
         "timeline"
             ? "timeline"
             : "cards";
+    const aiSection = normalizePortfolioAiSectionConfig(
+        configRows.find((row) => row.key === PORTFOLIO_AI_SECTION_CONFIG_KEY)
+            ?.value
+    );
     const portfolioEyebrow = "Selected Work";
     const portfolioIntroduction =
         "프로젝트의 목표, 개인 책임, 핵심 구현과 확인 가능한 결과를 정리했습니다.";
@@ -67,9 +75,13 @@ export default async function PortfolioPageContent({
     let publicProjects: PortfolioProject[] = [];
 
     if (projectsOverride) {
-        publicProjects = projectsOverride.map((item) =>
-            normalizePortfolioProject(item)
-        );
+        publicProjects = projectsOverride
+            .map((item) => normalizePortfolioProject(item))
+            .filter(
+                (project) =>
+                    matchesPortfolioJobField(project, jobField) ||
+                    project.slug === aiSection.projectSlug
+            );
     } else if (serverClient) {
         const { data: items } = await serverClient
             .from("portfolio_items")
@@ -84,8 +96,10 @@ export default async function PortfolioPageContent({
                 .map((item) =>
                     normalizePortfolioProject(item as PortfolioRawRow)
                 )
-                .filter((project) =>
-                    matchesPortfolioJobField(project, jobField)
+                .filter(
+                    (project) =>
+                        matchesPortfolioJobField(project, jobField) ||
+                        project.slug === aiSection.projectSlug
                 );
         }
     }
@@ -151,6 +165,7 @@ export default async function PortfolioPageContent({
                     portfolioBasePath={portfolioBasePath}
                     design={portfolioDesign}
                     preserveOrder={Boolean(projectsOverride)}
+                    aiSection={aiSection}
                 />
 
                 {publicBooks.length > 0 && (

@@ -39,6 +39,20 @@ const project = {
     teamComposition: "",
 } satisfies PortfolioProject;
 
+const aigentHive = {
+    ...project,
+    slug: "aigent-hive",
+    title: "Aigent Hive",
+    projectType: "personal",
+} satisfies PortfolioProject;
+
+const personalProject = {
+    ...project,
+    slug: "personal-project",
+    title: "Personal Project",
+    projectType: "personal",
+} satisfies PortfolioProject;
+
 describe("PortfolioView", () => {
     it("timeline 선택에서 원래의 세로선과 프로젝트 상세 링크를 렌더링", () => {
         const html = renderToStaticMarkup(
@@ -66,5 +80,33 @@ describe("PortfolioView", () => {
         expect(html).toContain("기업 프로젝트");
         expect(html).toContain("Timeline Project");
         expect(html).not.toContain("absolute top-0 bottom-0 left-0 w-px");
+    });
+
+    it("AI 구역 우선 설정에 따라 Aigent Hive와 직무 프로젝트 순서를 바꾼다", () => {
+        const firstHtml = renderToStaticMarkup(
+            <PortfolioView
+                projects={[personalProject, aigentHive]}
+                aiSection={{ projectSlug: "aigent-hive", takePrecedence: true }}
+            />
+        );
+        const lastHtml = renderToStaticMarkup(
+            <PortfolioView
+                projects={[personalProject, aigentHive]}
+                aiSection={{
+                    projectSlug: "aigent-hive",
+                    takePrecedence: false,
+                }}
+            />
+        );
+
+        expect(firstHtml.indexOf("AI 프로젝트")).toBeLessThan(
+            firstHtml.indexOf("직무별 프로젝트")
+        );
+        expect(lastHtml.indexOf("AI 프로젝트")).toBeGreaterThan(
+            lastHtml.indexOf("직무별 프로젝트")
+        );
+        expect(
+            firstHtml.match(/aria-label="Aigent Hive 프로젝트 기록 보기"/g)
+        ).toHaveLength(1);
     });
 });

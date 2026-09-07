@@ -21,6 +21,7 @@ import {
     getPortfolioItemContent,
     getPortfolioPanelBootstrap,
     reorderFeaturedPortfolioItems,
+    savePortfolioAiSection,
     savePortfolioDesign,
     savePortfolioItem,
     setPortfolioFeatured,
@@ -39,8 +40,13 @@ import {
     Settings,
     ExternalLink,
     Clock3,
+    Bot,
     GripVertical,
 } from "lucide-react";
+import {
+    normalizePortfolioAiSectionConfig,
+    type PortfolioAiSectionConfig,
+} from "@/lib/portfolio-ai-section";
 import type { Editor } from "@tiptap/react";
 import RichMarkdownEditor from "@/components/admin/RichMarkdownEditor";
 import EditorStatePreservation from "@/components/admin/EditorStatePreservation";
@@ -153,6 +159,10 @@ export default function PortfolioPanel({
         "timeline" | "cards"
     >("cards");
     const [portfolioDesignSaving, setPortfolioDesignSaving] = useState(false);
+    const [aiSection, setAiSection] = useState<PortfolioAiSectionConfig>(() =>
+        normalizePortfolioAiSectionConfig(undefined)
+    );
+    const [aiSectionSaving, setAiSectionSaving] = useState(false);
     const [items, setItems] = useState<PortfolioItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [openingItemId, setOpeningItemId] = useState<string | null>(null);
@@ -228,6 +238,7 @@ export default function PortfolioPanel({
         setActiveJobField(nextActiveJobField);
         setFeaturedJobField((current) => current || nextActiveJobField);
         setPortfolioDesign(result.portfolioDesign);
+        setAiSection(result.aiSection);
         setLoading(false);
     };
 
@@ -244,6 +255,24 @@ export default function PortfolioPanel({
             return;
         }
         showToast("Portfolio 목록 디자인이 저장됐습니다.");
+    };
+
+    const changeAiSection = async (
+        patch: Partial<PortfolioAiSectionConfig>
+    ) => {
+        if (aiSectionSaving) return;
+        const previous = aiSection;
+        const next = { ...previous, ...patch };
+        setAiSection(next);
+        setAiSectionSaving(true);
+        const result = await savePortfolioAiSection(next);
+        setAiSectionSaving(false);
+        if (!result.success) {
+            setAiSection(previous);
+            setError(`AI 구역 저장 실패: ${result.error ?? "알 수 없는 오류"}`);
+            return;
+        }
+        showToast("AI 구역 설정이 저장됐습니다.");
     };
 
     useEffect(() => {
@@ -972,6 +1001,116 @@ export default function PortfolioPanel({
                                                 {option.title}
                                             </span>
                                             <span className="mt-1 block text-xs leading-5 text-(--color-muted)">
+                                                {option.description}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </section>
+                        <section className="mb-6 space-y-4 rounded-xl border border-(--color-border) bg-(--color-surface) p-6">
+                            <div className="flex items-start gap-3">
+                                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-(--color-border) bg-(--color-surface-subtle) text-(--color-accent)">
+                                    <Bot
+                                        className="h-5 w-5"
+                                        aria-hidden="true"
+                                    />
+                                </span>
+                                <div>
+                                    <p className="text-xs font-bold tracking-[0.16em] text-(--color-accent) uppercase">
+                                        Shared AI section
+                                    </p>
+                                    <h3 className="mt-1 text-xl font-bold text-(--color-foreground)">
+                                        AI 프로젝트 구역
+                                    </h3>
+                                    <p className="mt-1 text-base leading-relaxed text-(--color-muted)">
+                                        선택한 프로젝트를 모든 직무 Portfolio의
+                                        기업 또는 개인 프로젝트 문맥 안에서 한
+                                        번만 보여 줍니다.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="rounded-xl border border-(--color-border) bg-(--color-surface-subtle) p-4">
+                                <label
+                                    htmlFor="ai-section-project"
+                                    className="text-sm font-semibold text-(--color-foreground)"
+                                >
+                                    AI 프로젝트
+                                </label>
+                                <p className="mt-1 text-sm leading-relaxed text-(--color-muted)">
+                                    Published 프로젝트 중 하나를 선택합니다.
+                                    선택한 프로젝트는 직무 분야 연결 여부와
+                                    관계없이 AI 구역에 표시됩니다.
+                                </p>
+                                <select
+                                    id="ai-section-project"
+                                    value={aiSection.projectSlug}
+                                    disabled={aiSectionSaving}
+                                    onChange={(event) =>
+                                        void changeAiSection({
+                                            projectSlug: event.target.value,
+                                        })
+                                    }
+                                    className="mt-3 w-full rounded-lg border border-(--color-border) bg-(--color-surface) px-3 py-2 text-base text-(--color-foreground) focus:border-(--color-accent) focus:outline-none disabled:opacity-50"
+                                >
+                                    {items
+                                        .filter((item) => item.published)
+                                        .map((item) => (
+                                            <option
+                                                key={item.id}
+                                                value={item.slug}
+                                            >
+                                                {item.title}
+                                            </option>
+                                        ))}
+                                </select>
+                            </div>
+                            <div className="tablet:grid-cols-2 grid gap-3">
+                                {[
+                                    {
+                                        value: true,
+                                        title: "AI 프로젝트 먼저",
+                                        description:
+                                            "해당 기업 또는 개인 프로젝트 안에서 AI 구역을 먼저 표시",
+                                    },
+                                    {
+                                        value: false,
+                                        title: "직무별 프로젝트 먼저",
+                                        description:
+                                            "해당 기업 또는 개인 프로젝트 안에서 직무별 프로젝트를 먼저 표시",
+                                    },
+                                ].map((option) => {
+                                    const selected =
+                                        aiSection.takePrecedence ===
+                                        option.value;
+                                    return (
+                                        <button
+                                            key={String(option.value)}
+                                            type="button"
+                                            disabled={aiSectionSaving}
+                                            aria-pressed={selected}
+                                            onClick={() =>
+                                                void changeAiSection({
+                                                    takePrecedence:
+                                                        option.value,
+                                                })
+                                            }
+                                            className={`rounded-xl border p-4 text-left transition-colors disabled:opacity-50 ${
+                                                selected
+                                                    ? "border-(--color-accent) bg-(--color-accent) text-(--color-on-accent)"
+                                                    : "border-(--color-border) bg-(--color-surface-subtle) text-(--color-foreground) hover:border-(--color-accent)/50"
+                                            }`}
+                                        >
+                                            <span className="block text-base font-bold">
+                                                {option.title}
+                                            </span>
+                                            <span
+                                                className={`mt-1 block text-sm leading-relaxed ${
+                                                    selected
+                                                        ? "text-(--color-on-accent)/85"
+                                                        : "text-(--color-muted)"
+                                                }`}
+                                            >
                                                 {option.description}
                                             </span>
                                         </button>

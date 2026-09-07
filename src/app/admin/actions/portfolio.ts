@@ -7,6 +7,11 @@ import {
     revalidatePortfolioItem,
 } from "@/app/admin/actions/revalidate";
 import { getPortfolioJobFields } from "@/lib/portfolio";
+import {
+    PORTFOLIO_AI_SECTION_CONFIG_KEY,
+    normalizePortfolioAiSectionConfig,
+    type PortfolioAiSectionConfig,
+} from "@/lib/portfolio-ai-section";
 import { normalizeUniqueJobFieldList } from "@/lib/job-field";
 import type { PortfolioRawRow } from "@/types/portfolio";
 
@@ -108,6 +113,7 @@ export async function getPortfolioPanelBootstrap() {
             jobFields: [] as JobFieldItem[],
             activeJobField: "",
             portfolioDesign: "cards" as const,
+            aiSection: normalizePortfolioAiSectionConfig(undefined),
         };
     }
 
@@ -116,6 +122,7 @@ export async function getPortfolioPanelBootstrap() {
         { data: stateData, error: stateError },
         { data: jobFieldsRow, error: jobFieldsError },
         { data: portfolioDesignRow, error: portfolioDesignError },
+        { data: aiSectionRow, error: aiSectionError },
     ] = await Promise.all([
         serverClient
             .from("portfolio_items")
@@ -136,6 +143,11 @@ export async function getPortfolioPanelBootstrap() {
             .select("value")
             .eq("key", "portfolio_design")
             .maybeSingle(),
+        serverClient
+            .from("site_config")
+            .select("value")
+            .eq("key", PORTFOLIO_AI_SECTION_CONFIG_KEY)
+            .maybeSingle(),
     ]);
 
     // 쿼리 오류 로깅 (UI 렌더링은 계속 진행)
@@ -155,6 +167,10 @@ export async function getPortfolioPanelBootstrap() {
         console.error(
             `[portfolio.ts::getPortfolioPanelBootstrap] ${portfolioDesignError.message}`
         );
+    if (aiSectionError)
+        console.error(
+            `[portfolio.ts::getPortfolioPanelBootstrap] ${aiSectionError.message}`
+        );
 
     const stateCounts: Record<string, number> = {};
     for (const row of stateData ?? []) {
@@ -173,6 +189,7 @@ export async function getPortfolioPanelBootstrap() {
             portfolioDesignRow?.value === "timeline"
                 ? ("timeline" as const)
                 : ("cards" as const),
+        aiSection: normalizePortfolioAiSectionConfig(aiSectionRow?.value),
     };
 }
 
@@ -203,6 +220,36 @@ export async function savePortfolioDesign(
     const { error } = await serverClient
         .from("site_config")
         .upsert({ key: "portfolio_design", value: design });
+    if (error) return { success: false, error: error.message };
+
+    await revalidatePortfolioIndex();
+    return { success: true };
+}
+
+// AI 구역 공통 설정 저장
+export async function savePortfolioAiSection(
+    config: PortfolioAiSectionConfig
+): Promise<{ success: boolean; error?: string }> {
+    await requireAdminSession();
+    if (!serverClient) return { success: false, error: "serverClient 없음" };
+
+    const normalized = normalizePortfolioAiSectionConfig(config);
+    const { data: project } = await serverClient
+        .from("portfolio_items")
+        .select("id")
+        .eq("slug", normalized.projectSlug)
+        .eq("published", true)
+        .maybeSingle();
+    if (!project) {
+        return {
+            success: false,
+            error: "Published 상태의 AI 프로젝트를 선택하세요.",
+        };
+    }
+    const { error } = await serverClient.from("site_config").upsert({
+        key: PORTFOLIO_AI_SECTION_CONFIG_KEY,
+        value: normalized as unknown as object,
+    });
     if (error) return { success: false, error: error.message };
 
     await revalidatePortfolioIndex();

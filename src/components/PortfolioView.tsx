@@ -1,7 +1,12 @@
 import PortfolioProjectGrid from "@/components/portfolio/PortfolioProjectGrid";
 import PortfolioTimeline from "@/components/portfolio/PortfolioTimeline";
+import {
+    normalizePortfolioAiSectionConfig,
+    splitPortfolioAiSection,
+    type PortfolioAiSectionConfig,
+} from "@/lib/portfolio-ai-section";
 import type { PortfolioProject } from "@/types/portfolio";
-import { BriefcaseBusiness, UserRound } from "lucide-react";
+import { Bot, BriefcaseBusiness, UserRound } from "lucide-react";
 
 type PortfolioViewProps = {
     projects: PortfolioProject[];
@@ -9,6 +14,7 @@ type PortfolioViewProps = {
     jobField?: string;
     design?: "timeline" | "cards";
     preserveOrder?: boolean;
+    aiSection?: PortfolioAiSectionConfig;
 };
 
 const sortByRecentDate = (left: PortfolioProject, right: PortfolioProject) =>
@@ -16,11 +22,157 @@ const sortByRecentDate = (left: PortfolioProject, right: PortfolioProject) =>
         left.endDate || left.startDate
     );
 
+type ProjectGroup = {
+    projectType: PortfolioProject["projectType"];
+    eyebrow: string;
+    heading: string;
+    description: string;
+    icon: typeof Bot;
+    accentClass: string;
+    badgeClass: string;
+    projects: PortfolioProject[];
+};
+
+const renderProjectList = (
+    projects: PortfolioProject[],
+    design: "timeline" | "cards",
+    portfolioBasePath: string | undefined
+) =>
+    design === "timeline" ? (
+        <PortfolioTimeline
+            projects={projects}
+            portfolioBasePath={portfolioBasePath}
+        />
+    ) : (
+        <PortfolioProjectGrid
+            projects={projects}
+            portfolioBasePath={portfolioBasePath}
+        />
+    );
+
+const AiProjectSubsection = ({
+    project,
+    design,
+    portfolioBasePath,
+}: {
+    project: PortfolioProject;
+    design: "timeline" | "cards";
+    portfolioBasePath?: string;
+}) => (
+    <section
+        className="mb-10"
+        aria-labelledby="ai-projects-heading"
+        data-pdf-block
+    >
+        <div className="mb-5 rounded-xl border border-violet-500/45 bg-violet-500/8 p-4">
+            <div className="flex items-start gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-300">
+                    <Bot className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <div>
+                    <p className="text-xs font-bold tracking-[0.16em] text-(--color-accent) uppercase">
+                        AI
+                    </p>
+                    <h3
+                        id="ai-projects-heading"
+                        className="mt-1 text-2xl font-(--font-display) font-black text-(--color-foreground)"
+                    >
+                        AI 프로젝트
+                    </h3>
+                    <p className="mt-1 text-base leading-relaxed text-(--color-muted)">
+                        직무 분야와 관계없이 보여 주는 AI 프로젝트 기록
+                    </p>
+                </div>
+            </div>
+        </div>
+        {renderProjectList([project], design, portfolioBasePath)}
+    </section>
+);
+
+const ProjectGroupSection = ({
+    group,
+    design,
+    portfolioBasePath,
+    aiProject,
+    aiFirst,
+}: {
+    group: ProjectGroup;
+    design: "timeline" | "cards";
+    portfolioBasePath?: string;
+    aiProject?: PortfolioProject;
+    aiFirst: boolean;
+}) => (
+    <section
+        aria-labelledby={`${group.eyebrow}-heading`}
+        className="scroll-mt-24"
+        data-pdf-block
+    >
+        <div
+            className={`mb-7 rounded-2xl border border-l-4 border-(--color-border) ${group.accentClass} tablet:p-6 bg-(--color-surface) p-5`}
+            data-pdf-block
+        >
+            <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-3">
+                    <span
+                        className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${group.badgeClass}`}
+                    >
+                        <group.icon className="size-5" aria-hidden="true" />
+                    </span>
+                    <div>
+                        <p className="mb-1 text-xs font-bold tracking-[0.18em] text-(--color-accent) uppercase">
+                            {group.eyebrow}
+                        </p>
+                        <h2
+                            id={`${group.eyebrow}-heading`}
+                            className="text-3xl font-(--font-display) font-black tracking-tight text-(--color-foreground)"
+                        >
+                            {group.heading}
+                        </h2>
+                        <p className="mt-2 text-base leading-relaxed text-(--color-muted)">
+                            {group.description}
+                        </p>
+                    </div>
+                </div>
+                <span
+                    className={`shrink-0 rounded-lg px-3 py-1.5 text-sm font-bold ${group.badgeClass}`}
+                >
+                    {group.projects.length + (aiProject ? 1 : 0)}건
+                </span>
+            </div>
+        </div>
+        {aiProject && aiFirst && (
+            <AiProjectSubsection
+                project={aiProject}
+                design={design}
+                portfolioBasePath={portfolioBasePath}
+            />
+        )}
+        {group.projects.length > 0 && (
+            <div>
+                {aiProject && (
+                    <h3 className="mb-5 text-2xl font-(--font-display) font-black text-(--color-foreground)">
+                        직무별 프로젝트
+                    </h3>
+                )}
+                {renderProjectList(group.projects, design, portfolioBasePath)}
+            </div>
+        )}
+        {aiProject && !aiFirst && (
+            <AiProjectSubsection
+                project={aiProject}
+                design={design}
+                portfolioBasePath={portfolioBasePath}
+            />
+        )}
+    </section>
+);
+
 export default function PortfolioView({
     projects,
     portfolioBasePath,
     design = "cards",
     preserveOrder = false,
+    aiSection,
 }: PortfolioViewProps) {
     if (projects.length === 0) {
         return (
@@ -30,17 +182,15 @@ export default function PortfolioView({
         );
     }
 
-    if (design === "timeline") {
-        return (
-            <PortfolioTimeline
-                projects={projects}
-                portfolioBasePath={portfolioBasePath}
-            />
-        );
-    }
+    const aiConfig = normalizePortfolioAiSectionConfig(aiSection);
+    const { aiProject, jobFieldProjects } = splitPortfolioAiSection(
+        projects,
+        aiConfig
+    );
 
     const groupedProjects = [
         {
+            projectType: "work" as const,
             eyebrow: "경력 및 협업",
             heading: "기업 프로젝트",
             description: "회사·고객사 업무와 협업으로 완성한 프로젝트",
@@ -48,11 +198,12 @@ export default function PortfolioView({
             accentClass: "border-blue-500",
             badgeClass:
                 "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-            projects: projects
+            projects: jobFieldProjects
                 .filter((project) => project.projectType === "work")
                 .sort(preserveOrder ? () => 0 : sortByRecentDate),
         },
         {
+            projectType: "personal" as const,
             eyebrow: "개인 제작",
             heading: "개인 프로젝트",
             description: "직접 기획·개발·운영하며 확장한 프로젝트",
@@ -60,66 +211,32 @@ export default function PortfolioView({
             accentClass: "border-purple-500",
             badgeClass:
                 "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300",
-            projects: projects
+            projects: jobFieldProjects
                 .filter((project) => project.projectType === "personal")
                 .sort(preserveOrder ? () => 0 : sortByRecentDate),
         },
     ];
 
-    return (
-        <div className="space-y-20">
-            {groupedProjects.map(
-                (group) =>
-                    group.projects.length > 0 && (
-                        <section
-                            key={group.heading}
-                            aria-labelledby={`${group.eyebrow}-heading`}
-                            className="scroll-mt-24"
-                            data-pdf-block
-                        >
-                            <div
-                                className={`mb-7 rounded-2xl border border-l-4 border-(--color-border) ${group.accentClass} tablet:p-6 bg-(--color-surface) p-5`}
-                                data-pdf-block
-                            >
-                                <div className="flex items-start justify-between gap-4">
-                                    <div className="flex items-start gap-3">
-                                        <span
-                                            className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${group.badgeClass}`}
-                                        >
-                                            <group.icon
-                                                className="size-5"
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-                                        <div>
-                                            <p className="mb-1 text-xs font-bold tracking-[0.18em] text-(--color-accent) uppercase">
-                                                {group.eyebrow}
-                                            </p>
-                                            <h2
-                                                id={`${group.eyebrow}-heading`}
-                                                className="text-3xl font-(--font-display) font-black tracking-tight text-(--color-foreground)"
-                                            >
-                                                {group.heading}
-                                            </h2>
-                                            <p className="mt-2 text-base leading-relaxed text-(--color-muted)">
-                                                {group.description}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <span
-                                        className={`shrink-0 rounded-lg px-3 py-1.5 text-sm font-bold ${group.badgeClass}`}
-                                    >
-                                        {group.projects.length}건
-                                    </span>
-                                </div>
-                            </div>
-                            <PortfolioProjectGrid
-                                projects={group.projects}
-                                portfolioBasePath={portfolioBasePath}
-                            />
-                        </section>
-                    )
-            )}
-        </div>
-    );
+    const sections = groupedProjects
+        .filter(
+            (group) =>
+                group.projects.length > 0 ||
+                aiProject?.projectType === group.projectType
+        )
+        .map((group) => (
+            <ProjectGroupSection
+                key={group.heading}
+                group={group}
+                design={design}
+                portfolioBasePath={portfolioBasePath}
+                aiProject={
+                    aiProject?.projectType === group.projectType
+                        ? aiProject
+                        : undefined
+                }
+                aiFirst={aiConfig.takePrecedence}
+            />
+        ));
+
+    return <div className="space-y-20">{sections}</div>;
 }
