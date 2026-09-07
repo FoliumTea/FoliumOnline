@@ -155,11 +155,7 @@ export default async function PortfolioDetailContent({
         : extractLegacyPortfolioGallery(contentHtml).filter(
               (media) => media.src !== project.primaryMedia?.src
           );
-    const gallery = isV2
-        ? project.gallery.filter(
-              (media) => media.src !== project.primaryMedia?.src
-          )
-        : derivedLegacyGallery;
+    const gallery = isV2 ? project.gallery : derivedLegacyGallery;
     const contentSelector = isV2
         ? ".portfolio-case-study-content"
         : ".portfolio-legacy-content";
