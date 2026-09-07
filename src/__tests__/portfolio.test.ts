@@ -12,6 +12,7 @@ import {
     mergePortfolioDataPatch,
     normalizePortfolioCaseStudyContent,
     normalizePortfolioProject,
+    splitPortfolioTeamComposition,
     validatePortfolioForPublish,
 } from "@/lib/portfolio";
 import type { PortfolioRawRow } from "@/types/portfolio";
@@ -78,6 +79,18 @@ const validV2Data = {
 };
 
 describe("portfolio domain", () => {
+    it("역할 안의 가운데점을 보존하며 팀 구성원을 분리", () => {
+        const members = splitPortfolioTeamComposition(
+            "Diana·협동 상태 통합·전체 기획/리드 1명(본인), Hugh·무기·Walker/Watcher 1명, Enemy 공통 로직·보스·레벨 디자인 1명, 맵·프롭·보스 기초 1명, UI·해킹 퍼즐 1명"
+        );
+
+        expect(members).toHaveLength(5);
+        expect(members[0]).toBe(
+            "Diana·협동 상태 통합·전체 기획/리드 1명(본인)"
+        );
+        expect(members[4]).toBe("UI·해킹 퍼즐 1명");
+    });
+
     it("카드용 프로젝트 기간은 월까지만 표시", () => {
         expect(formatPortfolioMonthRange("2023-10-01", "2023-12-31")).toBe(
             "2023.10 - 2023.12"

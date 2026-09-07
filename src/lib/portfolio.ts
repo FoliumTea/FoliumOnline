@@ -58,6 +58,15 @@ export const formatPortfolioMonthRange = (
     return `${formatPortfolioMonth(startDate, "시작일 미정")} - ${formatPortfolioMonth(endDate, "진행 중")}`;
 };
 
+/** 팀 구성 문자열을 구성원별 항목으로 분리 */
+export const splitPortfolioTeamComposition = (
+    teamComposition: string
+): string[] =>
+    teamComposition
+        .split(/\s*(?:\r?\n|;|,(?![^()]*\)))\s*/)
+        .map((member) => member.trim())
+        .filter(Boolean);
+
 type PortfolioNormalizeOptions = {
     r2PublicUrl?: string | null;
 };

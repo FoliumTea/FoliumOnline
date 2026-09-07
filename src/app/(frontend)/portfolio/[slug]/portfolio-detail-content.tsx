@@ -12,6 +12,7 @@ import {
     matchesPortfolioJobField,
     normalizePortfolioCaseStudyContent,
     normalizePortfolioProject,
+    splitPortfolioTeamComposition,
 } from "@/lib/portfolio";
 import type { PortfolioMedia, PortfolioRawRow } from "@/types/portfolio";
 import TableOfContents from "@/components/TableOfContents";
@@ -42,12 +43,6 @@ const formatDateRange = (startDate: string, endDate: string): string => {
     if (!startDate && !endDate) return "";
     return `${startDate || "시작일 미정"} — ${endDate || "진행 중"}`;
 };
-
-const splitTeamComposition = (teamComposition: string): string[] =>
-    teamComposition
-        .split(/\s*(?:\r?\n|[·;]|,(?![^()]*\)))\s*/)
-        .map((member) => member.trim())
-        .filter(Boolean);
 
 const formatTeamMemberLabel = (member: string, role: string): string => {
     if (!role || !member.includes("본인") || !member.startsWith(role)) {
@@ -173,7 +168,7 @@ export default async function PortfolioDetailContent({
         .split(/\n+/)
         .map((goal) => goal.trim())
         .filter(Boolean);
-    const teamMembers = splitTeamComposition(project.teamComposition);
+    const teamMembers = splitPortfolioTeamComposition(project.teamComposition);
 
     return (
         <div className="portfolio-case-study min-w-0">
