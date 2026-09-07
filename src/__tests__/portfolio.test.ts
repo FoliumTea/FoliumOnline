@@ -5,6 +5,7 @@ import {
     KNOWN_PORTFOLIO_DATA_KEYS,
     PRESERVED_LEGACY_DATA_KEYS,
     extractLegacyPortfolioGallery,
+    getPortfolioCardMedia,
     groupPortfolioProjects,
     isValidPortfolioLinkUrl,
     isValidPortfolioMediaUrl,
@@ -124,6 +125,29 @@ describe("portfolio domain", () => {
         expect(legacy.links[0]?.kind).toBe("source");
         expect(malformed.caseStudyVersion).toBe(2);
         expect(malformed.gallery).toEqual([]);
+    });
+
+    it("목록 thumbnail은 대표 이미지보다 우선", () => {
+        const project = normalizePortfolioProject(
+            createRow({
+                thumbnail: "/portfolio/project/thumbnail.webp",
+                data: {
+                    caseStudyVersion: 2,
+                    gallery: [
+                        {
+                            type: "image",
+                            src: "/portfolio/project/hero.webp",
+                            alt: "대표 이미지",
+                        },
+                    ],
+                },
+            })
+        );
+        expect(getPortfolioCardMedia(project)).toEqual({
+            type: "image",
+            src: "/portfolio/project/thumbnail.webp",
+            alt: "Project 대표 이미지",
+        });
     });
 
     it("row job_field와 row order를 우선하며 날짜와 무관하게 정렬", () => {

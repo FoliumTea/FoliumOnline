@@ -521,6 +521,18 @@ export const normalizePortfolioProject = (
     };
 };
 
+// 목록 thumbnail 우선 선택
+export const getPortfolioCardMedia = (
+    project: PortfolioProject
+): PortfolioMedia | undefined =>
+    project.thumbnail
+        ? {
+              type: "image",
+              src: project.thumbnail,
+              alt: `${project.title} 대표 이미지`,
+          }
+        : project.primaryMedia;
+
 const compareOrderThenSlug = (
     left: PortfolioProject,
     right: PortfolioProject,

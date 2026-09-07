@@ -2,7 +2,10 @@ import Link from "next/link";
 import { CalendarDays, ImageIcon } from "lucide-react";
 import PortfolioActions from "@/components/portfolio/PortfolioActions";
 import { SkillBadge } from "@/components/resume/SkillBadge";
-import { formatPortfolioMonthRange } from "@/lib/portfolio";
+import {
+    formatPortfolioMonthRange,
+    getPortfolioCardMedia,
+} from "@/lib/portfolio";
 import type { PortfolioProject } from "@/types/portfolio";
 
 type PortfolioTimelineProps = {
@@ -43,7 +46,7 @@ export default function PortfolioTimeline({
                 aria-hidden="true"
             />
             {timelineProjects.map((project, index) => {
-                const media = project.primaryMedia;
+                const media = getPortfolioCardMedia(project);
                 const imageSource =
                     media?.type === "video" ? media.poster : media?.src;
                 const pitch = project.oneLinePitch || project.description;
