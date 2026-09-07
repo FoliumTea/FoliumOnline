@@ -32,6 +32,7 @@ import {
 import { ResumeAboutIntroductionSection } from "@/components/admin/resume/ResumeAboutIntroductionSection";
 import { ResumeBasicsSection } from "@/components/admin/resume/ResumeBasicsSection";
 import { ResumeBasicsPresentationSection } from "@/components/admin/resume/ResumeBasicsPresentationSection";
+import { ResumeAwardImageField } from "@/components/admin/resume/ResumeAwardImageField";
 import { ResumeSectionNavigation } from "@/components/admin/resume/ResumeSectionNavigation";
 import { GripVertical, Trash2 } from "lucide-react";
 import SkillsAdminSection from "@/components/admin/skills/SkillsAdminSection";
@@ -4123,6 +4124,32 @@ export default function ResumePanel() {
                                                         a[idx] = {
                                                             ...a[idx],
                                                             jobField: v,
+                                                        };
+                                                        setResumeData({
+                                                            ...resumeData,
+                                                            awards: {
+                                                                ...(resumeData.awards || {
+                                                                    showEmoji: false,
+                                                                    emoji: "✔️",
+                                                                    entries: [],
+                                                                }),
+                                                                entries: a,
+                                                            },
+                                                        });
+                                                    }}
+                                                />
+                                                <ResumeAwardImageField
+                                                    image={award.image}
+                                                    onChange={(image) => {
+                                                        const a = [
+                                                            ...(resumeData
+                                                                .awards
+                                                                ?.entries ||
+                                                                []),
+                                                        ];
+                                                        a[idx] = {
+                                                            ...a[idx],
+                                                            image,
                                                         };
                                                         setResumeData({
                                                             ...resumeData,

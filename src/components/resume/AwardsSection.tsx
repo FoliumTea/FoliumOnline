@@ -1,3 +1,4 @@
+import { Search } from "lucide-react";
 import type { ResumeAward } from "@/types/resume";
 import EducationMetadata from "@/components/resume/EducationMetadata";
 
@@ -30,7 +31,7 @@ export default function AwardsSection({
 
     return (
         <section
-            className="mb-10"
+            className="resume-award-media mb-10"
             data-pdf-block={dataPdfBlock ? true : undefined}
         >
             <h2 className="mb-5 border-b border-(--color-border) pb-1.5 text-xl font-bold tracking-widest text-(--color-accent) uppercase">
@@ -39,6 +40,8 @@ export default function AwardsSection({
             <div className="space-y-4">
                 {awards.map((award, index) => {
                     const { title, position } = splitAwardTitle(award);
+                    const image =
+                        award.image || "/images/sample-award-certificate.png";
 
                     return (
                         <article
@@ -48,14 +51,24 @@ export default function AwardsSection({
                                 dataPdfBlock ? true : undefined
                             }
                         >
-                            <div className="aspect-[210/297] w-16 shrink-0 overflow-hidden rounded-lg border border-(--color-border) bg-(--color-surface)">
+                            <div className="group relative aspect-[210/297] w-16 shrink-0 overflow-hidden rounded-lg border border-(--color-border) bg-(--color-surface)">
                                 <img
-                                    src="/images/sample-award-certificate.png"
-                                    alt=""
+                                    src={image}
+                                    alt={
+                                        award.image
+                                            ? `${title || "수상"} 증서`
+                                            : "수상 증서 예시"
+                                    }
                                     width={210}
                                     height={297}
                                     className="h-full w-full object-cover"
                                 />
+                                <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-all group-hover:bg-black/55 group-hover:opacity-100">
+                                    <Search
+                                        className="h-6 w-6"
+                                        aria-hidden="true"
+                                    />
+                                </span>
                             </div>
                             <div className="min-w-0 flex-1">
                                 {title ? (

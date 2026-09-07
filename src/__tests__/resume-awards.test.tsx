@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import AwardsSection from "@/components/resume/AwardsSection";
 
 describe("AwardsSection", () => {
-    it("수상 정보와 A4 이미지 슬롯이 있는 단일 행 카드를 렌더링", () => {
+    it("수상 정보와 확대 가능한 증서 이미지를 렌더링", () => {
         const html = renderToStaticMarkup(
             <AwardsSection
                 label="수상"
@@ -13,6 +13,7 @@ describe("AwardsSection", () => {
                         awarder: "원티드",
                         date: "2026-07",
                         summary: "프로젝트 결과와 협업 역량을 인정받았습니다.",
+                        image: "/resume/awards/game-track-award.webp",
                     },
                 ]}
                 dataPdfBlock
@@ -21,7 +22,10 @@ describe("AwardsSection", () => {
 
         expect(html).toContain("space-y-4");
         expect(html).toContain("aspect-[210/297]");
-        expect(html).toContain("/images/sample-award-certificate.png");
+        expect(html).toContain("/resume/awards/game-track-award.webp");
+        expect(html).toContain("resume-award-media");
+        expect(html).toContain("group-hover:bg-black/55");
+        expect(html).toContain("게임 개발 트랙 최종 프로젝트 증서");
         expect(html).toContain("2026-07");
         expect(html).toContain("동상");
         expect(html).not.toContain("게임 개발 트랙 최종 프로젝트 - 동상");
@@ -33,5 +37,14 @@ describe("AwardsSection", () => {
         expect(
             renderToStaticMarkup(<AwardsSection label="수상" awards={[]} />)
         ).toBe("");
+    });
+
+    it("증서 이미지가 없는 기존 수상은 기본 슬롯을 유지", () => {
+        const html = renderToStaticMarkup(
+            <AwardsSection label="수상" awards={[{ title: "기존 수상" }]} />
+        );
+
+        expect(html).toContain("/images/sample-award-certificate.png");
+        expect(html).toContain("수상 증서 예시");
     });
 });

@@ -3,6 +3,7 @@ import { serverClient } from "@/lib/supabase";
 import type { Resume } from "@/types/resume";
 import ResumeClassic from "@/components/resume/ResumeClassic";
 import ResumeModern from "@/components/resume/ResumeModern";
+import ImageLightbox from "@/components/ImageLightbox";
 import PdfExportButton from "@/components/PdfExportButton";
 import { createJobFieldResumeView } from "@/lib/resume-job-field";
 import { getPublicJobFields } from "@/lib/public-job-field";
@@ -184,6 +185,7 @@ export default async function ResumePageContent({
                     basicsPresentation={basicsPresentation}
                 />
             )}
+            <ImageLightbox contentSelector=".resume-award-media" />
         </PdfExportButton>
     );
 }

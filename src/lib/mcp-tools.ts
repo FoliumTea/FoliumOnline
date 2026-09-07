@@ -73,6 +73,18 @@ const revalidateMcpPortfolio = async (slug: string) => {
     revalidateTag(PUBLIC_CONTENT_CACHE_TAG, "max");
 };
 
+const revalidateMcpResume = async () => {
+    const { revalidatePath, revalidateTag } = await import("next/cache");
+    revalidatePath("/resume");
+    const jobFields = await getPublicJobFields();
+    for (const jobField of jobFields) {
+        revalidatePath(`/${jobField.id}/resume`);
+        revalidatePath(`/${jobField.id}`);
+    }
+    revalidatePath("/");
+    revalidateTag(PUBLIC_CONTENT_CACHE_TAG, "max");
+};
+
 export const prepareMcpPortfolioCreate = (
     args: Record<string, unknown>
 ): Record<string, unknown> => {
@@ -310,6 +322,7 @@ export async function handleGetSchema(): Promise<unknown> {
                     date: "YYYY-MM-DD",
                     awarder: "string",
                     summary: "string",
+                    image: "URL",
                 },
                 certificates: {
                     name: "string",
@@ -696,9 +709,7 @@ export async function handleUpdateResume(args: {
     if (error)
         throw new Error(`[mcp-tools::handleUpdateResume] ${error.message}`);
 
-    const { revalidatePath } = await import("next/cache");
-    revalidatePath("/resume");
-    revalidatePath("/");
+    await revalidateMcpResume();
 
     return updated;
 }

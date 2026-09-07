@@ -147,6 +147,7 @@ export interface ResumeAward {
     date?: string;
     awarder?: string;
     summary?: string;
+    image?: string;
     // summary를 마크다운으로 렌더링할지 여부
     markdown?: boolean;
     // 노출 직무 분야 id 배열. 기존 미설정 항목은 모든 직무 분야 노출
