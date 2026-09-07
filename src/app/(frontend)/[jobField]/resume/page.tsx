@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ResumePageContent from "../../resume/resume-content";
-import { getApplicationProfileByToken } from "@/lib/application-profile";
+import { resolvePublicRouteTarget } from "@/lib/public-route";
+import { getSeoMetadata } from "@/lib/seo-metadata";
 
 type PageProps = {
     params: Promise<{ jobField: string }>;
@@ -10,14 +11,23 @@ type PageProps = {
 export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
-    const profile = await getApplicationProfileByToken((await params).jobField);
-    if (!profile?.public_snapshot) return {};
+    const target = await resolvePublicRouteTarget((await params).jobField);
+    if (!target) return {};
+    if (target.kind === "job-field") {
+        return getSeoMetadata(target.jobField.id, { title: "Resume" });
+    }
+    if (!target.profile.public_snapshot) return {};
     return { title: "Resume", robots: { index: false, follow: false } };
 }
 
 export default async function JobFieldResumePage({ params }: PageProps) {
-    const profile = await getApplicationProfileByToken((await params).jobField);
-    if (!profile?.public_snapshot) notFound();
+    const target = await resolvePublicRouteTarget((await params).jobField);
+    if (!target) notFound();
+    if (target.kind === "job-field") {
+        return <ResumePageContent jobField={target.jobField.id} />;
+    }
+    const profile = target.profile;
+    if (!profile.public_snapshot) notFound();
     return (
         <ResumePageContent
             jobField={profile.public_snapshot.jobField}

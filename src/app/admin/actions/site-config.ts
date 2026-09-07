@@ -48,8 +48,7 @@ type SaveSiteConfigInput = {
 };
 
 type SiteConfigActionResult =
-    | { success: true }
-    | { success: false; error: string };
+    { success: true } | { success: false; error: string };
 
 type SiteJobFieldActionResult =
     | {
@@ -206,8 +205,7 @@ async function applyJobFieldInheritance(parentId: string, newId: string) {
         .select("id, data");
     const portfolioToUpdate = (
         (portfolioItems as
-            | { id: string; data: Record<string, unknown> | null }[]
-            | null) ?? []
+            { id: string; data: Record<string, unknown> | null }[] | null) ?? []
     ).filter((item) => {
         const jobField = item.data?.jobField;
         return toStringArray(
@@ -505,6 +503,27 @@ export async function deleteSiteJobField(
             return {
                 success: false,
                 error: "삭제할 직무 분야를 찾지 못했습니다",
+            };
+        }
+
+        const { data: linkedProfiles, error: linkedProfilesError } =
+            await serverClient
+                .from("application_profiles")
+                .select("name")
+                .eq("parent_job_field", targetId);
+        if (linkedProfilesError) {
+            return { success: false, error: linkedProfilesError.message };
+        }
+        if (linkedProfiles && linkedProfiles.length > 0) {
+            const names = linkedProfiles
+                .map((profile) => profile.name)
+                .filter((name): name is string => typeof name === "string")
+                .slice(0, 3)
+                .join(", ");
+            const remaining = linkedProfiles.length - 3;
+            return {
+                success: false,
+                error: `연결된 지원 프로필 ${linkedProfiles.length}개 존재: ${names}${remaining > 0 ? ` 외 ${remaining}개` : ""}`,
             };
         }
 

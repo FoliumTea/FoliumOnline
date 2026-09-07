@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
+import { redirectToOnlyPublicJobField } from "@/lib/plain-public-route";
 
 export default async function HomePage() {
-    notFound();
+    await redirectToOnlyPublicJobField("");
 }

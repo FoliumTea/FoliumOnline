@@ -69,7 +69,12 @@ export async function getApplicationProfilesBootstrap(): Promise<{
         needsUpdate: boolean;
         publicUrl: string;
     })[];
-    jobFields: { id: string; name: string; emoji: string }[];
+    jobFields: {
+        id: string;
+        name: string;
+        emoji: string;
+        headerTitle?: string;
+    }[];
 }> {
     await requireAdminSession();
     if (!serverClient) return { profiles: [], jobFields: [] };

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { redirectToOnlyPublicJobField } from "@/lib/plain-public-route";
 
 export const metadata: Metadata = {
     title: "Portfolio",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default async function PortfolioPage() {
-    notFound();
+    await redirectToOnlyPublicJobField("/portfolio");
 }

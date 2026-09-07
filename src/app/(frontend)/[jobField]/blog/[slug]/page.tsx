@@ -1,22 +1,25 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogPostContent from "../../../blog/[slug]/blog-post-content";
-import { getApplicationProfileByToken } from "@/lib/application-profile";
+import { resolvePublicRouteTarget } from "@/lib/public-route";
+import { getBlogPostMetadata } from "@/lib/content-metadata";
+import { getPublicPostRouteParams } from "@/lib/public-route-params";
 
 type PageProps = {
     params: Promise<{ jobField: string; slug: string }>;
 };
 
 export async function generateStaticParams() {
-    return [];
+    return getPublicPostRouteParams();
 }
 
 export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
     const { jobField, slug } = await params;
-    const profile = await getApplicationProfileByToken(jobField);
-    const post = profile?.public_snapshot?.posts.find(
+    const target = await resolvePublicRouteTarget(jobField);
+    if (target?.kind === "job-field") return getBlogPostMetadata(slug);
+    const post = target?.profile.public_snapshot?.posts.find(
         (entry) => entry.slug === slug
     );
     return post
@@ -28,12 +31,17 @@ export async function generateMetadata({
 }
 
 export default async function JobFieldBlogPostPage({ params }: PageProps) {
-    const { jobField: token, slug } = await params;
-    const profile = await getApplicationProfileByToken(token);
-    const post = profile?.public_snapshot?.posts.find(
+    const { jobField: routeKey, slug } = await params;
+    const target = await resolvePublicRouteTarget(routeKey);
+    if (!target) notFound();
+    if (target.kind === "job-field") {
+        return <BlogPostContent slug={slug} jobField={target.jobField.id} />;
+    }
+    const profile = target.profile;
+    const post = profile.public_snapshot?.posts.find(
         (entry) => entry.slug === slug
     );
-    if (!profile?.public_snapshot || !post) notFound();
+    if (!profile.public_snapshot || !post) notFound();
     return (
         <BlogPostContent
             slug={slug}

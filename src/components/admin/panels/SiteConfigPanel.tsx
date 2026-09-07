@@ -108,12 +108,15 @@ function ConfigSection({
     title,
     description,
     children,
+    hidden = false,
 }: {
     Icon: typeof Sun;
     title: string;
     description: string;
     children: React.ReactNode;
+    hidden?: boolean;
 }) {
+    if (hidden) return null;
     return (
         <section className="tablet:p-6 space-y-5 rounded-2xl border border-(--color-border) bg-(--color-surface) p-5">
             <div className="flex items-start gap-3">
@@ -607,7 +610,7 @@ export default function SiteConfigPanel() {
                     <ConfigSection
                         Icon={SlidersHorizontal}
                         title="헤더 브랜드"
-                        description="공개 Header 홈 링크의 앞부분에 표시되는 전역 이름입니다. 직무 분야별 제목은 아래 프로필 관리에서 설정합니다."
+                        description="공개 Header 홈 링크의 앞부분에 표시되는 전역 이름입니다. 직무 분야별 제목은 지원 프로필 패널에서 관리합니다."
                     >
                         <div className="max-w-xl rounded-xl border border-(--color-border) bg-(--color-surface-subtle)/55 p-4">
                             <Label className="text-sm font-semibold text-(--color-foreground)">
@@ -628,6 +631,7 @@ export default function SiteConfigPanel() {
                         Icon={Globe2}
                         title="직무 분야 프로필"
                         description="각 분야는 독립된 공개 URL과 Resume, Portfolio, Blog, About me 기준을 가집니다."
+                        hidden
                     >
                         <div className="laptop:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)] grid gap-4">
                             <div className="space-y-3">
