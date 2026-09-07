@@ -105,6 +105,7 @@ describe("PortfolioView", () => {
         expect(lastHtml.indexOf("AI 프로젝트")).toBeGreaterThan(
             lastHtml.indexOf("직무별 프로젝트")
         );
+        expect(lastHtml).toContain("mt-12 border-t border-(--color-border)");
         expect(
             firstHtml.match(/aria-label="Aigent Hive 프로젝트 기록 보기"/g)
         ).toHaveLength(1);

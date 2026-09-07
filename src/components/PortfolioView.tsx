@@ -54,13 +54,15 @@ const AiProjectSubsection = ({
     project,
     design,
     portfolioBasePath,
+    className = "",
 }: {
     project: PortfolioProject;
     design: "timeline" | "cards";
     portfolioBasePath?: string;
+    className?: string;
 }) => (
     <section
-        className="mb-10"
+        className={`mb-10 ${className}`}
         aria-labelledby="ai-projects-heading"
         data-pdf-block
     >
@@ -162,6 +164,7 @@ const ProjectGroupSection = ({
                 project={aiProject}
                 design={design}
                 portfolioBasePath={portfolioBasePath}
+                className="mt-12 border-t border-(--color-border) pt-10"
             />
         )}
     </section>
