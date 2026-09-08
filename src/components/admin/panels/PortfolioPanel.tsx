@@ -910,10 +910,23 @@ export default function PortfolioPanel({
     const featuredScopeLabel =
         jobFields.find((jobField) => jobField.id === featuredJobField)?.name ??
         featuredJobField;
+    const publishedItems = items.filter((item) => item.published);
+    const selectedAiItems = aiSection.projectSlugs.flatMap((slug) => {
+        const item = publishedItems.find(
+            (candidate) => candidate.slug === slug
+        );
+        return item ? [item] : [];
+    });
 
     return (
-        <div className="flex h-full min-h-0 flex-col overflow-hidden">
-            <div className="shrink-0 bg-(--color-surface) pb-4">
+        <div
+            className="h-full min-h-0 overflow-y-auto overscroll-contain"
+            data-testid="portfolio-panel-scroll"
+        >
+            <div
+                className="sticky top-0 z-20 bg-(--color-surface) pb-4"
+                data-testid="portfolio-panel-tabs"
+            >
                 {/* 탭 */}
                 <div className="flex gap-1 rounded-xl border border-(--color-border) bg-(--color-surface-subtle) p-1">
                     {(
@@ -937,7 +950,7 @@ export default function PortfolioPanel({
                 </div>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto">
+            <div>
                 {tab === "portfolio" && (
                     <div className="pt-6">
                         <section className="mb-6 space-y-3 rounded-xl border border-(--color-border) bg-(--color-surface) p-6">
@@ -1034,64 +1047,100 @@ export default function PortfolioPanel({
                             </div>
                             <div className="rounded-xl border border-(--color-border) bg-(--color-surface-subtle) p-4">
                                 <p className="text-sm font-semibold text-(--color-foreground)">
-                                    AI 프로젝트 선택
+                                    선택된 AI 프로젝트
                                 </p>
                                 <p className="mt-1 text-sm leading-relaxed text-(--color-muted)">
-                                    Published 프로젝트를 여러 개 선택할 수
-                                    있습니다. 선택한 순서대로 AI 구역에 표시되며
-                                    직무 분야 연결 여부의 영향을 받지 않습니다.
+                                    선택 순서대로 모든 직무 Portfolio의 AI
+                                    구역에 표시됩니다.
                                 </p>
-                                <div className="tablet:grid-cols-2 mt-3 grid gap-2">
-                                    {items
-                                        .filter((item) => item.published)
-                                        .map((item) => {
-                                            const order =
-                                                aiSection.projectSlugs.indexOf(
-                                                    item.slug
-                                                );
-                                            const selected = order >= 0;
-                                            return (
-                                                <button
-                                                    key={item.id}
-                                                    type="button"
-                                                    disabled={aiSectionSaving}
-                                                    aria-pressed={selected}
-                                                    aria-label={`${item.title} AI 구역 ${selected ? "제외" : "포함"}`}
-                                                    onClick={() =>
-                                                        void changeAiSection({
-                                                            projectSlugs:
-                                                                selected
-                                                                    ? aiSection.projectSlugs.filter(
-                                                                          (
-                                                                              slug
-                                                                          ) =>
-                                                                              slug !==
-                                                                              item.slug
-                                                                      )
-                                                                    : [
-                                                                          ...aiSection.projectSlugs,
-                                                                          item.slug,
-                                                                      ],
-                                                        })
-                                                    }
-                                                    className={`rounded-lg border px-3 py-2 text-left text-sm transition-colors disabled:opacity-50 ${
-                                                        selected
-                                                            ? "border-(--color-accent) bg-(--color-accent) text-(--color-on-accent)"
-                                                            : "border-(--color-border) bg-(--color-surface) text-(--color-foreground) hover:border-(--color-accent)/50"
-                                                    }`}
-                                                >
-                                                    <span className="font-semibold">
-                                                        {item.title}
-                                                    </span>
-                                                    {selected && (
-                                                        <span className="ml-2 text-xs opacity-80">
-                                                            {order + 1}번째
-                                                        </span>
-                                                    )}
-                                                </button>
-                                            );
-                                        })}
+                                <div
+                                    className="mt-3 flex flex-wrap gap-2"
+                                    aria-label="선택된 AI 프로젝트"
+                                >
+                                    {selectedAiItems.length > 0 ? (
+                                        selectedAiItems.map((item, index) => (
+                                            <span
+                                                key={item.id}
+                                                className="rounded-lg border border-(--color-accent)/40 bg-(--color-accent)/10 px-3 py-2 text-sm font-semibold text-(--color-foreground)"
+                                            >
+                                                {index + 1}. {item.title}
+                                            </span>
+                                        ))
+                                    ) : (
+                                        <span className="text-sm text-(--color-muted)">
+                                            선택된 프로젝트 없음
+                                        </span>
+                                    )}
                                 </div>
+                                <details className="group mt-4 overflow-hidden rounded-xl border border-(--color-border) bg-(--color-surface)">
+                                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-(--color-foreground) hover:bg-(--color-surface-subtle) [&::-webkit-details-marker]:hidden">
+                                        <span>AI 프로젝트 선택 변경</span>
+                                        <span className="rounded-full bg-(--color-surface-subtle) px-2.5 py-1 text-xs text-(--color-muted)">
+                                            {selectedAiItems.length}개 선택
+                                        </span>
+                                    </summary>
+                                    <div className="border-t border-(--color-border) p-4">
+                                        <p className="text-sm leading-relaxed text-(--color-muted)">
+                                            Published 프로젝트를 여러 개 선택할
+                                            수 있습니다. 선택한 순서대로
+                                            표시되며 직무 분야 연결 여부의
+                                            영향을 받지 않습니다.
+                                        </p>
+                                        <div className="tablet:grid-cols-2 mt-3 grid gap-2">
+                                            {publishedItems.map((item) => {
+                                                const order =
+                                                    aiSection.projectSlugs.indexOf(
+                                                        item.slug
+                                                    );
+                                                const selected = order >= 0;
+                                                return (
+                                                    <button
+                                                        key={item.id}
+                                                        type="button"
+                                                        disabled={
+                                                            aiSectionSaving
+                                                        }
+                                                        aria-pressed={selected}
+                                                        aria-label={`${item.title} AI 구역 ${selected ? "제외" : "포함"}`}
+                                                        onClick={() =>
+                                                            void changeAiSection(
+                                                                {
+                                                                    projectSlugs:
+                                                                        selected
+                                                                            ? aiSection.projectSlugs.filter(
+                                                                                  (
+                                                                                      slug
+                                                                                  ) =>
+                                                                                      slug !==
+                                                                                      item.slug
+                                                                              )
+                                                                            : [
+                                                                                  ...aiSection.projectSlugs,
+                                                                                  item.slug,
+                                                                              ],
+                                                                }
+                                                            )
+                                                        }
+                                                        className={`rounded-lg border px-3 py-2 text-left text-sm transition-colors disabled:opacity-50 ${
+                                                            selected
+                                                                ? "border-(--color-accent) bg-(--color-accent) text-(--color-on-accent)"
+                                                                : "border-(--color-border) bg-(--color-surface) text-(--color-foreground) hover:border-(--color-accent)/50"
+                                                        }`}
+                                                    >
+                                                        <span className="font-semibold">
+                                                            {item.title}
+                                                        </span>
+                                                        {selected && (
+                                                            <span className="ml-2 text-xs opacity-80">
+                                                                {order + 1}번째
+                                                            </span>
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </details>
                             </div>
                             <div className="tablet:grid-cols-2 grid gap-3">
                                 {[
@@ -1298,7 +1347,6 @@ export default function PortfolioPanel({
                     </div>
                 )}
             </div>
-
             {tab === "books" && (
                 <div className="min-h-0 flex-1">
                     <BooksSubPanel
